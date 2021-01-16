@@ -1,11 +1,8 @@
+import 'react-native-gesture-handler';
 import React from 'react';
-import { Text, View,SafeAreaView } from 'react-native';
-import LoginComponent from './components/LoginComponent';
-import RCTSafeAreaViewNativeComponent
-    from 'react-native/Libraries/Components/SafeAreaView/RCTSafeAreaViewNativeComponent';
-import {TitleComponent,CultivationListComponent} from './components/';
-import CultivationDetailComponent from './components/CultivationDetail';
-import CultivationFormPage from './pages/CultivationFormPage';
+import RootNavigator from "./navigator/RootNavigator";
+import {SafeAreaView} from "react-native-safe-area-context";
+
 class  App extends React.Component{
     render() {
         return (
@@ -19,9 +16,13 @@ class  App extends React.Component{
                <SafeAreaView style={{
                    flex: 1
                }}>
-                   <TitleComponent title = {"Titolo Login da App.js"}/>
-                   <CultivationListComponent children = {"Children di Cultivation List"} />
+
+                    <RootNavigator/>
+
                </SafeAreaView>
+
+            //<TitleComponent title = {"Titolo Login da App.js"}/>
+            //                    <CultivationListComponent children = {"Children di Cultivation List"} />
                     //altre componment
                //<CultivationFormPage/>
             //<LoginComponent/>
