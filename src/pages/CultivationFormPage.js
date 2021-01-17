@@ -10,6 +10,7 @@ import {
     ScrollView,
     Picker,
 } from 'react-native';
+import CameraComponent from "../components/CameraComponent";
 //import FirebaseAuth from '../utils/FirebaseAuth';
 
 class CultivationFormPage extends Component {
@@ -85,6 +86,9 @@ class CultivationFormPage extends Component {
             <SafeAreaView style={{flex: 1}}>
                 <ScrollView style={styles.scrollView}>
                 <View style={styles.form_container}>
+                    <TouchableOpacity onPress={this.openCamera} style={{width:300, height: 400,}}>
+                        <CameraComponent/>
+                    </TouchableOpacity>
                     <View style={styles.input_text_container}>
                         <TextInput
                             style={styles.input_text}

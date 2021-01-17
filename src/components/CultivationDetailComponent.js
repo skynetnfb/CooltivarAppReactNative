@@ -1,11 +1,22 @@
 import React from 'react';
 import {Image, SafeAreaView, StatusBar, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import { RNCamera } from 'react-native-camera';
 import TitleComponent from './TitleComponent';
+import CameraComponent from "./CameraComponent";
+import CultivationFormPage from "../pages/CultivationFormPage";
 class  CultivationDetailComponent extends React.Component{
     constructor(props){
         super(props);
         this.goToForm = function() {
             this.props.navigation.navigate('cultivation_form');
+        }.bind(this);
+
+
+
+        this.openCamera = function() {
+            return (
+                this.props.navigation.navigate('cultivation_form')
+            )
         }.bind(this);
     }
     componentDidMount(){
@@ -21,10 +32,13 @@ class  CultivationDetailComponent extends React.Component{
         return (
             <View style={styles.container}>
                 <StatusBar barStyle="light-content" backgroundColor="#009387" />
+                <TouchableOpacity onPress={this.openCamera}>
                     <Image
                         style={styles.preview_image}
                         source={require('../../imgs/no_cultivation_preview.png')}
                     />
+                </TouchableOpacity>
+
                 <View style={styles.card}>
                     <Image style={styles.icon_image}
                         source={require('../../imgs/open_weather_02n_2x.png')}

@@ -9,6 +9,7 @@ import {useSelector} from "react-redux";
 import CultivationFormPage from "../pages/CultivationFormPage";
 import CultivationDetailComponent from "../components/CultivationDetailComponent";
 import CultivActionsHistoryComponent from "../components/CultivActionsHistoryComponent";
+import CultivActionFormPage from "../pages/CultivActionFormPage";
 
 const RootStackNavigator = createStackNavigator();
 const MaterialTopTabNavigator = createMaterialTopTabNavigator();
@@ -115,6 +116,7 @@ export default class RootNavigator extends Component {
                     <RootStackNavigator.Screen name = {'cultivation list'} component = { CultivationListPage }/>
                     <RootStackNavigator.Screen name = {'cultivation'} component = { createCultivationTabNavigation }/>
                     <RootStackNavigator.Screen name = {'cultivation_form'} component = { CultivationFormPage }/>
+                    <RootStackNavigator.Screen name = {'action form'} component = { CultivActionFormPage }/>
                 </RootStackNavigator.Navigator>
             </NavigationContainer>
         )
