@@ -3,8 +3,10 @@ import {Image, SafeAreaView, StatusBar, StyleSheet, Text, TouchableOpacity, View
 import TitleComponent from './TitleComponent';
 class  CultivationDetailComponent extends React.Component{
     constructor(props){
-        super(props)
-        //costruttore chiamato prima che venga renderizzato il component
+        super(props);
+        this.goToForm = function() {
+            this.props.navigation.navigate('cultivation_form');
+        }.bind(this);
     }
     componentDidMount(){
         //viene chiamato quando si deve renderizzare
@@ -21,17 +23,17 @@ class  CultivationDetailComponent extends React.Component{
                 <StatusBar barStyle="light-content" backgroundColor="#009387" />
                     <Image
                         style={styles.preview_image}
-                        source={require('../../imgs/no_content.png')}
+                        source={require('../../imgs/no_cultivation_preview.png')}
                     />
                 <View style={styles.card}>
                     <Image style={styles.icon_image}
-                        source={require('../../imgs/no_weather.png')}
+                        source={require('../../imgs/open_weather_02n_2x.png')}
                     />
                     <Image style={styles.icon_image}
-                        source={require('../../imgs/no_weather.png')}
+                        source={require('../../imgs/open_weather_09d_2x.png')}
                     />
                     <Image style={styles.icon_image}
-                        source={require('../../imgs/no_weather.png')}
+                        source={require('../../imgs/open_weather_13d_2x.png')}
                     />
                 </View>
                     <View style={styles.description}>
@@ -48,13 +50,7 @@ class  CultivationDetailComponent extends React.Component{
                         </View>
                     </View>
                     <TouchableOpacity style={styles.footer}
-                    onPress={() => {
-                        this.props.navigation.navigate('CultivationForm', {
-                            item: {
-                                id: item.id,
-                            },
-                        });
-                    }}>
+                    onPress={this.goToForm}>
                             <Text>
                                 "button"
                             </Text>
@@ -125,7 +121,6 @@ const styles = StyleSheet.create({
         borderWidth: StyleSheet.hairlineWidth,
         borderColor: '#aaa',
         width: '100%', // maybe useless
-        marginBottom: 60,
     },
     preview_image: {
         width: '100%',
@@ -151,7 +146,7 @@ const styles = StyleSheet.create({
     card_title: {
         textAlign: 'left',
         color: 'green',
-        fontSize: 18,
+        fontSize: 20,
         fontWeight: 'bold',
     },
     loading_icon: {

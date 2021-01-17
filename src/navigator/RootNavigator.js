@@ -5,15 +5,27 @@ import React, {Component} from "react";
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 import FieldListPage from "../pages/FieldListPage";
 import LoginComponent from "../components/LoginComponent";
+import {useSelector} from "react-redux";
+import CultivationFormPage from "../pages/CultivationFormPage";
+import CultivationDetailComponent from "../components/CultivationDetailComponent";
+import CultivActionsHistoryComponent from "../components/CultivActionsHistoryComponent";
 
-const RootStack = createStackNavigator();
+const RootStackNavigator = createStackNavigator();
 const MaterialTopTabNavigator = createMaterialTopTabNavigator();
 export default class RootNavigator extends Component {
-    render(){
+    constructor(props) {
+        super(props);
+        this.login = false;
+        //costruttore chiamato prima che venga renderizzato il component
+    }
 
-        return (
-            <NavigationContainer>
+    render(){
+    let logged = true;
+    //if(this.login)logged =this.login;
+
+        const createHomeTabNavigation = () =>(
             <MaterialTopTabNavigator.Navigator
+                name = "Cultivations"
                 initialRouteName="Cultivations"
                 tabBarOptions={{
                     activeTintColor: 'green',
@@ -22,25 +34,89 @@ export default class RootNavigator extends Component {
                     },
                 }}>
                 <MaterialTopTabNavigator.Screen
-                    name="Cultivations"
-                    component={CultivationListPage}
-                    options={{
-                        tabBarLabel: 'Cultivation',
+                    name= "Cultivations"
+                    component = {CultivationListPage}
+                    options = {{
+                        tabBarLabel: 'Cultivations',
                     }}
                 />
                 <MaterialTopTabNavigator.Screen
-                    name="Fields"
-                    component={FieldListPage}
-                    options={{
+                    name ="Fields"
+                    component = {FieldListPage}
+                    options = {{
                         tabBarLabel: 'Fields',
                     }}
                 />
-
             </MaterialTopTabNavigator.Navigator>
-                <RootStack.Screen name = {'Cultivations'} component={ CultivationListPage}/>
-                <RootStack.Screen name = {'Fields'} component={ FieldListPage}/>
-            </NavigationContainer>
+        );
 
+        const createCultivationTabNavigation = () =>(
+            <MaterialTopTabNavigator.Navigator
+                name = "Cultivation Detail"
+                initialRouteName="Detail"
+                tabBarOptions={{
+                    activeTintColor: 'green',
+                    indicatorStyle: {
+                        backgroundColor: 'green',
+                    },
+                }}>
+                <MaterialTopTabNavigator.Screen
+                    name= "Cultivation Sum"
+                    component = {CultivationDetailComponent}
+                    options = {{
+                        tabBarLabel: 'Sum',
+                    }}
+                />
+                <MaterialTopTabNavigator.Screen
+                    name ="History"
+                    component = {CultivActionsHistoryComponent}
+                    options = {{
+                        tabBarLabel: 'All',
+                    }}
+                />
+                <MaterialTopTabNavigator.Screen
+                    name ="Remedy"
+                    component = {CultivActionsHistoryComponent}
+                    options = {{
+                        tabBarLabel: 'Threat & Remedy',
+                    }}
+                />
+
+                <MaterialTopTabNavigator.Screen
+                    name ="Irrigations"
+                    component = {CultivActionsHistoryComponent}
+                    options = {{
+                        tabBarLabel: 'Water',
+                    }}
+                />
+            </MaterialTopTabNavigator.Navigator>
+        );
+
+        const cultivationForm = () => {
+            return (<RootStack.Screen
+                name="cultivation form"
+                component={CultivationFormPage}
+            />)
+        };
+
+
+
+
+        return (
+            <NavigationContainer>
+                <RootStackNavigator.Navigator name="home">
+                    {!logged && (
+                    <RootStackNavigator.Screen name="login" component={LoginComponent} />
+                )}
+                    {logged && (
+                        <RootStackNavigator.Screen name = {'Cultivations'} component = { createHomeTabNavigation }/>
+                    )}
+                    <RootStackNavigator.Screen name = {'home'} component = { createHomeTabNavigation }/>
+                    <RootStackNavigator.Screen name = {'cultivation list'} component = { CultivationListPage }/>
+                    <RootStackNavigator.Screen name = {'cultivation'} component = { createCultivationTabNavigation }/>
+                    <RootStackNavigator.Screen name = {'cultivation_form'} component = { CultivationFormPage }/>
+                </RootStackNavigator.Navigator>
+            </NavigationContainer>
         )
     }
 }
@@ -65,8 +141,6 @@ import FieldListPage from '../pages/FieldListPage';
 
 const StackNavigator = createStackNavigator();
 const MaterialTopTabNavigator = createMaterialTopTabNavigator();
-
-
 export default class RootNavigator extends Component {
     render() {
         const createHomeTopTab = () => (

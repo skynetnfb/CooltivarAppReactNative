@@ -54,6 +54,7 @@ class  CultivationListPage extends React.Component{
     render() {
         //const {title = "cultivation list"} = this.props;
         const {children} = this.props;
+        const navigation = this.props.navigation;
         return (
             <View
                 style={{
@@ -63,7 +64,7 @@ class  CultivationListPage extends React.Component{
                 }}
             >
                 <Text>{children}</Text>
-                <CultivationCardComponent children={"Valore Card Passato da Cultivation List PAGE"}></CultivationCardComponent>
+                <CultivationCardComponent children={"Valore Card Passato da Cultivation List PAGE"} navigation={navigation} ></CultivationCardComponent>
             </View>
         );
     }

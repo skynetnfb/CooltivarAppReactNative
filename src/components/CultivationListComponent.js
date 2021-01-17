@@ -10,6 +10,7 @@ import {
     StatusBar,} from 'react-native';
 
 import {CultivationCardComponent} from '../components';
+import RootNavigator from "../navigator/RootNavigator";
 class  CultivationListComponent extends React.Component{
 /*
     render() {

@@ -8,6 +8,7 @@ import {
     ActivityIndicator,
     TouchableOpacity,
 } from 'react-native';
+import RootNavigator from "../navigator/RootNavigator";
 //import FirebaseAuth from '../utils/FirebaseAuth';
 
 class LoginComponent extends Component {
@@ -58,7 +59,13 @@ class LoginComponent extends Component {
                     this.loginError(error);
                 });
         */
-
+                this.setState({loading: true});
+                //const rootNavigator = new RootNavigator ({login : true});
+                //console.log("-----------------qui"+rootNavigator);
+                this.props.navigation.navigate('home',{
+                    item: {
+                        login: true,
+                    },});
         }.bind(this);
     }
 
@@ -88,7 +95,7 @@ class LoginComponent extends Component {
                 </View>
                 <View style={styles.login_button_container}>
                     <TouchableOpacity style={styles.login_button} onPress={this.login}>
-                        <Text style={styles.login_button_text}>Sign In</Text>
+                        <Text style={styles.login_button_text}>Login</Text>
                         {this.state.loading && (
                             <ActivityIndicator
                                 size="small"

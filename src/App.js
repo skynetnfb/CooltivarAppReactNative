@@ -16,9 +16,7 @@ class  App extends React.Component{
                <SafeAreaView style={{
                    flex: 1
                }}>
-
                     <RootNavigator/>
-
                </SafeAreaView>
 
             //<TitleComponent title = {"Titolo Login da App.js"}/>

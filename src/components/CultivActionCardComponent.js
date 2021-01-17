@@ -1,6 +1,5 @@
 import React from 'react';
 import {
-    ActivityIndicator,
     Image,
     SafeAreaView,
     StatusBar,
@@ -9,7 +8,7 @@ import {
     TouchableOpacity,
     View
 } from 'react-native';
-class  CultivationCardComponent extends React.Component{
+class  CultivActionCardComponent extends React.Component{
     constructor(props){
         super(props);
         //costruttore chiamato prima che venga renderizzato il component
@@ -34,11 +33,11 @@ class  CultivationCardComponent extends React.Component{
                     <View style={styles.card}>
                         <Image
                             style={styles.card_image}
-                            source={require('../../imgs/no_content.png')}
+                            source={require('../../imgs/icon_orange.png')}
                         />
                         <View style={styles.card_text_container}>
                             <Text numberOfLines={1} style={styles.card_title}>
-                                "name"
+                                "Remedy"
                             </Text>
                             <Text numberOfLines={1} style={styles.card_text}>
                                 "status"
@@ -135,4 +134,4 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
     },
 });
-export default CultivationCardComponent;
+export  default CultivActionCardComponent;
