@@ -1,6 +1,6 @@
 import React from 'react';
 import {
-    ActivityIndicator,
+    ActivityIndicator, FlatList,
     Image,
     SafeAreaView,
     StatusBar,
@@ -12,8 +12,31 @@ import {
 class  CultivationCardComponent extends React.Component{
     constructor(props){
         super(props);
+        this.state = {
+            cultivations: []
+        };
+
+        this.data = [{
+            id:1,
+            name:"coltivazione mock1",
+            cultivar:"cultivar mock1",
+            description: "descrizione coltivaione mock1",
+            },
+            {
+                id:2,
+                name:"coltivazione mock2",
+                cultivar:"cultivar mock2",
+                description: "descrizione coltivaione mock2",
+            },
+            {
+                id:3,
+                name:"coltivazione mock3",
+                cultivar:"cultivar mock3",
+                description: "descrizione coltivaione mock2",
+            }];
+
         //costruttore chiamato prima che venga renderizzato il component
-        this.goToDetail = function() {
+        this.goToDetail = function(item) {
             this.props.navigation.navigate('cultivation');
         }.bind(this);
     }
@@ -27,10 +50,27 @@ class  CultivationCardComponent extends React.Component{
     }
 
     render() {
+        console.log("------------"+this.data);
+        console.log("------------"+this.data[1].id);
+        console.log("------------this.props.cultivations: "+this.props.cultivations);
+        console.log("------------this.props.children:"+this.props.children.toString());
+        //una cosa stranissima in debug se non stampo this.props.children:"+this.props.children.toString() le cultivations arrivano vuote...ASSURDO!!!
         return (
             <SafeAreaView style={styles.container}>
                 <StatusBar barStyle="light-content" backgroundColor="#009387" />
-                <TouchableOpacity style={styles.login_button} onPress={this.goToDetail}>
+                <FlatList
+                    data={this.props.cultivations}
+                    style={styles.flat_list}
+                    renderItem={({item}) => (
+                <TouchableOpacity style={styles.login_button} onPress={() => {
+                    //TODO non so per quale motivo non riesco a settare il parametro neanche a mano
+                    this.props.navigation.setParams({
+                        item: {
+                            id: item.id,
+                        },
+                    });
+                    this.props.navigation.navigate('cultivation');
+                }}>
                     <View style={styles.card}>
                         <Image
                             style={styles.card_image}
@@ -38,19 +78,23 @@ class  CultivationCardComponent extends React.Component{
                         />
                         <View style={styles.card_text_container}>
                             <Text numberOfLines={1} style={styles.card_title}>
-                                "name"
+                                {item.name}
                             </Text>
                             <Text numberOfLines={1} style={styles.card_text}>
-                                "status"
+                                {item.cultivar}
                             </Text>
                             <Text numberOfLines={3} style={styles.card_text}>
-                                "description descriptionde scriptiond escripti ondescri ptiondescr iptiondescription"
+                                {item.description}
                             </Text>
                         </View>
                     </View>
                 </TouchableOpacity>
+                    )}
+                    keyExtractor={item => item.id}
+                    onEndReachedThreshold={0.2}
+                    showsVerticalScrollIndicator={false}
+                />
             </SafeAreaView>
-
         );
     }
 

@@ -7,6 +7,7 @@ import CultivationFormPage from "../pages/CultivationFormPage";
 class  CultivationDetailComponent extends React.Component{
     constructor(props){
         super(props);
+
         this.goToForm = function() {
             this.props.navigation.navigate('cultivation_form');
         }.bind(this);
@@ -29,6 +30,8 @@ class  CultivationDetailComponent extends React.Component{
     }
 
     render() {
+        const item =this.props.route.params;
+        console.log('------------cult detail item:'+item);
         return (
             <View style={styles.container}>
                 <StatusBar barStyle="light-content" backgroundColor="#009387" />
