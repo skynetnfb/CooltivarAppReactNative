@@ -1,20 +1,56 @@
 import {NavigationContainer} from "@react-navigation/native";
 import {createStackNavigator} from "@react-navigation/stack";
 import CultivationListPage from "../pages/CultivationListPage";
-import React from "react";
-import TabHomeComponent from "../components/TabHomeComponent";
+import React, {Component} from "react";
+import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
+import FieldListPage from "../pages/FieldListPage";
+import LoginComponent from "../components/LoginComponent";
 
 const RootStack = createStackNavigator();
-export default function(){
-    return (
-        <NavigationContainer>
-            <RootStack.Navigator>
-                <RootStack.Screen name = {'Cultivation List'} component={ CultivationListPage}/>
-            </RootStack.Navigator>
-        </NavigationContainer>
-    )
+const MaterialTopTabNavigator = createMaterialTopTabNavigator();
+export default class RootNavigator extends Component {
+    render(){
+
+        return (
+            <NavigationContainer>
+            <MaterialTopTabNavigator.Navigator
+                initialRouteName="Cultivations"
+                tabBarOptions={{
+                    activeTintColor: 'green',
+                    indicatorStyle: {
+                        backgroundColor: 'green',
+                    },
+                }}>
+                <MaterialTopTabNavigator.Screen
+                    name="Cultivations"
+                    component={CultivationListPage}
+                    options={{
+                        tabBarLabel: 'Cultivation',
+                    }}
+                />
+                <MaterialTopTabNavigator.Screen
+                    name="Fields"
+                    component={FieldListPage}
+                    options={{
+                        tabBarLabel: 'Fields',
+                    }}
+                />
+
+            </MaterialTopTabNavigator.Navigator>
+                <RootStack.Screen name = {'Cultivations'} component={ CultivationListPage}/>
+                <RootStack.Screen name = {'Fields'} component={ FieldListPage}/>
+            </NavigationContainer>
+
+        )
+    }
 }
 /*
+<NavigationContainer>
+                <RootStack.Navigator>
+                    <RootStack.Screen name = {'Cultivation List'} component={ CultivationListPage}/>
+                    <RootStack.Screen name = {'Field List'} component={ FieldListPage}/>
+                </RootStack.Navigator>
+            </NavigationContainer>
 import React, {Component} from 'react';
 import {createStackNavigator} from '@react-navigation/stack';
 import {createMaterialTopTabNavigator} from '@react-navigation/material-top-tabs';
