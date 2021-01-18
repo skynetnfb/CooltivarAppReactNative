@@ -20,8 +20,11 @@ class  CultivActionsHistoryComponent extends Component{
         }.bind(this);
     }
     render() {
-        const item =this.props.route.params;
-        console.log('------------********cult All PARAM:'+item);
+        const route = this.props.route;
+        const routeParams1 = route.params;
+        const route2 = routeParams1.route;
+        const routeParams2 = route2.params;
+        console.log('------------cult HISTORY ROUTEPARAM2:',routeParams2);
         const {children} = this.props;
         return (
             <View

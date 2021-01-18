@@ -9,7 +9,6 @@ import {
     TouchableOpacity,
     View
 } from 'react-native';
-import {NetworkContext} from "../navigator/NetworkContext";
 
 class  CultivationCardComponent extends React.Component{
     constructor(props){
@@ -61,18 +60,9 @@ class  CultivationCardComponent extends React.Component{
         return (
             <SafeAreaView style={styles.container}>
                 <StatusBar barStyle="light-content" backgroundColor="#009387" />
-                <FlatList
-                    data={this.props.cultivations}
-                    style={styles.flat_list}
-                    renderItem={({item}) => (
-
                 <TouchableOpacity style={styles.login_button} onPress={() => {
                     //TODO non so per quale motivo non riesco a settare il parametro neanche a mano
-                    this.props.navigation.navigate('cultivation',{
-                        screen: 'Cultivation Sum',
-                        params: { item: item },
-                    },);
-
+                    this.props.navigation.navigate('cultivation',{ item: item });
                 }}>
                     <View style={styles.card}>
                         <Image
@@ -92,11 +82,6 @@ class  CultivationCardComponent extends React.Component{
                         </View>
                     </View>
                 </TouchableOpacity>
-                    )}
-                    keyExtractor={item => item.id.toString()}
-                    onEndReachedThreshold={0.2}
-                    showsVerticalScrollIndicator={false}
-                />
             </SafeAreaView>
         );
     }

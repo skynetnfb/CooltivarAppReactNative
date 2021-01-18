@@ -26,8 +26,11 @@ class  CultivationDetailComponent extends React.Component{
     }
 
     render() {
-        const item =this.props.route.params.item;
-        console.log('------------cult detail PARAM:'+item.id);
+        const route = this.props.route;
+        const routeParams1 = route.params;
+        const route2 = routeParams1.route;
+        const routeParams2 = route2.params;
+        console.log('------------cult detail ROUTEPARAM2:',routeParams2);
         return (
             <View style={styles.container}>
                 <StatusBar barStyle="light-content" backgroundColor="#009387" />
