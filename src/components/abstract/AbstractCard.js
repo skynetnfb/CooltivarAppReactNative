@@ -1,30 +1,15 @@
 import React from 'react';
-import {
-    ActivityIndicator,
-    Image,
-    SafeAreaView,
-    StatusBar,
-    StyleSheet,
-    Text,
-    TouchableOpacity,
-    View
-} from 'react-native';
-class  CultivationCardComponent extends React.Component{
+import CultivationCardComponent from '../CultivationCardComponent';
+import {Image, SafeAreaView, StatusBar, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+
+class AbstractCardComponent extends CultivationCardComponent {
     constructor(props){
         super(props);
-        console.log('Cultivation props:', this.props, props);
+        console.log('FieldCard props:', this.props, props);
         //costruttore chiamato prima che venga renderizzato il component
         this.goToDetail = function() {
-            this.props.navigation.navigate('cultivation');
+            this.props.navigation.navigate(this.props.navigate_to, props);
         }.bind(this);
-    }
-    componentDidMount(){
-        //viene chiamato quando si deve renderizzare
-    }
-    componentWillUnmount(): void {
-        //viene chiamata prima di essere distrutto il component
-        // se si deve fare qualcosa con qualche evento legato a questo component deve essere fatto qui
-        //suppongo anche per inviare dei risultati ad alatri componenti
     }
 
     render() {
@@ -35,17 +20,17 @@ class  CultivationCardComponent extends React.Component{
                     <View style={styles.card}>
                         <Image
                             style={styles.card_image}
-                            source={require('../../imgs/no_content.png')}
+                            source={this.props.image || this.props.imageph}
                         />
                         <View style={styles.card_text_container}>
                             <Text numberOfLines={1} style={styles.card_title}>
-                                "name"
+                                {this.props.title}
                             </Text>
                             <Text numberOfLines={1} style={styles.card_text}>
-                                "status"
+                                {this.props.subtitle}
                             </Text>
                             <Text numberOfLines={3} style={styles.card_text}>
-                                "description descriptionde scriptiond escripti ondescri ptiondescr iptiondescription"
+                                {this.props.body}
                             </Text>
                         </View>
                     </View>
@@ -70,8 +55,8 @@ class  CultivationCardComponent extends React.Component{
         );
     }*/
 
-}
 
+}
 const styles = StyleSheet.create({
     container: {
         backgroundColor: '#fff',
@@ -136,4 +121,4 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
     },
 });
-export default CultivationCardComponent;
+export default AbstractCardComponent;

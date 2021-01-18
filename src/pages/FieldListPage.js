@@ -9,7 +9,9 @@ import {
     TouchableOpacity,
     StatusBar,} from 'react-native';
 
-import {CultivationCardComponent} from '../components';
+import CultivationCardComponent from '../components/CultivationCardComponent';
+import FieldCardComponent from '../components/Field/FieldCardComponent';
+import AbstractCardComponent from '../components/abstract/AbstractCard';
 class  FieldListPage extends React.Component{
     /*
         render() {
@@ -53,6 +55,7 @@ class  FieldListPage extends React.Component{
     render() {
         //const {title = "cultivation list"} = this.props;
         const {children} = this.props;
+        const navigation = this.props.navigation;
         return (
             <View
                 style={{
@@ -62,7 +65,15 @@ class  FieldListPage extends React.Component{
                 }}
             >
                 <Text>{children}</Text>
-                <CultivationCardComponent children={"Valore Card Passato da FIELD List PAGE"}></CultivationCardComponent>
+                <AbstractCardComponent
+                    navigation={navigation}
+                    navigate_to={"field"}
+                    image={null}
+                    imageph={require('../../imgs/no_content.png')}
+                    title={"title"}
+                    subtitle={"subtitle"}
+                    body={"description descri fdgds desc description descri fdgds desc description descri fdgds desc description descri fdgds desc"}
+                />
             </View>
         );
     }
