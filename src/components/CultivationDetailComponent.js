@@ -1,9 +1,7 @@
 import React from 'react';
 import {Image, SafeAreaView, StatusBar, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
-import { RNCamera } from 'react-native-camera';
-import TitleComponent from './TitleComponent';
-import CameraComponent from "./CameraComponent";
-import CultivationFormPage from "../pages/CultivationFormPage";
+
+
 class  CultivationDetailComponent extends React.Component{
     constructor(props){
         super(props);
@@ -11,8 +9,6 @@ class  CultivationDetailComponent extends React.Component{
         this.goToForm = function() {
             this.props.navigation.navigate('cultivation_form');
         }.bind(this);
-
-
 
         this.openCamera = function() {
             return (
@@ -30,8 +26,8 @@ class  CultivationDetailComponent extends React.Component{
     }
 
     render() {
-        const item =this.props.route.params;
-        console.log('------------cult detail item:'+item);
+        const item =this.props.route.params.item;
+        console.log('------------cult detail PARAM:'+item.id);
         return (
             <View style={styles.container}>
                 <StatusBar barStyle="light-content" backgroundColor="#009387" />
@@ -75,21 +71,6 @@ class  CultivationDetailComponent extends React.Component{
             </View>
         );
     }
-
-    /*
-    render() {
-        const {children} = this.props;
-        //viene chiamata per renderizzare il component
-        return (
-            <View
-                style={{
-                    flex: 1
-                }}
-            >
-                <Text>{children}</Text>
-            </View>
-        );
-    }*/
 
 }
 

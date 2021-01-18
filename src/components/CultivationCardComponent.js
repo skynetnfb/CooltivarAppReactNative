@@ -9,6 +9,8 @@ import {
     TouchableOpacity,
     View
 } from 'react-native';
+import {NetworkContext} from "../navigator/NetworkContext";
+
 class  CultivationCardComponent extends React.Component{
     constructor(props){
         super(props);
@@ -50,11 +52,12 @@ class  CultivationCardComponent extends React.Component{
     }
 
     render() {
-        console.log("------------"+this.data);
-        console.log("------------"+this.data[1].id);
-        console.log("------------this.props.cultivations: "+this.props.cultivations);
-        console.log("------------this.props.children:"+this.props.children.toString());
-        //una cosa stranissima in debug se non stampo this.props.children:"+this.props.children.toString() le cultivations arrivano vuote...ASSURDO!!!
+
+        //console.log("------------"+this.data);
+        //console.log("------------"+this.data[1].id);
+        //console.log("------------this.props.cultivations: "+this.props.cultivations);
+        //console.log("------------this.props.children:"+this.props.children.toString());
+        //una cosa stranissima in debug se non stampo this.props.children:"+this.props.children.toString() le cultivations arrivano in stampa vuote...ASSURDO!!!
         return (
             <SafeAreaView style={styles.container}>
                 <StatusBar barStyle="light-content" backgroundColor="#009387" />
@@ -62,14 +65,14 @@ class  CultivationCardComponent extends React.Component{
                     data={this.props.cultivations}
                     style={styles.flat_list}
                     renderItem={({item}) => (
+
                 <TouchableOpacity style={styles.login_button} onPress={() => {
                     //TODO non so per quale motivo non riesco a settare il parametro neanche a mano
-                    this.props.navigation.setParams({
-                        item: {
-                            id: item.id,
-                        },
-                    });
-                    this.props.navigation.navigate('cultivation');
+                    this.props.navigation.navigate('cultivation',{
+                        screen: 'Cultivation Sum',
+                        params: { item: item },
+                    },);
+
                 }}>
                     <View style={styles.card}>
                         <Image
@@ -90,29 +93,13 @@ class  CultivationCardComponent extends React.Component{
                     </View>
                 </TouchableOpacity>
                     )}
-                    keyExtractor={item => item.id}
+                    keyExtractor={item => item.id.toString()}
                     onEndReachedThreshold={0.2}
                     showsVerticalScrollIndicator={false}
                 />
             </SafeAreaView>
         );
     }
-
-    /*
-    render() {
-        const {children} = this.props;
-        //viene chiamata per renderizzare il component
-        return (
-            <View
-                style={{
-                    flex: 1
-                }}
-            >
-                <Text>{children}</Text>
-            </View>
-        );
-    }*/
-
 }
 
 const styles = StyleSheet.create({

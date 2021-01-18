@@ -82,6 +82,8 @@ class CultivationFormPage extends Component {
     }
 
     render() {
+        const item =this.props.route.params.item;
+        console.log('------------cult detail item:'+item.name);
         return (
             <SafeAreaView style={{flex: 1}}>
                 <ScrollView style={styles.scrollView}>

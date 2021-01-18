@@ -15,12 +15,13 @@ import CultivActionCardComponent from "./CultivActionCardComponent";
 class  CultivActionsHistoryComponent extends Component{
     constructor() {
         super();
-
         this.goActionForm = function() {
             this.props.navigation.navigate('action form');
         }.bind(this);
     }
     render() {
+        const item =this.props.route.params;
+        console.log('------------********cult All PARAM:'+item);
         const {children} = this.props;
         return (
             <View

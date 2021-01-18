@@ -1,16 +1,11 @@
 import React from 'react';
 import {
-    FlatList,
-    Image,
-    SafeAreaView,
     Text,
-    StyleSheet,
     View,
-    TouchableOpacity,
-    StatusBar,} from 'react-native';
+        } from 'react-native';
 
+import {NetworkContext} from "../navigator/NetworkContext";
 import {CultivationCardComponent} from '../components';
-import CultivationListComponent from '../components/CultivationListComponent';
 class  CultivationListPage extends React.Component{
 
     render() {
