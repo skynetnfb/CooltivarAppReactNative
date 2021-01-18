@@ -1,5 +1,6 @@
 import React from 'react';
 import {
+    FlatList,
     Image,
     SafeAreaView,
     StatusBar,
@@ -11,6 +12,7 @@ import {
 class  CultivActionCardComponent extends React.Component{
     constructor(props){
         super(props);
+
         //costruttore chiamato prima che venga renderizzato il component
         this.goToDetail = function() {
             this.props.navigation.navigate('cultivation');
@@ -29,7 +31,7 @@ class  CultivActionCardComponent extends React.Component{
         return (
             <SafeAreaView style={styles.container}>
                 <StatusBar barStyle="light-content" backgroundColor="#009387" />
-                <TouchableOpacity style={styles.login_button} onPress={this.goToDetail}>
+                <TouchableOpacity onPress={this.goToDetail}>
                     <View style={styles.card}>
                         <Image
                             style={styles.card_image}

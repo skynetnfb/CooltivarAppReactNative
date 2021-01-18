@@ -3,7 +3,7 @@ import {StyleSheet, Text, View} from 'react-native';
 class  TitleComponent extends React.Component {
 
     constructor(props) {
-        super(props)
+        super(props);
         //costruttore chiamato prima che venga renderizzato il component
     }
 

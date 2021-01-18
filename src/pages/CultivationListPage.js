@@ -12,48 +12,23 @@ import {
 import {CultivationCardComponent} from '../components';
 import CultivationListComponent from '../components/CultivationListComponent';
 class  CultivationListPage extends React.Component{
-    /*
-        render() {
-            return (
-                <SafeAreaView style={styles.container}>
-                    <StatusBar barStyle="light-content" backgroundColor="#009387" />
-                    <TouchableOpacity
-                        style={styles.card_container}
-                        onPress={() => {
-                            this.props.navigation.navigate('cultivation_details', {
-                                item: {
-                                    id: item.id,
-                                },
-                            });
-                        }}>
-                                <View style={styles.card}>
-
-                                            <Image
-                                                style={styles.card_image}
-                                                source={require('../../imgs/no_content.png')}
-                                            />
-                                    <View style={styles.card_text_container}>
-                                        <Text numberOfLines={1} style={styles.card_title}>
-                                            "name"
-                                        </Text>
-                                        <Text numberOfLines={1} style={styles.card_text}>
-                                            "status"
-                                        </Text>
-                                        <Text numberOfLines={3} style={styles.card_text}>
-                                            "description descriptionde scriptiond escripti ondescri ptiondescr iptiondescription"
-                                        </Text>
-                                    </View>
-                                </View>
-
-                    </TouchableOpacity>
-                </SafeAreaView>
-
-            );
-        }*/
 
     render() {
+        const cultivations = [{
+            id:1,
+            name:"coltivazione mock1",
+            cultivar:"cultivar mock1",
+            description: "descrizione coltivaione mock1",
+        },
+            {
+                id:2,
+                name:"coltivazione mock2",
+                cultivar:"cultivar mock2",
+                description: "descrizione coltivaione mock2",
+            }];
         //const {title = "cultivation list"} = this.props;
         const {children} = this.props;
+
         const navigation = this.props.navigation;
         return (
             <View
@@ -64,7 +39,7 @@ class  CultivationListPage extends React.Component{
                 }}
             >
                 <Text>{children}</Text>
-                <CultivationCardComponent children={"Valore Card Passato da Cultivation List PAGE"} navigation={navigation} ></CultivationCardComponent>
+                <CultivationCardComponent children={"Valore Card Passato da Cultivation List PAGE"} cultivations={cultivations} navigation={navigation} ></CultivationCardComponent>
             </View>
         );
     }
