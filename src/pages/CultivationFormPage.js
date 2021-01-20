@@ -11,19 +11,39 @@ import {
     Picker,
 } from 'react-native';
 import CameraComponent from "../components/CameraComponent";
+import Cultivation from '../model/Cultivation';
+import {
+    createCultivation,
+    createField,
+    getAllCultivActions,
+    getAllCultivations,
+    getAllFields, getFieldById,
+} from '../model/Repository';
+import Field from '../model/Field';
+import {any} from 'expect';
 //import FirebaseAuth from '../utils/FirebaseAuth';
 
 class CultivationFormPage extends Component {
     constructor(props) {
         super(props);
         this.state = {
+            cultivation: Cultivation,
             name: '',
             cultivar: '',
             description: '',
             status: '',
+            sowingDate:'',
+            harvestDate:'',
+            harvestweight:'',
+            field_id:999,
             validation:'validation message test',
             loading: false,
+            realm: null,
+            fields: any,
         };
+
+
+
         this.formSuccess = function() {
             this.setState({
                 status: 'Cultivation Saved',
@@ -41,7 +61,7 @@ class CultivationFormPage extends Component {
 
         this.handleChangeName = function(text) {
             this.setState({
-                name: text,
+                name: text
             });
         }.bind(this);
 
@@ -66,24 +86,40 @@ class CultivationFormPage extends Component {
 
 
         this.confirm = function() {
-
-            /*
-            this.setState({loading: true});
-            FirebaseAuth.signIn(this.state.email, this.state.password)
-                .then(() => {
-                    this.loginSuccess();
-                })
-                .catch(error => {
-                    this.loginError(error);
-                });
-        */
-
+            //this.state.cultivation = new Cultivation(this.state.name, this.state.cultivar, this.state.description, this.state.sowingDate, this.state.harvestDate, this.state.harvestWeight, this.state.status,null);
+            //constructor(name, cultivar, description, field_id, sowingDate)
+            //let cultivation = new Cultivation('this.state.name', 'this.state.cultivar', 'this.state.description', '1',new Date('2020-10-01'), new Date('2020-10-01'), '99', 'this.state.status',null);
+            //let cultivation = new Cultivation('this.state.name', 'this.state.cultivar', 'this.state.description', 1, '01-01-2020','01-01-2020',100,'grow',null);
+            let cultivation = new Cultivation('this.state.name', 'this.state.cultivar', 'this.state.description', 1,new ArrayBuffer(),new Date());
+            console.log('---------------------- cultivation:',cultivation);
+            //let temp;
+            let field = new Field('name','description');
+            console.log('-------------------------------------------- ID NEW Cultivation :',createCultivation(cultivation));
+            console.log('-------------------------------------------- ID NEW FIELD :',createField(field));
+            let temp = getAllFields();
+            console.log('-------------------------------------------- temp = getAllFields(); :',temp);
+            console.log('--------------------------------------------####### temp = getAllFields(); :',JSON.stringify(temp));
+            console.log('--------------------------------------------####### temp = getAllFields(); :',JSON.stringify(temp));
+            let cults = getAllCultivations();
+            for(let cultivation of cults){
+                console.log(cultivation.sowingDate.getTime());
+            }
+            for(let field of temp){
+                console.log('----------------------FOR',field.id,field.name);
+            }
+            //console.log('-------------------------------------------- temp = getAllCultivation(); :',getAllCultivations());
+            //console.log('-------------------------------------------- temp = getAllCultivation() LENGHT; :',getAllCultivations().length);
         }.bind(this);
     }
 
+    componentDidMount() {
+        let temp = getAllFields();
+        console.log('--------------------------------------------componentDidMount() temp = getAllFields(); :',temp);
+        console.log('--------------------------------------------componentDidMount() temp = getAllCultivation(); :',getAllCultivations());
+        console.log('--------------------------------------------componentDidMount()  temp = getAllCultivation() LENGHT; :',getAllCultivations().length);
+    }
+
     render() {
-        const item =this.props.route.params.item;
-        console.log('------------cult detail item:'+item.name);
         return (
             <SafeAreaView style={{flex: 1}}>
                 <ScrollView style={styles.scrollView}>
@@ -137,7 +173,7 @@ class CultivationFormPage extends Component {
                 </View>
 
                 <View style={styles.button_container}>
-                    <TouchableOpacity style={styles.confirm_button} onPress={this.login}>
+                    <TouchableOpacity style={styles.confirm_button} onPress={this.confirm}>
                         <Text style={styles.confirm_button_text}>Confirm</Text>
                         {this.state.loading && (
                             <ActivityIndicator

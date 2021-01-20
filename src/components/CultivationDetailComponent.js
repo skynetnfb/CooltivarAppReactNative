@@ -1,10 +1,14 @@
 import React from 'react';
 import {Image, SafeAreaView, StatusBar, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import Cultivation from '../model/Cultivation';
 
 
 class  CultivationDetailComponent extends React.Component{
     constructor(props){
         super(props);
+        this.state={
+            cultivation: {},
+        };
 
         this.goToForm = function() {
             this.props.navigation.navigate('cultivation_form');
@@ -31,6 +35,7 @@ class  CultivationDetailComponent extends React.Component{
         const route2 = routeParams1.route;
         const routeParams2 = route2.params;
         console.log('------------cult detail ROUTEPARAM2:',routeParams2);
+        console.log('------------cult detail navigation:',routeParams2);
         return (
             <View style={styles.container}>
                 <StatusBar barStyle="light-content" backgroundColor="#009387" />
@@ -66,7 +71,7 @@ class  CultivationDetailComponent extends React.Component{
                         </View>
                     </View>
                     <TouchableOpacity style={styles.footer}
-                    onPress={this.goToForm}>
+                    onPress={()=>this.props.navigation.navigate('cultivation_form',{ cultivation: this.state.cultivation })}>
                             <Text>
                                 "button"
                             </Text>
@@ -74,7 +79,6 @@ class  CultivationDetailComponent extends React.Component{
             </View>
         );
     }
-
 }
 
 const styles = StyleSheet.create({
