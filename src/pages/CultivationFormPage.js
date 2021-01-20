@@ -12,16 +12,9 @@ import {
 } from 'react-native';
 import CameraComponent from "../components/CameraComponent";
 import Cultivation from '../model/Cultivation';
-import {
-    createCultivation,
-    createField,
-    getAllCultivActions,
-    getAllCultivations,
-    getAllFields, getFieldById,
-} from '../model/Repository';
-import Field from '../model/Field';
-import {any} from 'expect';
+import {createCultivation,getAllFields} from '../model/Repository';
 //import FirebaseAuth from '../utils/FirebaseAuth';
+
 
 class CultivationFormPage extends Component {
     constructor(props) {
@@ -39,7 +32,7 @@ class CultivationFormPage extends Component {
             validation:'validation message test',
             loading: false,
             realm: null,
-            fields: any,
+            fields: null,
         };
 
 
@@ -87,36 +80,19 @@ class CultivationFormPage extends Component {
 
         this.confirm = function() {
             //this.state.cultivation = new Cultivation(this.state.name, this.state.cultivar, this.state.description, this.state.sowingDate, this.state.harvestDate, this.state.harvestWeight, this.state.status,null);
-            //constructor(name, cultivar, description, field_id, sowingDate)
-            //let cultivation = new Cultivation('this.state.name', 'this.state.cultivar', 'this.state.description', '1',new Date('2020-10-01'), new Date('2020-10-01'), '99', 'this.state.status',null);
-            //let cultivation = new Cultivation('this.state.name', 'this.state.cultivar', 'this.state.description', 1, '01-01-2020','01-01-2020',100,'grow',null);
-            let cultivation = new Cultivation('this.state.name', 'this.state.cultivar', 'this.state.description', 1,new ArrayBuffer(),new Date());
-            console.log('---------------------- cultivation:',cultivation);
-            //let temp;
-            let field = new Field('name','description');
+            //CULTIVATION constructor(name, cultivar, description, field_id, sowingDate, harvestDate, harvestWeight, status, preview)
+            let cultivation = new Cultivation('this.state.name', 'this.state.cultivar', 'this.state.description', 1,new Date(),new Date(),999,'Grow', new ArrayBuffer());
             console.log('-------------------------------------------- ID NEW Cultivation :',createCultivation(cultivation));
-            console.log('-------------------------------------------- ID NEW FIELD :',createField(field));
-            let temp = getAllFields();
-            console.log('-------------------------------------------- temp = getAllFields(); :',temp);
-            console.log('--------------------------------------------####### temp = getAllFields(); :',JSON.stringify(temp));
-            console.log('--------------------------------------------####### temp = getAllFields(); :',JSON.stringify(temp));
-            let cults = getAllCultivations();
+            //console.log('--------------------------------------------####### temp = getAllFields(); :',JSON.stringify(temp));
+            console.log('--------------------------------------------####### cultivationp = getAllFields(); :',JSON.stringify(cultivation));
+            /*let cults = getAllCultivations();
             for(let cultivation of cults){
                 console.log(cultivation.sowingDate.getTime());
-            }
-            for(let field of temp){
-                console.log('----------------------FOR',field.id,field.name);
-            }
-            //console.log('-------------------------------------------- temp = getAllCultivation(); :',getAllCultivations());
-            //console.log('-------------------------------------------- temp = getAllCultivation() LENGHT; :',getAllCultivations().length);
+            }*/
         }.bind(this);
     }
 
     componentDidMount() {
-        let temp = getAllFields();
-        console.log('--------------------------------------------componentDidMount() temp = getAllFields(); :',temp);
-        console.log('--------------------------------------------componentDidMount() temp = getAllCultivation(); :',getAllCultivations());
-        console.log('--------------------------------------------componentDidMount()  temp = getAllCultivation() LENGHT; :',getAllCultivations().length);
     }
 
     render() {

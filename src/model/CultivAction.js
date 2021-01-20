@@ -8,13 +8,14 @@ export default class CultivAction {
     status:'string';
     type:'string';
 
-    constructor( description,startDate,endDate, status, type,) {
+    constructor( description,startDate,endDate, status, type,cultivation_id) {
         this.id = new Date().getTime().toString();
         this.description = description;
         this.startDate = startDate;
         this.endDate = endDate;
         this.status = status;
         this.type = type;
+        this.cultivation_id = cultivation_id;
     }
 
     getRealmObject() {
@@ -25,6 +26,7 @@ export default class CultivAction {
             endDate: this.endDate,
             status: this.status,
             type: this.type,
+            cultivation_id:this.cultivation_id,
         };
     }
 
@@ -37,6 +39,7 @@ export default class CultivAction {
         cultivAction['endDate'] = this.endDate;
         cultivAction['status'] = this.status;
         cultivAction['type'] = this.type;
+        cultivAction['cultivation_id'] = this.cultivation_id
     }
 }
 
@@ -49,6 +52,7 @@ export const CultivActionSchema = {
         endDate: 'date',
         status:'string',
         type:'string',
+        cultivation_id:'string'
     }
 };
 

@@ -14,10 +14,16 @@ export const createCultivation = (cultivation: Cultivation) => {
     }
     // check if already existed?
     //if (checkIfCultivationExists(cultivation.id)) {
-    //    throw 'Duplicated ID';
+    //   throw 'Duplicated ID';
     //}
+    while (checkIfCultivationExists(cultivation.id))
+    {
+        //creco un nuovo elemento con id diverso CULTIVATION constructor(name, cultivar, description, field_id, sowingDate, harvestDate, harvestWeight, status, preview)
+        cultivation = new CultivAction(cultivation.name,cultivation.cultivar,cultivation.field_id,cultivation.sowingDate,cultivation.harvestDate,cultivation.harvestDate,cultivation.status,cultivation.preview)
+    }
     try {
         realm.write(() => {
+            console.log('-----------------------realmOBJ',cultivation.getRealmObject());
             realm.create(CULTIVATION_SCHEMA, cultivation.getRealmObject());
         });
         return cultivation.id;
@@ -29,33 +35,33 @@ export const createCultivation = (cultivation: Cultivation) => {
 // result: realm objects
 export const getAllCultivations = () => {
     try {
-        console.log('----------------------------------------------------SCHEMA: ',realm.schema);
+        //console.log('----------------------------------------------------SCHEMA: ',realm.schema);
         let result = realm.objects(CULTIVATION_SCHEMA);
-        console.log('----------------------------------------------------get all result: ',result);
-        if(result === undefined) return {};
+        //console.log('----------------------------------------------------get all result: ',result);
+        //if(result.length == 0) return {};
         return result
     } catch(e) {
         return [];
     } finally {}
 };
 
-export const getCultivationById = (id: number) => {
-    let cultivations = getAllCultivations().result;
+export const getCultivationById = (id: string) => {
+    let cultivations = getAllCultivations();
     console.log('----------------------------------------------------cultivations: ',cultivations);
-    let findCultivation = cultivations.filtered(`id=${id}`); // return collections
-    if (findHero.length == 0) {
-        //return = {}
-        throw `Not found hero with id=${id}`;
-    } else {
-         return findCultivation[0];
+    try{
+        let findCultivation = cultivations.filtered(`id="${id}"`); // return collections
+        return findCultivation[0];
+    }catch(e){
+        return null;
     }
+
 };
 
 export const updateCultivation = (cultivation: Cultivation) => {
     if (!cultivation) {
         throw 'Empty cultivation cant be saved'
     }
-    let findCultivation = getCultivationById(cultivation.id).result;
+    let findCultivation = getCultivationById(cultivation.id);
     if (!findCultivation) {
         throw 'No Cultivation Found';
     }
@@ -76,7 +82,7 @@ export const deleteCultivation = (cultivation: Cultivation) => {
         throw 'Invalid input!';
     }
 
-    let findCultivation = getCultivationById(cultivation.id).result;
+    let findCultivation = getCultivationById(cultivation.id);
     if (!findCultivation) {
         return false;
     }
@@ -86,14 +92,13 @@ export const deleteCultivation = (cultivation: Cultivation) => {
         });
         return true;
     } catch(e) {
-        msg.result = false;
         throw 'Error Updating Cultivation: ${e.message}';
     } finally {}
 };
 
 
 const checkIfCultivationExists = (id: number) => {
-    let cultivation = getCultivationById(id).result;
+    let cultivation = getCultivationById(id);
     return cultivation != null;
 };
 //------------------------------------------Cultivation END------------------------------------------------------------//
@@ -107,8 +112,10 @@ export const createCultivAction = (cultivAction: CultivAction) => {
         throw 'Empty cultivAction cant be saved'
     }
     // check if hero already existed?
-    if (checkIfCultivActionExists(cultivAction.id)) {
-        throw 'Duplicated ID';
+    while (checkIfCultivActionExists(cultivAction.id))
+    {
+        //creco un nuovo elemento con id diverso constructor( description,startDate,endDate, status, type,cultivation_id)
+        cultivAction = new CultivAction(cultivAction.description, cultivAction.startDate,cultivAction.endDate,cultivAction.status,cultivAction.type,cultivAction.cultivation_id)
     }
     try {
         realm.write(() => {
@@ -130,14 +137,13 @@ export const getAllCultivActions = () => {
     } finally {}
 };
 
-export const getCultivActionById = (id: number) => {
-    let cultivActions = getAllCultivActions().result;
-    let findCultivAction = cultivActions.filtered(`id=${id}`); // return collections
-    if (findCultivAction.length == 0) {
-        //return = {}
-        throw `Not found CultivAction with id=${id}`;
-    } else {
+export const getCultivActionById = (id: string) => {
+    let cultivActions = getAllCultivActions();
+    try {
+        let findCultivAction = cultivActions.filtered(`id="${id}"`); // return collections
         return findCultivAction[0];
+    }catch(e){
+        return null;
     }
 };
 
@@ -145,7 +151,7 @@ export const updateCultivAction = (cultivAction: CultivAction) => {
     if (!cultivAction) {
         throw 'Empty cultiv Action cant be saved'
     }
-    let findcultivAction = getCultivationById(cultivAction.id).result;
+    let findcultivAction = getCultivActionById(cultivAction.id);
     if (!findcultivAction) {
         throw 'No cultiv Action Found';
     }
@@ -165,7 +171,7 @@ export const deleteCultivAction = (cultivAction: CultivAction) => {
     if (!cultivAction) {
         throw 'Invalid input!';
     }
-    let findcultivAction = getcultivActionById(cultivAction.id).result;
+    let findcultivAction = getCultivActionById(cultivAction.id);
     if (!findcultivAction) {
         return false;
     }
@@ -175,13 +181,12 @@ export const deleteCultivAction = (cultivAction: CultivAction) => {
         });
         return true;
     } catch(e) {
-        msg.result = false;
         throw 'Error Updating Cultiv Action: ${e.message}';
     } finally {}
 };
 
 const checkIfCultivActionExists = (id: number) => {
-    let cultivation = getCultivActionById(id).result;
+    let cultivation = getCultivActionById(id);
     return cultivation != null;
 };
 
@@ -197,10 +202,11 @@ export const createField = (field: Field) => {
     if (!field) {
         throw 'Empty cultivAction cant be saved'
     }
-     //check if Field already existed?
-    if (checkIfFieldExists(field.id)) {
-        throw 'Duplicated ID';
-    }
+        //check if Field already existed?
+        while (checkIfFieldExists(field.id)!=null)
+        {
+           field = new Field(field.name, field.description)
+        }
     try {
         realm.write(() => {
             realm.create('Field', field.getRealmObject());
@@ -222,24 +228,16 @@ export const getAllFields = () => {
     }
 };
 
-export const getFieldById = (id: number) => {
+export const getFieldById = (id: string) => {
     let fields = getAllFields();
-    let stringID = id.toString();
-    let numbID =+ id;
+    //let stringID = id.toString();
+    //let numbID =+ id;
     try{
-        let findField = fields.filtered(`id="${stringID}"`);
+        let findField = fields.filtered(`id="${id}"`);
         return findField[0]
     }catch(e){
         return null;
     }
-     // return collections
-    /*console.log('-----------#################*********##############------------ID:',id);
-    if (findField.length == 0) {
-        //return = {}
-        throw `Not found FIELD with id=${id}`;
-    } else {
-        return findField[0];
-    }*/
 };
 
 export const updateField = (field: Field) => {
@@ -247,7 +245,7 @@ export const updateField = (field: Field) => {
         throw 'Empty Field cant be saved'
     }
     //TODO result
-    let findField = getFieldById(field.id).result;
+    let findField = getFieldById(field.id);
     if (!findField) {
         throw 'No Field Found';
     }
@@ -267,7 +265,7 @@ export const deleteField = (field: Field) => {
     if (!Field) {
         throw 'Invalid input!';
     }
-    let findField = getfieldById(field.id).result;
+    let findField = getFieldById(field.id);
     if (!findField) {
         return false;
     }
@@ -277,12 +275,11 @@ export const deleteField = (field: Field) => {
         });
         return true;
     } catch(e) {
-        msg.result = false;
         throw 'Error Updating Field: ${e.message}';
     } finally {}
 };
 
-const checkIfFieldExists = (id: number) => {
+const checkIfFieldExists = (id: string) => {
     let field = getFieldById(id);
     return field != null;
 };
