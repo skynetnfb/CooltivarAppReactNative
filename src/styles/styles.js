@@ -4,6 +4,10 @@ const MAIN_COLOR = '#66bb6a';
 const MUTED_COLOR = '#777777';
 
 const STYLE = StyleSheet.create({
+    debug: {
+        borderWidth: 2,
+        borderColor: 'red',
+    },
     submit: {
         /*
         borderColor: 'blue',

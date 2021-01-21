@@ -1,6 +1,7 @@
 import React from 'react';
 import CultivationCardComponent from '../CultivationCardComponent';
 import {Image, SafeAreaView, StatusBar, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import {STYLE} from '../../styles/styles';
 
 class AbstractCardComponent extends CultivationCardComponent {
     constructor(props){
@@ -14,14 +15,12 @@ class AbstractCardComponent extends CultivationCardComponent {
 
     render() {
         return (
-    <View>
+        <View style={[styles.container, this.props.style]}>
                 <StatusBar barStyle="light-content" backgroundColor="#009387" />
-                <TouchableOpacity onPress={this.goToDetail}>
-                    <View style={styles.card}>
+                <TouchableOpacity onPress={this.goToDetail} style={[styles.card]}>
                         <Image
                             style={styles.card_image}
-                            source={this.props.image || this.props.imageph}
-                        />
+                            source={this.props.image || this.props.imageph}  />
                         <View style={styles.card_text_container}>
                             <Text numberOfLines={1} style={styles.card_title}>
                                 {this.props.title}
@@ -33,7 +32,6 @@ class AbstractCardComponent extends CultivationCardComponent {
                                 {this.props.body}
                             </Text>
                         </View>
-                    </View>
                 </TouchableOpacity>
             </View>
 
@@ -60,21 +58,23 @@ class AbstractCardComponent extends CultivationCardComponent {
 const styles = StyleSheet.create({
     container: {
         backgroundColor: '#fff',
-        height: '100%',
+        width: '100%',
     },
     //TODO flat list
     flat_list: {
         height: '100%',
         width: '100%', // maybe useless
     },
+    /*
     card_container: {
         backgroundColor: '#aaa',
         flex:1,
         padding: 4,
         margin: 4,
         borderRadius: 10,
-    },
+    },*/
     card: {
+        maxWidth: '100%',
         backgroundColor: '#fff',
         padding: 10,
         borderRadius: 10,
@@ -83,7 +83,6 @@ const styles = StyleSheet.create({
         borderColor: '#aaa',
         margin: 8,
         height: 170,
-        width: '100%', // maybe useless
     },
     card_image: {
         width: '30%',
