@@ -5,24 +5,24 @@ export default class Cultivation {
     name: 'string';
     cultivar: 'string';
     description: 'string';
-    field_id: 'int';
+    field_id: 'string';
     sowingDate:'date';
-    //harvestDate:'string';
-    //harvestWeight: 'int';
-    //status:'string';
+    harvestDate:'date';
+    harvestWeight: 'int';
+    status:'string';
     preview:'data';
 
-//, harvestDate, harvestWeight, status, preview
-    constructor(name, cultivar, description, field_id, preview, sowingDate) {
+
+    constructor(name, cultivar, description, field_id, sowingDate, harvestDate, harvestWeight, status, preview) {
         this.id = new Date().getTime().toString();
         this.name = name;
         this.cultivar = cultivar;
         this.description = description;
         this.field_id = field_id;
         this.sowingDate = sowingDate;
-        //this.harvestDate = harvestDate;
-        //this.harvestWeight = harvestWeight;
-        //this.status = status;
+        this.harvestDate = harvestDate;
+        this.harvestWeight = harvestWeight;
+        this.status = status;
         this.preview = preview;
     }
 
@@ -34,9 +34,9 @@ export default class Cultivation {
             description:this.description,
             field_id:this.field_id,
             sowingDate:this.sowingDate,
-            //harvestDate:this.harvestDate,
-            //harvestWeight:this.harvestWeight,
-            //status:this.status,
+            harvestDate:this.harvestDate,
+            harvestWeight:this.harvestWeight,
+            status:this.status,
             preview:this.preview,
         };
     }
@@ -50,9 +50,9 @@ export default class Cultivation {
         cultivation['description'] = this.description;
         cultivation['field_id'] = this.field_id;
         cultivation['sowingDate'] = this.sowingDate;
-        //cultivation['harvestDate'] = this.harvestDate;
-        //cultivation['harvestWeight'] = this.harvestWeight;
-        //cultivation['status'] = this.status;
+        cultivation['harvestDate'] = this.harvestDate;
+        cultivation['harvestWeight'] = this.harvestWeight;
+        cultivation['status'] = this.status;
         cultivation['preview'] = this.preview;
     }
 }
@@ -66,9 +66,9 @@ export const CultivationSchema = {
         description: 'string?',
         field_id: 'int?',
         sowingDate:'date?',
-        //harvestDate:'string?',
-        //harvestWeight: 'int?',
-        //status:'string?',
+        harvestDate:'date?',
+        harvestWeight: 'int?',
+        status:'string?',
         preview:'data?',
     }
 };

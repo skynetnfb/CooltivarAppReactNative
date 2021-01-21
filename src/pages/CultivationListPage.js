@@ -8,9 +8,12 @@ import {
 
 
 import AbstractCardComponent from "../components/abstract/AbstractCard";
+import {getAllCultivations} from '../model/Repository';
 class  CultivationListPage extends React.Component{
 
     render() {
+
+        console.log('--------------------------------------------####### temp = getAllCul(); :',JSON.stringify(getAllCultivations()));
         const cultivations = [
             {
                 id:2,
@@ -30,7 +33,6 @@ class  CultivationListPage extends React.Component{
             }];
         //const {title = "cultivation list"} = this.props;
         const {children} = this.props;
-
         const navigation = this.props.navigation;
         return (
             <View
@@ -41,7 +43,7 @@ class  CultivationListPage extends React.Component{
                 }}
             >
                 <FlatList
-                    data={cultivations}
+                    data={getAllCultivations()}
                     style={styles.flat_list}
                     renderItem={({item}) => (
                 <AbstractCardComponent
