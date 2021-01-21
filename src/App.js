@@ -3,10 +3,11 @@ import React from 'react';
 import RootNavigator from "./navigator/RootNavigator";
 import {SafeAreaView} from "react-native-safe-area-context";
 import {Text} from 'react-native'
-
+import {Provider} from 'react-redux';
+import {store} from './redux/store/store';
 
 //const Realm = require('realm');
-class  App extends React.Component{
+class App extends React.Component{
     constructor(props) {
         super(props);
         this.state = { realm: null };
@@ -41,13 +42,14 @@ class  App extends React.Component{
         //console.log('###############this.state.realm.objects',this.state.realm.objects('Dog'));
         return (
 
+            <Provider store={store}>
                <SafeAreaView style={{
                    flex: 1
                }}>
                    <Text>{info}</Text>
                     <RootNavigator/>
                </SafeAreaView>
-
+            </Provider>
             //<TitleComponent title = {"Titolo Login da App.js"}/>
             //                    <CultivationListComponent children = {"Children di Cultivation List"} />
                     //altre componment

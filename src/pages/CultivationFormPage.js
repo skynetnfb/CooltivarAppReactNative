@@ -20,7 +20,6 @@ import {
     getAllFields, getFieldById,
 } from '../model/Repository';
 import Field from '../model/Field';
-import {any} from 'expect';
 //import FirebaseAuth from '../utils/FirebaseAuth';
 
 class CultivationFormPage extends Component {
@@ -39,7 +38,7 @@ class CultivationFormPage extends Component {
             validation:'validation message test',
             loading: false,
             realm: null,
-            fields: any,
+            fields: null,
         };
 
 
@@ -93,7 +92,7 @@ class CultivationFormPage extends Component {
             let cultivation = new Cultivation('this.state.name', 'this.state.cultivar', 'this.state.description', 1,new ArrayBuffer(),new Date());
             console.log('---------------------- cultivation:',cultivation);
             //let temp;
-            let field = new Field('name','description');
+            let field = new Field('name', 'city', 'description');
             console.log('-------------------------------------------- ID NEW Cultivation :',createCultivation(cultivation));
             console.log('-------------------------------------------- ID NEW FIELD :',createField(field));
             let temp = getAllFields();

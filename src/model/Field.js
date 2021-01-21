@@ -2,15 +2,15 @@ export const FIELD_SCHEMA ='Field';
 
 
 export default class Field {
-
     id:'string';
     name:'string';
+    city:'string';
     description:'string';
 
-
-    constructor( name, description) {
+    constructor( name, city, description) {
         this.id = new Date().getTime().toString();
         this.name = name;
+        this.city = city;
         this.description = description;
 
     }
