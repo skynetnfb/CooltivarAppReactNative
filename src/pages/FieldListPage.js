@@ -70,7 +70,7 @@ class  FieldListPage extends React.Component{
                 />
                 <TouchableOpacity
                     style={[STYLE.footer]}
-                    onPress={()=>this.props.navigation.navigate('cultivation_form')}>
+                    onPress={()=>this.props.navigation.navigate('field_form')}>
                     <Icon
                         name="md-add-circle-sharp"
                         size={40}

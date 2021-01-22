@@ -157,7 +157,7 @@ export default class RootNavigator extends Component {
                                                initialParams={{ parameterPassedFromRootNavigator: 'zzzzz' }} />
                     <RootStackNavigator.Screen name = {'cultivation_form'} component = { CultivationFormPage }/>
                     <RootStackNavigator.Screen name = {'action form'} component = { CultivActionFormPage }/>
-                    <RootStackNavigator.Screen name = {'field-form'} component = { FieldFormComponent }/>
+                    <RootStackNavigator.Screen name = {'field_form'} component = { FieldFormComponent }/>
                 </RootStackNavigator.Navigator>
             </NavigationContainer>
         )

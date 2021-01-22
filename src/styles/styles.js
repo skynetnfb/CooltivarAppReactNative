@@ -104,4 +104,4 @@ const STYLE = StyleSheet.create({
     }
 });
 
-export {STYLE, MAIN_COLOR};
+export {STYLE, MAIN_COLOR, MUTED_COLOR};
