@@ -1,6 +1,6 @@
 import React from 'react';
+import Icon from 'react-native-vector-icons/Ionicons';
 import {
-    FlatList,
     Image,
     SafeAreaView,
     StatusBar,
@@ -26,50 +26,42 @@ class  CultivActionCardComponent extends React.Component{
         // se si deve fare qualcosa con qualche evento legato a questo component deve essere fatto qui
         //suppongo anche per inviare dei risultati ad alatri componenti
     }
-
     render() {
         return (
-            <SafeAreaView style={styles.container}>
-                <StatusBar barStyle="light-content" backgroundColor="#009387" />
+            <View style={styles.card_container}>
                 <TouchableOpacity onPress={this.goToDetail}>
                     <View style={styles.card}>
-                        <Image
-                            style={styles.card_image}
-                            source={require('../../imgs/icon_orange.png')}
+                        <View><Icon style={styles.card_image}
+                            name="ios-warning-sharp"
+                            size={60}
+                            color="#CCC"
                         />
+                        </View>
                         <View style={styles.card_text_container}>
+                            <View style={styles.card_title_container}>
                             <Text numberOfLines={1} style={styles.card_title}>
                                 "Remedy"
                             </Text>
                             <Text numberOfLines={1} style={styles.card_text}>
                                 "status"
                             </Text>
+                                </View>
+
                             <Text numberOfLines={3} style={styles.card_text}>
                                 "description descriptionde scriptiond escripti ondescri ptiondescr iptiondescription"
                             </Text>
                         </View>
+                        <View><Icon
+                            name="ios-settings-sharp"
+                            size={30}
+                            color="#CCC"
+                        /></View>
                     </View>
+
                 </TouchableOpacity>
-            </SafeAreaView>
-
-        );
-    }
-
-    /*
-    render() {
-        const {children} = this.props;
-        //viene chiamata per renderizzare il component
-        return (
-            <View
-                style={{
-                    flex: 1
-                }}
-            >
-                <Text>{children}</Text>
             </View>
         );
-    }*/
-
+    }
 }
 
 const styles = StyleSheet.create({
@@ -77,19 +69,15 @@ const styles = StyleSheet.create({
         backgroundColor: '#fff',
         height: '100%',
     },
-    //TODO flat list
-    flat_list: {
-        height: '100%',
-        width: '100%', // maybe useless
-    },
     card_container: {
         backgroundColor: '#aaa',
         flex:1,
         padding: 4,
         borderRadius: 10,
+        width: '100%',
     },
     card: {
-        backgroundColor: '#fff',
+        backgroundColor: '#FFF',
         padding: 10,
         borderRadius: 10,
         flexDirection:'row',
@@ -99,11 +87,17 @@ const styles = StyleSheet.create({
         width: '100%', // maybe useless
     },
     card_image: {
-        width: '30%',
         height: '100%',
         borderRadius: 5,
     },
+    card_icon_right: {
+        width: '30%',
+        height: '100%',
+        borderRadius: 5,
+        flexDirection: 'row-reverse',
+    },
     card_text_container: {
+        flexDirection:'column',
         backgroundColor: '#ddd',
         width: '70%',
         padding: 3,
@@ -120,6 +114,10 @@ const styles = StyleSheet.create({
         color: 'green',
         fontSize: 18,
         fontWeight: 'bold',
+    },
+    card_title_container: {
+        flexDirection:'row',
+        justifyContent: 'space-around',
     },
     loading_icon: {
         flex: 1,

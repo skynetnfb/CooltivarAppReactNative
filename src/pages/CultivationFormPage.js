@@ -12,6 +12,7 @@ import {
 } from 'react-native';
 import CameraComponent from "../components/CameraComponent";
 import Cultivation from '../model/Cultivation';
+import {DatePickerComponent} from '../components/DatePickerComponent';
 import {
     createCultivation,
     createField,
@@ -83,15 +84,27 @@ class CultivationFormPage extends Component {
             });
         }.bind(this);
 
+        this.resultStartDatePicker = function (date){
+            this.setState({startDate:date});
+            console.log('------------------------------DATE:',date);
+            console.log('------------------------------STATE:',this.state.startDate)
+        }.bind(this);
+
+        this.resultEndDatePicker = function (date){
+            this.setState({startDate:date});
+            console.log('------------------------------End DATE:',date);
+            console.log('------------------------------End Date STATE:',this.state.endDate)
+        }.bind(this);
+
 
 
         this.confirm = function() {
-            //this.state.cultivation = new Cultivation(this.state.name, this.state.cultivar, this.state.description, this.state.sowingDate, this.state.harvestDate, this.state.harvestWeight, this.state.status,null);
+            this.setState({loading: true});
             //CULTIVATION constructor(name, cultivar, description, field_id, sowingDate, harvestDate, harvestWeight, status, preview)
             let cultivation = new Cultivation('this.state.name', 'this.state.cultivar', 'this.state.description', 1,new Date(),new Date(),999,'Grow', new ArrayBuffer());
-            console.log('-------------------------------------------- ID NEW Cultivation :',createCultivation(cultivation));
-            //console.log('--------------------------------------------####### temp = getAllFields(); :',JSON.stringify(temp));
-            console.log('--------------------------------------------####### cultivationp = getAllFields(); :',JSON.stringify(cultivation));
+            createCultivation(cultivation);
+            //TODO come gestiamo il redirect? nadiamo back o andiamo avanti ricaricando i dati?
+            this.formSuccess();
             /*let cults = getAllCultivations();
             for(let cultivation of cults){
                 console.log(cultivation.sowingDate.getTime());
@@ -119,6 +132,7 @@ class CultivationFormPage extends Component {
                             value={this.state.name}
                         />
                     </View>
+
                     <View style={styles.input_text_container}>
                         <TextInput
                             style={styles.input_text}
@@ -128,6 +142,7 @@ class CultivationFormPage extends Component {
                             value={this.state.cultivar}
                         />
                     </View>
+
                     <View style={styles.input_text_container}>
                         <TextInput
                             style={styles.input_text_area}
@@ -139,6 +154,15 @@ class CultivationFormPage extends Component {
                             value={this.state.description}
                         />
                     </View>
+
+                    <View style={styles.input_text_container}>
+                    <DatePickerComponent ref='startDateDP' result = {this.resultStartDatePicker}/>
+                    </View>
+
+                    <View style={styles.input_text_container}>
+                    <DatePickerComponent ref='startDateDP' result = {this.resultEndDatePicker}/>
+                    </View>
+
                     <View style={styles.input_text_container}>
                     <Picker selectedValue = {this.state.status} onValueChange = {this.handleChangeStatus}>
                         <Picker.Item label = "Seed" value = "seed" />
@@ -147,6 +171,7 @@ class CultivationFormPage extends Component {
                         <Picker.Item label = "Completed" value = "completed" />
                     </Picker>
                     </View>
+
                     <View style={styles.input_text_container}>
                         <Picker selectedValue = {this.state.field} onValueChange = {this.handleChangeStatus}>
                             <Picker.Item label = "MOCKfield.name1" value = "MOCKfield.id1" />
@@ -167,9 +192,11 @@ class CultivationFormPage extends Component {
                         )}
                     </TouchableOpacity>
                 </View>
+
                 <View style={styles.alert_box}>
                     <Text style={styles.alert_message}>{this.state.validation}</Text>
                 </View>
+
                 </ScrollView>
             </SafeAreaView>
         );

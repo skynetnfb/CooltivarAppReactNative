@@ -35,18 +35,10 @@ class App extends React.Component{
     }*/
 
     render() {
-        let timestamp = new Date().getTime();
-        const info = this.state.realm
-            ? 'Number of dogs in this Realm: ' + this.state.realm.objects('Dog')
-            : 'Loading...';
-        //console.log('###############this.state.realm.objects',this.state.realm.objects('Dog'));
         return (
 
             <Provider store={store}>
-               <SafeAreaView style={{
-                   flex: 1
-               }}>
-                   <Text>{info}</Text>
+               <SafeAreaView style={{flex: 1}}>
                     <RootNavigator/>
                </SafeAreaView>
             </Provider>

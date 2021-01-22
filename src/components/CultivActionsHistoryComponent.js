@@ -10,6 +10,7 @@ import {
     StatusBar,} from 'react-native';
 
 import CultivActionCardComponent from "./CultivActionCardComponent";
+import Icon from 'react-native-vector-icons/Ionicons';
 
 
 class  CultivActionsHistoryComponent extends Component{
@@ -27,19 +28,15 @@ class  CultivActionsHistoryComponent extends Component{
         console.log('------------cult HISTORY ROUTEPARAM2:',routeParams2);
         const {children} = this.props;
         return (
-            <View
-                style={{
-                    flex: 1,
-                    justifyContent: "center",
-                    alignItems: "center"
-                }}
-            >
+            <View style={styles.container}>
                 <CultivActionCardComponent children={"Valore Card CultivActionHistoy"}></CultivActionCardComponent>
                 <TouchableOpacity style={styles.footer}
                                   onPress={this.goActionForm}>
-                    <Text>
-                        "button"
-                    </Text>
+                    <Icon
+                        name="md-add-circle-sharp"
+                        size={40}
+                        color="#FFF"
+                    />
                 </TouchableOpacity>
             </View>
         );
@@ -47,10 +44,15 @@ class  CultivActionsHistoryComponent extends Component{
 }
 
 const styles = StyleSheet.create({
+    container: {
+        width: '100%', // maybe useless
+        height: '90%',
+    },
     footer: {
         backgroundColor: 'green',
         padding: 10,
         flexDirection: 'row',
+        justifyContent: 'space-around',
         borderWidth: StyleSheet.hairlineWidth,
         borderColor: '#aaa',
         width: '100%', // maybe useless

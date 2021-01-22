@@ -8,20 +8,32 @@ import {
     ActivityIndicator,
     TouchableOpacity,
     ScrollView,
-    Picker,
+    Picker, Button, Platform,
 } from 'react-native';
+import {createCultivAction} from '../model/Repository';
+import CultivAction from '../model/CultivAction';
+import {DatePickerComponent} from '../components/DatePickerComponent';
+import DateTimePicker from '@react-native-community/datetimepicker';
 
 class CultivActionFormPage extends Component {
     constructor(props) {
         super(props);
         this.state = {
+            loading: false,
             description: '',
             status: '',
             type: '',
             validation:'validation message test',
-            startDate:'',
-            endDate:'',
+            //startDate:useState(new Date("2021-01-01")),
+            //endDate: useState(new Date("2021-01-01")),
+            startDate:new Date("2021-01-01"),
+            endDate: new Date("2021-01-01"),
+            cultivation_id:-1,
+            cultivAction: null,
         };
+
+
+
         this.formSuccess = function() {
             this.setState({
                 status: 'Cultivation Saved',
@@ -37,11 +49,6 @@ class CultivActionFormPage extends Component {
             });
         }.bind(this);
 
-        this.handleChangeName = function(text) {
-            this.setState({
-                name: text,
-            });
-        }.bind(this);
 
         this.handleChangeDescription = function(text) {
             this.setState({
@@ -67,41 +74,77 @@ class CultivActionFormPage extends Component {
             });
         }.bind(this);
 
+        this.onChangeStartDate = function (event, selectedDate) {
+            const currentDate = selectedDate || this.state.startDate;
+            console.log('---------------------------selected Date:',this.state.startDate);
+            console.log('---------------------------this.startDate:',this.state.startDate);
+            console.log('---------------------------current:',currentDate);
+            this.setState({startDate:currentDate})
+        }.bind(this);
+
+        /*
+        this.onChangeEndDate = function (event, selectedDate) {
+            const currentDate = selectedDate || endDate;
+            setShow(Platform.OS === 'ios');
+            setEndDate(currentDate);
+        }.bind(this);
+        */
 
 
         this.confirm = function() {
-
-            /*
             this.setState({loading: true});
-            FirebaseAuth.signIn(this.state.email, this.state.password)
-                .then(() => {
-                    this.loginSuccess();
-                })
-                .catch(error => {
-                    this.loginError(error);
-                });
-        */
+            //CULTIVA_ACTION constructor( description,startDate,endDate, status, type,cultivation_id)
+            let cultivAction = new CultivAction('Descrizione test',new Date(),new Date(), 'STATUS mock','TYPE mock', '35416841568971864');
+            createCultivAction(cultivAction);
+            //TODO come gestiamo il redirect? nadiamo back o andiamo avanti ricaricando i dati?
+            //this.props.navigation.goBack();
+        }.bind(this);
 
+
+        this.resultStartDatePicker = function (date){
+            this.setState({startDate:date});
+            console.log('------------------------------DATE:',date);
+            console.log('------------------------------STATE:',this.state.startDate)
+        }.bind(this);
+
+        this.resultEndDatePicker = function (date){
+            this.setState({startDate:date});
+            console.log('------------------------------End DATE:',date);
+            console.log('------------------------------End Date STATE:',this.state.endDate)
         }.bind(this);
     }
 
+
+
     render() {
         return (
-            <SafeAreaView style={{flex: 1}}>
-                <ScrollView style={styles.scrollView}>
-                    <View style={styles.form_container}>
-
-                        <View style={styles.input_text_container}>
+            <SafeAreaView style = {{flex: 1}}>
+                <ScrollView style = {styles.scrollView}>
+                    <View style = {styles.form_container}>
+                        <View style = {styles.input_text_container}>
                             <TextInput
-                                style={styles.input_text_area}
-                                placeholder={'Description'}
-                                autoCapitalize={'none'}
-                                multiline={true}
-                                numberOfLines={4}
-                                onChangeText={this.handleChangeDescription}
-                                value={this.state.description}
+                                style = {styles.input_text_area}
+                                placeholder = {'Description'}
+                                autoCapitalize = {'none'}
+                                multiline = {true}
+                                numberOfLines = {4}
+                                onChangeText = {this.handleChangeDescription}
+                                value = {this.state.description}
                             />
                         </View>
+
+                        <View style = {styles.input_text_container}>
+                            <TextInput
+                                style = {styles.input_text_area}
+                                placeholder = {'Date'}
+                                onChangeText = {this.handleChangeDescription}
+                                value = {this.state.description}
+                            />
+                        </View>
+
+                        <DatePickerComponent ref='startDateDP' result = {this.resultStartDatePicker}/>
+                        <DatePickerComponent ref='startDateDP' result = {this.resultEndDatePicker}/>
+
                         <View style={styles.input_text_container}>
                             <Picker selectedValue = {this.state.type} onValueChange = {this.handleChangeType}>
                                 <Picker.Item label = "Threat" value = "Threat" />
@@ -121,7 +164,7 @@ class CultivActionFormPage extends Component {
                     </View>
 
                     <View style={styles.button_container}>
-                        <TouchableOpacity style={styles.confirm_button} onPress={this.login}>
+                        <TouchableOpacity style={styles.confirm_button} onPress={this.confirm}>
                             <Text style={styles.confirm_button_text}>Confirm</Text>
                             {this.state.loading && (
                                 <ActivityIndicator
@@ -183,7 +226,6 @@ const styles = StyleSheet.create({
     button_container: {
         paddingVertical: 2,
         paddingHorizontal: 100,
-
     },
     confirm_button: {
         backgroundColor: 'green',
