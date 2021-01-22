@@ -33,7 +33,7 @@ class  CultivationListPage extends React.Component{
                 />
                 <TouchableOpacity
                     style={styles.footer}
-                    onPress={()=>this.props.navigation.navigate('cultivation_form')}>
+                    onPress={()=>this.props.navigation.navigate('camera')}>
                     <Icon
                         name="md-add-circle-sharp"
                         size={40}
@@ -54,7 +54,7 @@ const styles = StyleSheet.create({
             justifyContent: "center",
             alignItems: "center",
             height: '100%',
-            width: '70%', // maybe useless
+            width: '100%', // maybe useless
         },
         footer: {
             backgroundColor: 'green',

@@ -39,6 +39,7 @@ class CultivationFormPage extends Component {
             field_id:999,
             validation:'validation message test',
             loading: false,
+            formStatus: '',
             realm: null,
             fields: null,
         };
@@ -47,7 +48,7 @@ class CultivationFormPage extends Component {
 
         this.formSuccess = function() {
             this.setState({
-                status: 'Cultivation Saved',
+                formStatus: 'Cultivation Saved',
                 loading: false,
             });
             this.props.navigation.goBack();
@@ -61,47 +62,58 @@ class CultivationFormPage extends Component {
         }.bind(this);
 
         this.handleChangeName = function(text) {
+            console.log('------------------------------handleChangeName:',text);
             this.setState({
                 name: text
             });
         }.bind(this);
 
         this.handleChangeDescription = function(text) {
+            console.log('------------------------------handleChangeDescription:',text);
             this.setState({
                 description: text,
             });
         }.bind(this);
 
         this.handleChangeCultivar = function(text) {
+            console.log('------------------------------handleChangeCultivar:',text);
             this.setState({
                 cultivar: text,
             });
         }.bind(this);
 
         this.handleChangeStatus = function(text) {
+            console.log('------------------------------handleChangeStatus:',text);
             this.setState({
-                status: text,
+                status:text,
             });
         }.bind(this);
 
         this.resultStartDatePicker = function (date){
             this.setState({startDate:date});
-            console.log('------------------------------DATE:',date);
             console.log('------------------------------STATE:',this.state.startDate)
         }.bind(this);
 
         this.resultEndDatePicker = function (date){
-            this.setState({startDate:date});
-            console.log('------------------------------End DATE:',date);
+
+            this.setState({
+                endDate:date
+            });
             console.log('------------------------------End Date STATE:',this.state.endDate)
         }.bind(this);
 
-
+        this.handleChangeHarvestWeight = function(text) {
+            console.log('------------------------------handleChangeHarvestWeight:',text);
+            this.setState({
+                harvestweight:text,
+            });
+        }.bind(this);
 
         this.confirm = function() {
             this.setState({loading: true});
             //CULTIVATION constructor(name, cultivar, description, field_id, sowingDate, harvestDate, harvestWeight, status, preview)
-            let cultivation = new Cultivation('this.state.name', 'this.state.cultivar', 'this.state.description', 1,new Date(),new Date(),999,'Grow', new ArrayBuffer());
+            //let cultivation = new Cultivation('this.state.name', 'this.state.cultivar', 'this.state.description', 1,new Date(),new Date(),999,'Grow', new ArrayBuffer());
+            let cultivation = new Cultivation(this.state.name, this.state.cultivar, this.state.description, 1,this.state.startDate,this.state.endDate,1,this.state.status, '');
             createCultivation(cultivation);
             //TODO come gestiamo il redirect? nadiamo back o andiamo avanti ricaricando i dati?
             this.formSuccess();
@@ -120,9 +132,6 @@ class CultivationFormPage extends Component {
             <SafeAreaView style={{flex: 1}}>
                 <ScrollView style={styles.scrollView}>
                 <View style={styles.form_container}>
-                    <TouchableOpacity onPress={this.openCamera} style={{width:300, height: 400,}}>
-                        <CameraComponent/>
-                    </TouchableOpacity>
                     <View style={styles.input_text_container}>
                         <TextInput
                             style={styles.input_text}
@@ -156,11 +165,13 @@ class CultivationFormPage extends Component {
                     </View>
 
                     <View style={styles.input_text_container}>
-                    <DatePickerComponent ref='startDateDP' result = {this.resultStartDatePicker}/>
-                    </View>
-
-                    <View style={styles.input_text_container}>
-                    <DatePickerComponent ref='startDateDP' result = {this.resultEndDatePicker}/>
+                        <TextInput
+                            style={styles.input_text}
+                            placeholder={'Harvest Weight'}
+                            autoCapitalize={'none'}
+                            onChangeText={this.handleChangeHarvestWeight}
+                            value={this.state.harvestWeight}
+                        />
                     </View>
 
                     <View style={styles.input_text_container}>
@@ -178,7 +189,16 @@ class CultivationFormPage extends Component {
                             <Picker.Item label = "MOCKfield.name2" value = "MOCKfield.id2" />
                         </Picker>
                     </View>
+
+                    <View style = {styles.date_picker_container}>
+                        <Text>From</Text>
+                        <DatePickerComponent ref='startDateDP' result = {this.resultStartDatePicker}/>
+                        <Text>to</Text>
+                        <DatePickerComponent ref='startDateDP' result = {this.resultEndDatePicker}/>
+                    </View>
+
                 </View>
+
 
                 <View style={styles.button_container}>
                     <TouchableOpacity style={styles.confirm_button} onPress={this.confirm}>
@@ -229,6 +249,11 @@ const styles = StyleSheet.create({
         marginBottom: 8,
         borderWidth: StyleSheet.hairlineWidth,
         borderColor: '#aaa',
+    },
+    date_picker_container: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        width: '100%'
     },
     input_text: {
         padding: 6,

@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {View, Button, Platform} from 'react-native';
+import {View, Button, Platform, StyleSheet} from 'react-native';
 import DateTimePicker from '@react-native-community/datetimepicker';
 
 export const DatePickerComponent = (props) => {
@@ -26,8 +26,8 @@ export const DatePickerComponent = (props) => {
 
     return (
         <View>
-            <View>
-                <Button onPress={showDatepicker} title={date.toDateString()||"Select Date"} />
+            <View style={styles.date_container}>
+                <Button color="green" onPress={showDatepicker} title={date.toDateString()||"Select Date"} />
             </View>
             {show && (
                 <DateTimePicker
@@ -42,3 +42,31 @@ export const DatePickerComponent = (props) => {
         </View>
     );
 };
+
+const styles = StyleSheet.create({
+
+    date_container: {
+        backgroundColor: 'green',
+        width: '100%',
+        padding: 2,
+        borderRadius: 8,
+        marginBottom: 8,
+    },
+    button_container: {
+        paddingVertical: 2,
+        paddingHorizontal: 100,
+    },
+    confirm_button: {
+        backgroundColor: 'green',
+        paddingVertical: 12,
+        paddingHorizontal: 20,
+        borderRadius: 5,
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'center',
+    },
+    confirm_button_text: {
+        fontSize: 20,
+        color: '#fff',
+    },
+});

@@ -16,7 +16,7 @@ class  CultivationDetailComponent extends React.Component{
 
         this.openCamera = function() {
             return (
-                this.props.navigation.navigate('cultivation_form')
+                this.props.navigation.navigate('camera')
             )
         }.bind(this);
     }

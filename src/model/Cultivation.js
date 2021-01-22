@@ -1,16 +1,16 @@
 export const CULTIVATION_SCHEMA ='Cultivation';
 
 export default class Cultivation {
-    id:  'string';
-    name: 'string';
-    cultivar: 'string';
-    description: 'string';
-    field_id: 'string';
-    sowingDate:'date';
-    harvestDate:'date';
-    harvestWeight: 'int';
-    status:'string';
-    preview:'data';
+    id:  '';
+    name: '';
+    cultivar: '';
+    description: '';
+    field_id: '';
+    sowingDate:'';
+    harvestDate:'';
+    harvestWeight: '';
+    status:'';
+    preview:'';
 
 
     constructor(name, cultivar, description, field_id, sowingDate, harvestDate, harvestWeight, status, preview) {
@@ -69,7 +69,7 @@ export const CultivationSchema = {
         harvestDate:'date?',
         harvestWeight: 'int?',
         status:'string?',
-        preview:'data?',
+        preview:'string?',
     }
 };
 

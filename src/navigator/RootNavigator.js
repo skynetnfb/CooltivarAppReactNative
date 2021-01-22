@@ -13,6 +13,7 @@ import FieldDetailComponent from '../components/Field/FieldDetailComponent';
 import FieldCultivationHistoryComponent from '../components/Field/FieldCultivationHistoryComponent';
 import FieldForm from '../components/Field/FieldForm';
 import FieldFormComponent from '../components/Field/FieldFormComponent';
+import CameraComponent from '../components/CameraComponent';
 
 const RootStackNavigator = createStackNavigator();
 const MaterialTopTabNavigator = createMaterialTopTabNavigator();
@@ -156,6 +157,7 @@ export default class RootNavigator extends Component {
                     <RootStackNavigator.Screen name = {'field'} component = { createFieldTabNavigation }
                                                initialParams={{ parameterPassedFromRootNavigator: 'zzzzz' }} />
                     <RootStackNavigator.Screen name = {'cultivation_form'} component = { CultivationFormPage }/>
+                    <RootStackNavigator.Screen name = {'camera'} component = { CameraComponent }/>
                     <RootStackNavigator.Screen name = {'action form'} component = { CultivActionFormPage }/>
                     <RootStackNavigator.Screen name = {'field-form'} component = { FieldFormComponent }/>
                 </RootStackNavigator.Navigator>

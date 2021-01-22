@@ -2,6 +2,8 @@
 import React, { PureComponent } from 'react';
 import { AppRegistry, StyleSheet, Text, TouchableOpacity, View,Image} from 'react-native';
 import { RNCamera } from 'react-native-camera';
+import Cultivation from '../model/Cultivation';
+import {createCultivation} from '../model/Repository';
 
 
 
@@ -11,14 +13,13 @@ class CameraComponent extends PureComponent {
         this.state = {
             path: '',
             data:'',
-
         };
     }
 
     render() {
-        console.log('---------------CameraComponent extends PureComponent');
         return (
             <View style={styles.container}>
+                <View style={styles.preview_container}>
                 <RNCamera
                     ref={ref => {
                         this.camera = ref;
@@ -42,22 +43,23 @@ class CameraComponent extends PureComponent {
                         console.log(barcodes);
                     }}
                 />
-                <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'center' }}>
-                    <TouchableOpacity onPress={this.takePicture.bind(this)} style={styles.capture}>
+                </View>
+
+                <View style={styles.preview_container}>
+                    <Image
+                        style={styles.preview_image}
+                        source={this.state.data}
+                    />
+                    <View style={styles.buttons_container}>
+                    <TouchableOpacity onPress={this.takePicture.bind(this)} style={styles.button_camera}>
                         <Text style={{ fontSize: 14}}> SNAP </Text>
                     </TouchableOpacity>
+                    <TouchableOpacity onPress={this.takePicture.bind(this)} style={styles.button_camera}>
+                        <Text style={{ fontSize: 14}}> SAVE </Text>
+                    </TouchableOpacity>
+                    </View>
                 </View>
-
-                <View style={{ backgroundColor:'blue', height: 200, width: '100%', }}>
-                    <Image
-                    style={styles.preview_image}
-                    source={this.state.data}
-                />
-                </View>
-
             </View>
-
-
         );
     }
 
@@ -65,7 +67,10 @@ class CameraComponent extends PureComponent {
         if (this.camera) {
             const options = { quality: 0.5, base64: true };
             this.state.data = await this.camera.takePictureAsync(options);
+            console.log('----------------------TIPO',this.state.data);
             this.setState({ path: this.state.data.uri });
+            let cultivation = new Cultivation('this.state.name', 'this.state.cultivar', 'this.state.description', 1,new Date(),new Date(),999,'Grow', 'TODO' );
+            createCultivation(cultivation);
             //this.path = data.uri;
             console.log(this.state.data.uri);
             console.log(this.state);
@@ -83,30 +88,42 @@ class CameraComponent extends PureComponent {
 
 const styles = StyleSheet.create({
     container: {
-        flex: 1,
+        flex:1,
         width:'100%',
-        flexDirection: 'column',
-        backgroundColor: 'red',
+        height: '100%',
+        backgroundColor: '#000',
+    },
+    preview_container: {
+        flex:1,
+        width:'100%',
+        height: '50%',
+        backgroundColor: 'black',
     },
     preview: {
-        flex: 1,
+        height: '10%',
         justifyContent: 'flex-end',
         alignItems: 'center',
     },
-    capture: {
-        flex: 0,
-        backgroundColor: '#fff',
-        borderRadius: 5,
+    buttons_container: {
+        flexDirection:'row',
+        justifyContent: 'space-around',
+        alignItems: 'center',
+    },
+    button_camera: {
+        backgroundColor: 'green',
         padding: 15,
+        width:'50%',
         paddingHorizontal: 20,
         alignSelf: 'center',
-        margin: 20,
+        alignItems: 'center',
+        margin: 4,
     },
     preview_image: {
         flex:1,
-        width: '100%',
-        height: 160,
+        width:'90%',
+        margin: 10,
         borderRadius: 5,
+        alignSelf: 'center',
     },
 });
 export  default CameraComponent;

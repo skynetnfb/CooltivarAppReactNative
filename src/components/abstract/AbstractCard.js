@@ -6,7 +6,9 @@ import {STYLE} from '../../styles/styles';
 class AbstractCardComponent extends CultivationCardComponent {
     constructor(props){
         super(props);
+        console.log('AbstractCard Props ------------------------ props:', this.props);
         console.log('FieldCard props:', this.props, props);
+
         //costruttore chiamato prima che venga renderizzato il component
     }
 

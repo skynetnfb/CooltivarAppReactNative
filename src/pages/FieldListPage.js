@@ -19,6 +19,7 @@ import {FIND_CULTIVATION_ACTION_REQ} from '../redux/action/dispatchers/cultivati
 import {getAllCultivations} from '../model/Repository';
 import Field from '../model/Field';
 import {FieldSelector} from '../redux/selector/field';
+import Icon from 'react-native-vector-icons/Ionicons';
 class  FieldListPage extends React.Component{
     componentDidMount(): void {
         this.props.find_fields();
@@ -36,14 +37,7 @@ class  FieldListPage extends React.Component{
         const {children} = this.props;
         const navigation = this.props.navigation;
         return (
-            <View
-                style={[{
-                    flex: 1,
-                    justifyContent: "center",
-                    alignItems: "center",
-                    backgroundColor: 'white',
-                }]}
-            >
+            <View style={styles.container}>
 
                 <TouchableOpacity  onPress={this.addMockFields} style={[styles.card]}>
                     <Text>fields: {this.props.fields.length}</Text>
@@ -67,6 +61,15 @@ class  FieldListPage extends React.Component{
                 onEndReachedThreshold={0.2}
                 showsVerticalScrollIndicator={false}
             />
+                <TouchableOpacity
+                    style={styles.footer}
+                    onPress={()=>this.props.navigation.navigate('field-form')}>
+                    <Icon
+                        name="md-add-circle-sharp"
+                        size={40}
+                        color="#FFF"
+                    />
+                </TouchableOpacity>
             </View>
         );
     }
@@ -74,8 +77,24 @@ class  FieldListPage extends React.Component{
 
 const styles = StyleSheet.create({
     flat_list: {
-        width: '100%',
+        height: '100%',
+        width: '100%', // maybe useless
     },
+    container: {
+        justifyContent: "center",
+        alignItems: "center",
+        height: '100%',
+        width: '100%', // maybe useless
+    },
+    footer: {
+        backgroundColor: 'green',
+        padding: 10,
+        flexDirection: 'row',
+        justifyContent: 'space-around',
+        borderWidth: StyleSheet.hairlineWidth,
+        borderColor: '#aaa',
+        width: '100%', // maybe useless
+    }
 });
 
 const mapStateToProps = (state) => {
