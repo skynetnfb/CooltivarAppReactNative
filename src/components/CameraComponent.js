@@ -101,7 +101,7 @@ class CameraComponent extends PureComponent {
         }
     };
     savePicture = async () => {
-      //salva su disco
+
     };
 
     renderImage() {
