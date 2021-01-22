@@ -47,6 +47,7 @@ class  CultivationListPage extends React.Component{
 
 const styles = StyleSheet.create({
     flat_list: {
+        height: '100%',
         width: '100%', // maybe useless
     },
         container: {

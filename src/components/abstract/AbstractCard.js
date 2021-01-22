@@ -1,27 +1,27 @@
 import React from 'react';
 import CultivationCardComponent from '../CultivationCardComponent';
 import {Image, SafeAreaView, StatusBar, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import {STYLE} from '../../styles/styles';
 
 class AbstractCardComponent extends CultivationCardComponent {
     constructor(props){
         super(props);
         console.log('FieldCard props:', this.props, props);
         //costruttore chiamato prima che venga renderizzato il component
-        this.goToDetail = function() {
-            this.props.navigation.navigate(this.props.navigate_to, props);
-        }.bind(this);
     }
+
+    goToDetail = function() {
+        this.props.navigation.navigate(this.props.navigate_to, props);
+    }.bind(this);
 
     render() {
         return (
-    <View>
+        <View style={[styles.container, this.props.style]}>
                 <StatusBar barStyle="light-content" backgroundColor="#009387" />
-                <TouchableOpacity onPress={this.goToDetail}>
-                    <View style={styles.card}>
+                <TouchableOpacity onPress={this.goToDetail} style={[styles.card]}>
                         <Image
                             style={styles.card_image}
-                            source={this.props.image || this.props.imageph}
-                        />
+                            source={this.props.image || this.props.imageph}  />
                         <View style={styles.card_text_container}>
                             <Text numberOfLines={1} style={styles.card_title}>
                                 {this.props.title}
@@ -33,7 +33,6 @@ class AbstractCardComponent extends CultivationCardComponent {
                                 {this.props.body}
                             </Text>
                         </View>
-                    </View>
                 </TouchableOpacity>
             </View>
 
@@ -60,21 +59,19 @@ class AbstractCardComponent extends CultivationCardComponent {
 const styles = StyleSheet.create({
     container: {
         backgroundColor: '#fff',
-        height: '100%',
     },
-    //TODO flat list
-    flat_list: {
-        height: '100%',
-        width: '100%', // maybe useless
-    },
+
+    /*
     card_container: {
         backgroundColor: '#aaa',
         flex:1,
         padding: 4,
         margin: 4,
         borderRadius: 10,
-    },
+    },*/
     card: {
+        overflow: 'hidden',
+        maxWidth: '100%',
         backgroundColor: '#fff',
         padding: 10,
         borderRadius: 10,
@@ -83,16 +80,17 @@ const styles = StyleSheet.create({
         borderColor: '#aaa',
         margin: 8,
         height: 170,
-        width: '100%', // maybe useless
     },
     card_image: {
-        width: '30%',
+        flexBasis:0,
+        flexGrow: 1,
         height: '100%',
         borderRadius: 5,
     },
     card_text_container: {
-        backgroundColor: '#ddd',
-        width: '70%',
+        /*backgroundColor: '#ddd',*/
+        flexBasis: 0,
+        flexGrow: 2,
         padding: 3,
         margin: 4,
     },

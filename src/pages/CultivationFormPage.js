@@ -12,8 +12,16 @@ import {
 } from 'react-native';
 import CameraComponent from "../components/CameraComponent";
 import Cultivation from '../model/Cultivation';
-import {createCultivation} from '../model/Repository';
 import {DatePickerComponent} from '../components/DatePickerComponent';
+import {
+    createCultivation,
+    createField,
+    getAllCultivActions,
+    getAllCultivations,
+    getAllFields, getFieldById,
+} from '../model/Repository';
+import Field from '../model/Field';
+//import FirebaseAuth from '../utils/FirebaseAuth';
 
 
 class CultivationFormPage extends Component {

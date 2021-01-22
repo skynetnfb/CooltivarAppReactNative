@@ -8,6 +8,7 @@ let realm = new Realm({ path: 'db.realm', schema: [Cultivation.schema,CultivActi
 
 //------------------------------------------Cultivation START----------------------------------------------------------//
 
+
 export const createCultivation = (cultivation: Cultivation) => {
     if (!cultivation) {
         throw 'Empty cultivation cant be saved'
@@ -199,14 +200,12 @@ const checkIfCultivActionExists = (id: number) => {
 
 
 export const createField = (field: Field) => {
-    if (!field) {
-        throw 'Empty cultivAction cant be saved'
-    }
+    if (!field) { throw 'Empty field cant be saved'; }
         //check if Field already existed?
-        while (checkIfFieldExists(field.id)!=null)
+        /*while (checkIfFieldExists(field.id))
         {
-           field = new Field(field.name, field.description)
-        }
+           // field = new Field(field.name, field.description)
+        }*/
     try {
         realm.write(() => {
             realm.create('Field', field.getRealmObject());
@@ -280,9 +279,39 @@ export const deleteField = (field: Field) => {
 };
 
 const checkIfFieldExists = (id: string) => {
+    return false;
     let field = getFieldById(id);
     return field != null;
 };
 
 
-//------------------------------------------FIELD END------------------------------------------------------------------//
+//------------------------------------------- FIELD END --------------------------------------------------------------//
+
+
+//----------------------------------------- EXPORT BUNDLES -----------------------------------------------------------//
+export const CultivationDB = {
+    insert: createCultivAction,
+    update: updateCultivation,
+    delete: deleteCultivation,
+    findAll: getAllCultivations,
+    find: getCultivationById,
+    check: checkIfCultivationExists
+};
+export const CultivActionDB = {
+    insert: createCultivAction,
+    update: updateCultivAction,
+    delete: deleteCultivAction,
+    findAll: getAllCultivActions,
+    find: getCultivActionById,
+    check: checkIfCultivActionExists
+};
+export const FieldDB = {
+    insert: createField,
+    update: updateField,
+    delete: deleteField,
+    findAll: getAllFields,
+    find: getFieldById,
+    check: checkIfFieldExists,
+};
+
+//----------------------------------------- EXPORT BUNDLES END -------------------------------------------------------//

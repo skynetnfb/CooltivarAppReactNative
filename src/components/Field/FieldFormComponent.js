@@ -10,6 +10,7 @@ import MapComponent from '../common/MapComponent';
 import EditButton from '../common/EditButton';
 import ValidationFailMessage from '../common/ValidationFailMessage';
 import ValidationComponent2 from './ValidationComponent2';
+import {INSERT_FIELD_ACTION_REQ, UPDATE_FIELD_ACTION_REQ} from '../../redux/action/dispatchers/field';
 
 class FieldFormComponent extends ValidationComponent2{
     constructor(props) {
@@ -20,12 +21,22 @@ class FieldFormComponent extends ValidationComponent2{
         // const routeParams2 = route2.params;
         this.params = routeParams1;
 
-        const field = {
+        let field = this.props.field; /*{
             name: "FieldName",
             city: "Agrigento",
             description: "desc dec des c sdgnsmdgms  oiasj pai ikwn lo asln ason q",
             coordinate: "11", // stringa unaria, così posso validarla con i validatori lunghezza per stringa.
-        }
+        }*/
+
+        field.coordinate = "1111";
+
+        // field.description = "desc dec des c sdgnsmdgms  oiasj pai ikwn lo asln ason q";
+        /*field = {
+            name: "FieldName",
+            city: "Agrigento",
+            description: "desc dec des c sdgnsmdgms  oiasj pai ikwn lo asln ason q",
+            coordinate: "11", // stringa unaria, così posso validarla con i validatori lunghezza per stringa.
+        }*/
 
         const validationRules = {
             name: {minlength:3, maxlength:20, required: true, initialValue: field.name, errors:[]},
@@ -40,17 +51,29 @@ class FieldFormComponent extends ValidationComponent2{
         console.log('submitClicked()');
         this.doValidation();
         if (!this.isFormValid()) return;
+
+        this.props.insert_field(this.getUpdatedFieldData());
         const data = {};
-        this.props.navigation.back(); // navigate('field', data);
+        // this.props.navigation.back(); // navigate('field', data);
     }
+
+    getField() { return this.props.field; }
+
+    getUpdatedFieldData() {
+        const field = this.getField();
+        field.name = this.state.name;
+        field.city = this.state.city;
+        field.description = this.state.description;
+        field.coordinate = this.state.coordinate;
+        return field; }
 
     render() {
         const param = this.params;
-        const field = {};
+        const field = this.getField();
         return (
         <SafeAreaView style={[]}>
             <View style={[STYLE.title_background, styles.title_background]}>
-                <Text style={[STYLE.title_text]}>{"Field create"}</Text>
+                <Text style={[STYLE.title_text]}>{"Field create" + ", count:" + this.props.fields.length}</Text>
             </View>
 
             <View style={[STYLE.rowContainer, STYLE.fill, styles.root]}>
@@ -110,6 +133,7 @@ const styles = StyleSheet.create({
         overflow: 'hidden',
     },
     map: {
+        width: '100%',
         minHeight: 170,
         flexBasis: 0,
         // height: 300,
@@ -152,15 +176,35 @@ const styles = StyleSheet.create({
 
 });
 
-const mapStateToProps = (state) => ({
-    field: {
-        id: state.content.id,
-        name: state.content.name,
-        city: state.content.city,
-        coordinate: state.content.coordinate,
-        description: state.content.description,
+const mapStateToProps = (state) => {
+    let stateret = {};
+    // noinspection TypeScriptValidateTypes
+    stateret = {
+        fields: state.fields,
+        field: state.fields && (state.fields)[0],
+        /*field: {
+            id: state.content.id,
+            name: state.content.name,
+            city: state.content.city,
+            coordinate: state.content.coordinate,
+            description: state.content.description,
+        }*/
     }
-});
+
+    // DAM: importante!
+    stateret = JSON.parse(JSON.stringify(stateret)); // per assicurarmi di non modificare lo stato originale
+    return stateret;
+
+};
+
+const mapDispatchToProps = (dispatch) => {
+    return {
+        insert_field: INSERT_FIELD_ACTION_REQ(dispatch),
+        update_field: UPDATE_FIELD_ACTION_REQ(dispatch),
+        // (field) => dispatch({type: "INSERT_FIELD", field: field}),
+    };
+}
 
 // export default connect(mapStateToProps, FieldFormComponent);
-export default FieldFormComponent;
+export default connect(mapStateToProps, mapDispatchToProps)(FieldFormComponent);
+//export default FieldFormComponent;
