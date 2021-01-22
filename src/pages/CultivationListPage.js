@@ -7,15 +7,16 @@ import {
 import AbstractCardComponent from "../components/abstract/AbstractCard";
 import {getAllCultivations} from '../model/Repository';
 import Icon from 'react-native-vector-icons/Ionicons';
+import {STYLE} from '../styles/styles';
 class  CultivationListPage extends React.Component{
 
     render() {
         const navigation = this.props.navigation;
         return (
-            <View style={styles.container}>
+            <View style={[styles.container]}>
                 <FlatList
                     data={getAllCultivations()}
-                    style={styles.flat_list}
+                    style={[styles.flat_list]}
                     renderItem={({item}) => (
                 <AbstractCardComponent
                     navigation={navigation}
@@ -32,8 +33,8 @@ class  CultivationListPage extends React.Component{
                 showsVerticalScrollIndicator={false}
                 />
                 <TouchableOpacity
-                    style={styles.footer}
-                    onPress={()=>this.props.navigation.navigate('camera')}>
+                    style={[STYLE.footer]}
+                    onPress={()=>this.props.navigation.navigate('cultivation_form')}>
                     <Icon
                         name="md-add-circle-sharp"
                         size={40}
@@ -50,21 +51,11 @@ const styles = StyleSheet.create({
         height: '100%',
         width: '100%', // maybe useless
     },
-        container: {
-            justifyContent: "center",
-            alignItems: "center",
-            height: '100%',
-            width: '100%', // maybe useless
-        },
-        footer: {
-            backgroundColor: 'green',
-            padding: 10,
-            flexDirection: 'row',
-            justifyContent: 'space-around',
-            borderWidth: StyleSheet.hairlineWidth,
-            borderColor: '#aaa',
-            width: '100%', // maybe useless
-        }
+    container: {
+        justifyContent: "center",
+        alignItems: "center",
+        height: '100%',
+    },
 });
 //<CultivationCardComponent children={"Valore Card Passato da Cultivation List PAGE"} cultivations={cultivations} navigation={navigation} ></CultivationCardComponent>
 export default CultivationListPage;

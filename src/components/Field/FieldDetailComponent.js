@@ -18,7 +18,7 @@ class FieldDetailComponent extends Component{
     editClicked() {
         console.log('editClicked');
         const props = this.params;
-        this.props.navigation.navigate('field-form', props);
+        this.props.navigation.navigate('field_form', props);
     }
 
     render() {
