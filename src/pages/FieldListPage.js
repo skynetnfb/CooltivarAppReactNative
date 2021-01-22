@@ -19,6 +19,7 @@ import {FIND_CULTIVATION_ACTION_REQ} from '../redux/action/dispatchers/cultivati
 import {getAllCultivations} from '../model/Repository';
 import Field from '../model/Field';
 import {FieldSelector} from '../redux/selector/field';
+import Icon from 'react-native-vector-icons/Ionicons';
 class  FieldListPage extends React.Component{
     componentDidMount(): void {
         this.props.find_fields();
@@ -66,7 +67,16 @@ class  FieldListPage extends React.Component{
                 keyExtractor={item => "" + item.id}
                 onEndReachedThreshold={0.2}
                 showsVerticalScrollIndicator={false}
-            />
+                />
+                <TouchableOpacity
+                    style={[STYLE.footer]}
+                    onPress={()=>this.props.navigation.navigate('cultivation_form')}>
+                    <Icon
+                        name="md-add-circle-sharp"
+                        size={40}
+                        color="#FFF"
+                    />
+                </TouchableOpacity>
             </View>
         );
     }

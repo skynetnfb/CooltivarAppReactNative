@@ -34,6 +34,15 @@ const STYLE = StyleSheet.create({
         marginStart: 'auto',
         marginEnd: 'auto'
     },
+    footer: {
+        backgroundColor: MAIN_COLOR,
+        padding: 10,
+        flexDirection: 'row',
+        justifyContent: 'space-around',
+        borderTopWidth: StyleSheet.hairlineWidth,
+        borderColor: '#aaa',
+        width: '100%',
+    },
     card: {
         backgroundColor: '#fff',
         padding: 10,
