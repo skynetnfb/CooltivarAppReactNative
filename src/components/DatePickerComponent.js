@@ -25,7 +25,7 @@ export const DatePickerComponent = (props) => {
 
 
     return (
-        <View>
+        <View style={props.style}>
             <View style={styles.date_container}>
                 <Button color="green" onPress={showDatepicker} title={date.toDateString()||"Select Date"} />
             </View>
@@ -50,7 +50,6 @@ const styles = StyleSheet.create({
         width: '100%',
         padding: 2,
         borderRadius: 8,
-        marginBottom: 8,
     },
     button_container: {
         paddingVertical: 2,

@@ -21,6 +21,7 @@ import {
     getAllFields, getFieldById,
 } from '../model/Repository';
 import Field from '../model/Field';
+import {STYLE} from '../styles/styles';
 //import FirebaseAuth from '../utils/FirebaseAuth';
 
 
@@ -190,10 +191,10 @@ class CultivationFormPage extends Component {
                         </Picker>
                     </View>
 
-                    <View style = {styles.date_picker_container}>
-                        <Text>From</Text>
+                    <View style = {[STYLE.columnContainer, {width: '100%'}]}>
+                        <Text style={[STYLE.center]}>From</Text>
                         <DatePickerComponent ref='startDateDP' result = {this.resultStartDatePicker}/>
-                        <Text>to</Text>
+                        <Text style={[STYLE.center]}>to</Text>
                         <DatePickerComponent ref='startDateDP' result = {this.resultEndDatePicker}/>
                     </View>
 

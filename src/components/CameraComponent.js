@@ -1,6 +1,6 @@
 'use strict';
 import React, { PureComponent } from 'react';
-import { AppRegistry, StyleSheet, Text, TouchableOpacity, View,Image} from 'react-native';
+import { AppRegistry, StyleSheet, Text, TouchableOpacity, View,Image,PermissionsAndroid} from 'react-native';
 import { RNCamera } from 'react-native-camera';
 import Cultivation from '../model/Cultivation';
 import {createCultivation} from '../model/Repository';
@@ -14,6 +14,29 @@ class CameraComponent extends PureComponent {
             path: '',
             data:'',
         };
+
+        this.requestStoragePermission = async () => {
+            try {
+                const granted = await PermissionsAndroid.request(
+                    PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE,
+                    {
+                        title: "Cool Photo App Storage Permission",
+                        message:"Storage Permission ",
+                        buttonNeutral: "Ask Me Later",
+                        buttonNegative: "Cancel",
+                        buttonPositive: "OK"
+                    }
+                );
+                if (granted === PermissionsAndroid.RESULTS.GRANTED) {
+                    console.log("You can use the camera");
+                } else {
+                    console.log("Camera permission denied");
+                }
+            } catch (err) {
+                console.warn(err);
+            }
+        };
+
     }
 
     render() {
@@ -54,7 +77,7 @@ class CameraComponent extends PureComponent {
                     <TouchableOpacity onPress={this.takePicture.bind(this)} style={styles.button_camera}>
                         <Text style={{ fontSize: 14}}> SNAP </Text>
                     </TouchableOpacity>
-                    <TouchableOpacity onPress={this.takePicture.bind(this)} style={styles.button_camera}>
+                    <TouchableOpacity onPress={this.savePicture.bind()} style={styles.button_camera}>
                         <Text style={{ fontSize: 14}}> SAVE </Text>
                     </TouchableOpacity>
                     </View>
@@ -69,13 +92,18 @@ class CameraComponent extends PureComponent {
             this.state.data = await this.camera.takePictureAsync(options);
             console.log('----------------------TIPO',this.state.data);
             this.setState({ path: this.state.data.uri });
-            let cultivation = new Cultivation('this.state.name', 'this.state.cultivar', 'this.state.description', 1,new Date(),new Date(),999,'Grow', 'TODO' );
-            createCultivation(cultivation);
+            //let cultivation = new Cultivation('this.state.name', 'this.state.cultivar', 'this.state.description', 1,new Date(),new Date(),999,'Grow', 'TODO' );
+            //createCultivation(cultivation);
             //this.path = data.uri;
             console.log(this.state.data.uri);
             console.log(this.state);
+            this.requestStoragePermission();
         }
     };
+    savePicture = async () => {
+      //salva su disco
+    };
+
     renderImage() {
         return (
             <Image
