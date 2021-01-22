@@ -49,19 +49,19 @@ class  FieldListPage extends React.Component{
                     <Text>fields: {this.props.fields.length}</Text>
                 </TouchableOpacity>
                 <FlatList
-                data={this.props.fields}
-                style={styles.flat_list}
-                renderItem={({item}) => (
-                    <AbstractCardComponent
-                        style={[]}
-                        navigation={navigation}
-                        navigate_to={"field"}
-                        image={item.image}
-                        imageph={require('../../imgs/no_content.png')}
-                        title={item.name}
-                        subtitle={item.city}
-                        body={item.description}
-                    />
+                    data={this.props.fields}
+                    style={styles.flat_list}
+                    renderItem={({item}) => (
+                        <AbstractCardComponent
+                            style={[]}
+                            navigation={navigation}
+                            navigate_to={"field"}
+                            image={item.image}
+                            imageph={require('../../imgs/no_content.png')}
+                            title={item.name}
+                            subtitle={item.city}
+                            body={item.description}
+                        />
                 )}
                 keyExtractor={item => "" + item.id}
                 onEndReachedThreshold={0.2}
