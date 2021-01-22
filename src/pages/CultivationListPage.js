@@ -68,7 +68,7 @@ class  CultivationListPage extends React.Component{
 const styles = StyleSheet.create({
     flat_list: {
         height: '100%',
-        width: '100%', // maybe useless
+        width: '100%',
     },
 });
 //<CultivationCardComponent children={"Valore Card Passato da Cultivation List PAGE"} cultivations={cultivations} navigation={navigation} ></CultivationCardComponent>

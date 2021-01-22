@@ -10,12 +10,7 @@ import MapComponent from '../common/MapComponent';
 import EditButton from '../common/EditButton';
 import ValidationFailMessage from '../common/ValidationFailMessage';
 import ValidationComponent2 from './ValidationComponent2';
-import {
-    INSERT_FIELD,
-    INSERT_FIELD_ACTION,
-    UPDATE_FIELD,
-    UPDATE_FIELD_ACTION,
-} from '../../redux/action/dispatchers/field';
+import {INSERT_FIELD_ACTION_REQ, UPDATE_FIELD_ACTION_REQ} from '../../redux/action/dispatchers/field';
 
 class FieldFormComponent extends ValidationComponent2{
     constructor(props) {
@@ -185,7 +180,6 @@ const mapStateToProps = (state) => {
     let stateret = {};
     // noinspection TypeScriptValidateTypes
     stateret = {
-        counter: state.counter,
         fields: state.fields,
         field: state.fields && (state.fields)[0],
         /*field: {
@@ -205,8 +199,8 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        insert_field: INSERT_FIELD_ACTION(dispatch),
-        update_field: UPDATE_FIELD_ACTION(dispatch),
+        insert_field: INSERT_FIELD_ACTION_REQ(dispatch),
+        update_field: UPDATE_FIELD_ACTION_REQ(dispatch),
         // (field) => dispatch({type: "INSERT_FIELD", field: field}),
     };
 }

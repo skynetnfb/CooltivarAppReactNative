@@ -1,5 +1,9 @@
 import {initialState} from '../store/store';
-import {E_INSERT_FIELD, E_DELETE_FIELD, E_UPDATE_FIELD} from '../action/enum/field';
+import { FieldEnum } from '../action/enum/field';
+
+import {CultivActionDB, CultivationDB, FieldDB} from '../../model/Repository';
+import {FieldSelector} from '../selector/field';
+
 
 const reducer = (state = initialState, action) => {
     if (!action) return state;
@@ -11,17 +15,46 @@ const reducer = (state = initialState, action) => {
     }
 
     console.log("REDUCER EXECUTING ACTION: " + (action.type), action);
+    let response, index;
     switch (action.type) {
         default:
             console.error("invalid reducer action:", action.type, action);
             break;
         case "@@redux/INIT": return state;
-        case E_INSERT_FIELD:
-            if (!newState.fields) newState.fields = [];
-            newState.fields.push(action.field);
+        case FieldEnum.FIND_REQ:
+            // query | id | none of those (findall)
+            if (action.id) {
+                response = FieldDB.find(+action.id);
+                if (!response) return;
+                index = FieldSelector.queryIndex(newState)( (f) => (f.id === action.id) );
+                if (index >= 0) newState.fields[index] = response;
+                else newState.fields.push(response);
+                break;
+                // newState.findResponses[action.key] = response;
+                // per recuperarlo usa un selector
+            }
+            if (action.query) {
+                response = FieldDB.query(action.query);
+                if (!response) break;
+                if (!Array.isArray(response)) response = [response];
+                for (let item of response) {
+                    index = FieldSelector.queryIndex(newState)( (f) => (f.id === item.id) );
+                    if (index >= 0) newState.fields[index] = item;
+                    else newState.fields.push(item);
+                }
+                break;
+            }
+            response = FieldDB.findAll() || [];
+            newState.fields = response;
             break;
-        case E_INSERT_FIELD:
+        case FieldEnum.FIND_SUCCESS:
+        case FieldEnum.FIND_FAIL:
+        // NB: adesso l'accesso al db è sincrono, se diventa asincrono nella _REQ si dovrebbe fare una cosa tipo:
+        // .then( dispatch({ type: E_FIND_FIELD_SUCCESS, ...})).catch( dispatch({ type: E_FIND_FIELD_FAIL, ...});
+            break;
+        case FieldEnum.INSERT_REQ:
             if (!newState.fields) newState.fields = [];
+            FieldDB.insert(action.field);
             newState.fields.push(action.field);
             break;
     }

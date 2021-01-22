@@ -8,10 +8,11 @@ class AbstractCardComponent extends CultivationCardComponent {
         super(props);
         console.log('FieldCard props:', this.props, props);
         //costruttore chiamato prima che venga renderizzato il component
-        this.goToDetail = function() {
-            this.props.navigation.navigate(this.props.navigate_to, props);
-        }.bind(this);
     }
+
+    goToDetail = function() {
+        this.props.navigation.navigate(this.props.navigate_to, props);
+    }.bind(this);
 
     render() {
         return (
@@ -58,13 +59,8 @@ class AbstractCardComponent extends CultivationCardComponent {
 const styles = StyleSheet.create({
     container: {
         backgroundColor: '#fff',
-        width: '100%',
     },
-    //TODO flat list
-    flat_list: {
-        height: '100%',
-        width: '100%', // maybe useless
-    },
+
     /*
     card_container: {
         backgroundColor: '#aaa',
@@ -74,6 +70,7 @@ const styles = StyleSheet.create({
         borderRadius: 10,
     },*/
     card: {
+        overflow: 'hidden',
         maxWidth: '100%',
         backgroundColor: '#fff',
         padding: 10,
@@ -85,13 +82,15 @@ const styles = StyleSheet.create({
         height: 170,
     },
     card_image: {
-        width: '30%',
+        flexBasis:0,
+        flexGrow: 1,
         height: '100%',
         borderRadius: 5,
     },
     card_text_container: {
-        backgroundColor: '#ddd',
-        width: '70%',
+        /*backgroundColor: '#ddd',*/
+        flexBasis: 0,
+        flexGrow: 2,
         padding: 3,
         margin: 4,
     },
