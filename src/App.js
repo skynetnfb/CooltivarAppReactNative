@@ -34,29 +34,10 @@ class  App extends React.Component{
     }*/
 
     render() {
-        let timestamp = new Date().getTime();
-        const info = this.state.realm
-            ? 'Number of dogs in this Realm: ' + this.state.realm.objects('Dog')
-            : 'Loading...';
-        //console.log('###############this.state.realm.objects',this.state.realm.objects('Dog'));
         return (
-
-               <SafeAreaView style={{
-                   flex: 1
-               }}>
-                   <Text>{info}</Text>
+               <SafeAreaView style={{flex: 1}}>
                     <RootNavigator/>
                </SafeAreaView>
-
-            //<TitleComponent title = {"Titolo Login da App.js"}/>
-            //                    <CultivationListComponent children = {"Children di Cultivation List"} />
-                    //altre componment
-               //<CultivationFormPage/>
-            //<LoginComponent/>
-            //<CultivationDetailComponent children = {"Children di Cultivation Detail solo per test"} />
-            //<CultivationListComponent children = {"Children di Cultivation List"} />
-                    // nomeComponent Parametri Props
-                //</View>
         );
     }
 }

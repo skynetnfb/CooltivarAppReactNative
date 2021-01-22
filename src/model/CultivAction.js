@@ -7,6 +7,7 @@ export default class CultivAction {
     endDate: 'date';
     status:'string';
     type:'string';
+    cultivation_id:'string';
 
     constructor( description,startDate,endDate, status, type,cultivation_id) {
         this.id = new Date().getTime().toString();

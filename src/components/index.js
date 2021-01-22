@@ -1,4 +1,3 @@
-export CultivationListComponent from './CultivationListComponent';
 export CultivationCardComponent from './CultivationCardComponent';
 export LoginComponent from './LoginComponent';
 export TitleComponent from './TitleComponent';
