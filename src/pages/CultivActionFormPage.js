@@ -119,7 +119,7 @@ class CultivActionFormPage extends Component {
     render() {
         return (
             <SafeAreaView style = {{flex: 1}}>
-                <ScrollView style = {styles.scrollView}>
+                <ScrollView style = {styles.scrollView} showsVerticalScrollIndicator ={false}>
                     <View style = {styles.form_container}>
                         <View style = {styles.input_text_container}>
                             <TextInput

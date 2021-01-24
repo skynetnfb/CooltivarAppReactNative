@@ -55,6 +55,7 @@ class  FieldListPage extends React.Component{
                             title={item.name}
                             subtitle={item.city}
                             body={item.description}
+                            item = {item}
                         />
                 )}
                 keyExtractor={item => "" + item.id}
@@ -110,7 +111,7 @@ const mapStateToProps = (state) => {
             coordinate: state.content.coordinate,
             description: state.content.description,
         }*/
-    }
+    };
 
     // DAM: importante! impedirebbe di modificare lo stato originale per errore (pattern violation)
     // ma se cambio le reference degli oggetti nested nelle props react li considera diversi e non ottimizza.
@@ -126,7 +127,7 @@ const mapDispatchToProps = (dispatch) => {
         // find_cultivations: FIND_CULTIVATION_ACTION_REQ
         // (field) => dispatch({type: "INSERT_FIELD", field: field}),
     };
-}
+};
 
 
 export default connect(mapStateToProps, mapDispatchToProps)(FieldListPage);

@@ -4,6 +4,14 @@ import { AppRegistry, StyleSheet, Text, TouchableOpacity, View,Image,Permissions
 import { RNCamera } from 'react-native-camera';
 import Cultivation from '../model/Cultivation';
 import {createCultivation} from '../model/Repository';
+var RNFS = require('react-native-fs');
+import RNFetchBlob from 'react-native-fetch-blob'
+import {STYLE} from '../styles/styles';
+// create a path you want to write to
+// :warning: on iOS, you cannot write into `RNFS.MainBundlePath`,
+// but `RNFS.DocumentDirectoryPath` exists on both platforms and is writable
+//var PATH = RNFS.DocumentDirectoryPath + '/cultivation_id.txt';
+var PATH = RNFetchBlob.fs.dirs.DocumentDir + '/cultivation_id4.jpg';
 
 
 
@@ -13,6 +21,7 @@ class CameraComponent extends PureComponent {
         this.state = {
             path: '',
             data:'',
+            cultivation:this.props.cultivation,
         };
 
         this.requestStoragePermission = async () => {
@@ -37,11 +46,31 @@ class CameraComponent extends PureComponent {
             }
         };
 
+        this.savePicture = function () {
+// write the file
+            RNFetchBlob.fs.writeFile(PATH, this.state.data.base64, 'base64')
+                .then(() => {
+                    console.log('FILE WRITTEN!');
+                    console.log('FILE WRITTEN!',PATH);
+                    this.setState({path:'file://'+PATH});
+                    console.log('CONSOLE LOG STATE PATH',this.state.path);
+                    console.log('CONSOLE LOG STATE DATA',this.state.data);
+                    if (true) {
+                        RNFetchBlob.android.actionViewIntent(this.state.path, 'application/pdf').then(r => {console.log('THEN')});
+                    } else {
+                        RNFetchBlob.ios.previewDocument(this.state.path);
+                    }
+                })
+                .catch((err) => {
+                    console.log(err.message);
+                });
+        }.bind(this);
+
     }
 
     render() {
         return (
-            <View style={styles.container}>
+            <View style={STYLE.container}>
                 <View style={styles.preview_container}>
                 <RNCamera
                     ref={ref => {
@@ -71,13 +100,13 @@ class CameraComponent extends PureComponent {
                 <View style={styles.preview_container}>
                     <Image
                         style={styles.preview_image}
-                        source={this.state.data}
+                        source={{uri: 'file:///data/user/0/com.cooltivarappreactnative/files/cultivation_id2.jpg'}}
                     />
                     <View style={styles.buttons_container}>
                     <TouchableOpacity onPress={this.takePicture.bind(this)} style={styles.button_camera}>
                         <Text style={{ fontSize: 14}}> SNAP </Text>
                     </TouchableOpacity>
-                    <TouchableOpacity onPress={this.savePicture.bind()} style={styles.button_camera}>
+                    <TouchableOpacity onPress={this.savePicture} style={styles.button_camera}>
                         <Text style={{ fontSize: 14}}> SAVE </Text>
                     </TouchableOpacity>
                     </View>
@@ -95,14 +124,15 @@ class CameraComponent extends PureComponent {
             //let cultivation = new Cultivation('this.state.name', 'this.state.cultivar', 'this.state.description', 1,new Date(),new Date(),999,'Grow', 'TODO' );
             //createCultivation(cultivation);
             //this.path = data.uri;
-            console.log(this.state.data.uri);
-            console.log(this.state);
+            console.log('PATH',this.state.data.uri);
             this.requestStoragePermission();
         }
     };
-    savePicture = async () => {
 
-    };
+    // require the module
+
+
+
 
     renderImage() {
         return (

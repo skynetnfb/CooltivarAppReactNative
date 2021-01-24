@@ -9,7 +9,9 @@ import {
     TouchableOpacity,
 } from 'react-native';
 import RootNavigator from "../navigator/RootNavigator";
-//import FirebaseAuth from '../utils/FirebaseAuth';
+import FirebaseAuth from '../utils/FirebaseAuth';
+import Icon from 'react-native-vector-icons/Ionicons';
+import {STYLE} from '../styles/styles';
 
 class LoginComponent extends Component {
     constructor(props) {
@@ -48,7 +50,6 @@ class LoginComponent extends Component {
         }.bind(this);
 
         this.login = function() {
-
             /*
             this.setState({loading: true});
             FirebaseAuth.signIn(this.state.email, this.state.password)
@@ -64,7 +65,7 @@ class LoginComponent extends Component {
                 //console.log("-----------------qui"+rootNavigator);
                 this.props.navigation.navigate('home',{
                     item: {
-                        login: true,
+                        login: false,
                     },});
         }.bind(this);
     }
@@ -72,6 +73,14 @@ class LoginComponent extends Component {
     render() {
         return (
             <SafeAreaView style={styles.main_container}>
+                <View style={styles.app_name_container}>
+                    <Icon
+                          name={'md-leaf-sharp'}
+                          size={60}
+                          color={'green'}
+                    />
+                    <Text style={styles.app_name}>Cooltivar App</Text>
+                </View>
                 <View style={styles.login_box}>
                     <View style={styles.login_email_container}>
                         <TextInput
@@ -120,13 +129,18 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
     },
+    app_name_container: {
+        alignItems: 'center',
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+    },
 
     login_box: {
-        backgroundColor: '#ccc',
+        backgroundColor: 'green',
         paddingHorizontal: 15,
         paddingVertical: 20,
         borderRadius: 5,
-        width: '100%',
+        width: '80%',
         alignItems: 'center',
         justifyContent: 'center',
         marginVertical: 10,
@@ -154,7 +168,7 @@ const styles = StyleSheet.create({
         padding: 10,
     },
     login_button: {
-        backgroundColor: '#000',
+        backgroundColor: 'green',
         paddingVertical: 8,
         paddingHorizontal: 20,
         borderRadius: 5,
@@ -163,6 +177,10 @@ const styles = StyleSheet.create({
     login_button_text: {
         fontSize: 20,
         color: '#fff',
+    },
+    app_name: {
+        fontSize: 32,
+        color: 'green',
     },
     login_button_ai: {
         marginLeft: 10,

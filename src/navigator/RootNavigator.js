@@ -14,6 +14,7 @@ import FieldCultivationHistoryComponent from '../components/Field/FieldCultivati
 import FieldForm from '../components/Field/FieldForm';
 import FieldFormComponent from '../components/Field/FieldFormComponent';
 import CameraComponent from '../components/CameraComponent';
+import CultivActionsThreatRemedyComponent from '../components/CultivActionsThreatRemedyComponent';
 
 const RootStackNavigator = createStackNavigator();
 const MaterialTopTabNavigator = createMaterialTopTabNavigator();
@@ -27,7 +28,7 @@ export default class RootNavigator extends Component {
 
     render(){
 
-        let logged = true;
+        let logged = false;
         //if(this.login)logged =this.login;
 
         const createHomeTabNavigation = () =>(
@@ -86,7 +87,7 @@ export default class RootNavigator extends Component {
                     />
                     <MaterialTopTabNavigator.Screen
                         name="Remedy"
-                        component={CultivActionsHistoryComponent}
+                        component={CultivActionsThreatRemedyComponent}
                         options={{
                             tabBarLabel: 'Threat & Remedy',
                         }}

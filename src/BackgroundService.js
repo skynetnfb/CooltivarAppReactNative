@@ -4,10 +4,10 @@ import * as firebase from 'firebase';
 import {userLogin, userLogout} from './actions';
 
 const firebaseConfig = {
-    apiKey: '',
+    apiKey: 'AIzaSyC_F98EhQTmgzbbalgnYqQFpCgOXcgcnxs',
     authDomain: '',
     databaseURL: '',
-    projectId: '',
+    projectId: 'reactcooltivarapp',
     storageBucket: '',
     messagingSenderId: '',
     appId: '',

@@ -1,6 +1,8 @@
 import React from 'react';
 import {
-    FlatList, StyleSheet, TouchableOpacity,
+    FlatList,
+    StyleSheet,
+    TouchableOpacity,
     View,
 } from 'react-native';
 
@@ -8,15 +10,31 @@ import AbstractCardComponent from "../components/abstract/AbstractCard";
 import {getAllCultivations} from '../model/Repository';
 import Icon from 'react-native-vector-icons/Ionicons';
 import {STYLE} from '../styles/styles';
+import {FieldSelector} from '../redux/selector/field';
+import {FIND_FIELD_ACTION_REQ, INSERT_FIELD_ACTION_REQ} from '../redux/action/dispatchers/field';
+import {connect} from 'react-redux';
+import {FIND_CULTIVATION_ACTION_REQ, INSERT_CULTIVATION_ACTION_REQ} from '../redux/action/dispatchers/cultivation';
+import {CultivationSelector} from '../redux/selector/cultivation';
+
+
 class  CultivationListPage extends React.Component{
 
+constructor(props) {
+    super(props);
+}
+    componentDidMount(): void {
+        //this.setState({cultivations:getAllCultivations()});
+        this.props.find_cultivations();
+    }
+
     render() {
+
         const navigation = this.props.navigation;
         return (
             <View style={[styles.container]}>
                 <FlatList
-                    data={getAllCultivations()}
-                    style={[styles.flat_list]}
+                    data={this.props.cultivations}
+                    style={[STYLE.flat_list]}
                     renderItem={({item}) => (
                 <AbstractCardComponent
                     navigation={navigation}
@@ -26,6 +44,8 @@ class  CultivationListPage extends React.Component{
                     title={item.name}
                     subtitle={item.cultivar}
                     body={item.description}
+                    item = {item}
+                    item_id = {item.id}
                 />
                 )}
                 keyExtractor={item => item.id.toString()}
@@ -47,15 +67,29 @@ class  CultivationListPage extends React.Component{
 }
 
 const styles = StyleSheet.create({
-    flat_list: {
-        height: '100%',
-        width: '100%', // maybe useless
-    },
     container: {
         justifyContent: "center",
         alignItems: "center",
         height: '100%',
     },
 });
-//<CultivationCardComponent children={"Valore Card Passato da Cultivation List PAGE"} cultivations={cultivations} navigation={navigation} ></CultivationCardComponent>
-export default CultivationListPage;
+
+const mapStateToProps = (state) => {
+    let stateret;
+    stateret = {
+        cultivations: CultivationSelector.findAll(state)(),
+        selectors: CultivationSelector,
+    };
+    return stateret;
+};
+
+const mapDispatchToProps = (dispatch) => {
+    return {
+        find_cultivations: FIND_CULTIVATION_ACTION_REQ(dispatch),
+        insert_cultivation: INSERT_CULTIVATION_ACTION_REQ(dispatch),
+    };
+};
+
+
+export default connect(mapStateToProps, mapDispatchToProps)(CultivationListPage);
+

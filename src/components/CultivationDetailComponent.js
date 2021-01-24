@@ -1,13 +1,31 @@
 import React from 'react';
-import {Image, SafeAreaView, StatusBar, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import {Image, SafeAreaView, ScrollView, StatusBar, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import Cultivation from '../model/Cultivation';
+import {STYLE} from '../styles/styles';
+import Icon from 'react-native-vector-icons/Ionicons';
+import {FieldSelector} from '../redux/selector/field';
+import {FIND_FIELD_ACTION_REQ, INSERT_FIELD_ACTION_REQ} from '../redux/action/dispatchers/field';
+import {connect} from 'react-redux';
+import {CultivationSelector} from '../redux/selector/cultivation';
+import CultivationListPage from '../pages/CultivationListPage';
 
 
 class  CultivationDetailComponent extends React.Component{
     constructor(props){
         super(props);
         this.state={
-            cultivation: {},
+            cultivation: new Cultivation(
+                'Loading',
+                'Loading',
+                'Loading',
+                'Loading',
+                new Date().toDateString(),
+                new Date().toDateString(),
+                999,
+                'Loading',
+                null,
+            ),
+
         };
 
         this.goToForm = function() {
@@ -21,7 +39,19 @@ class  CultivationDetailComponent extends React.Component{
         }.bind(this);
     }
     componentDidMount(){
-        //viene chiamato quando si deve renderizzare
+        const route = this.props.route;
+        const routeParams1 = route.params;
+        const route2 = routeParams1.route;
+        const routeParams2 = route2.params;
+        console.log('------------cult detail ROUTEPARAM2:',routeParams2);
+        //const args = routeParams2.args.id;
+        console.log('--------------------------------- ID :',routeParams2.id);
+        //console.log('------------***********cult detail navigation ITEM:',routeParams2.item.name);
+        let temp = this.props.findSelector(routeParams2.id);
+        console.log('--------------------------------- Result Selector:'+temp);
+        //this.setState({cultivation:routeParams2.item});
+        this.setState({cultivation:this.props.findSelector(routeParams2.id)});
+        console.log('---------------------***********STATe Cultivation:',this.state.cultivation);
     }
     componentWillUnmount(): void {
         //viene chiamata prima di essere distrutto il component
@@ -30,51 +60,62 @@ class  CultivationDetailComponent extends React.Component{
     }
 
     render() {
-        const route = this.props.route;
-        const routeParams1 = route.params;
-        const route2 = routeParams1.route;
-        const routeParams2 = route2.params;
-        console.log('------------cult detail ROUTEPARAM2:',routeParams2);
-        console.log('------------cult detail navigation:',routeParams2);
         return (
-            <View style={styles.container}>
-                <StatusBar barStyle="light-content" backgroundColor="#009387" />
-                <TouchableOpacity onPress={this.openCamera}>
-                    <Image
-                        style={styles.preview_image}
-                        source={require('../../imgs/no_cultivation_preview.png')}
-                    />
-                </TouchableOpacity>
+            <View style={STYLE.container}>
+                <ScrollView style = {styles.scrollView} showsVerticalScrollIndicator ={false}>
+                    <TouchableOpacity onPress={this.openCamera}>
+                        <Image
+                            style={styles.preview_image}
+                            source={require('../../imgs/no_cultivation_preview.png')}
+                        />
+                    </TouchableOpacity>
 
-                <View style={styles.card}>
-                    <Image style={styles.icon_image}
-                        source={require('../../imgs/open_weather_02n_2x.png')}
-                    />
-                    <Image style={styles.icon_image}
-                        source={require('../../imgs/open_weather_09d_2x.png')}
-                    />
-                    <Image style={styles.icon_image}
-                        source={require('../../imgs/open_weather_13d_2x.png')}
-                    />
-                </View>
-                    <View style={styles.description}>
-                        <View style={styles.card_text_container}>
-                            <Text numberOfLines={1} style={styles.card_title}>
-                                "name"
+                    <View style={styles.weather_container}>
+                        <Image style={styles.icon_image}
+                               source={require('../../imgs/open_weather_02n_2x.png')}
+                        />
+                        <Image style={styles.icon_image}
+                               source={require('../../imgs/open_weather_09d_2x.png')}
+                        />
+                        <Image style={styles.icon_image}
+                               source={require('../../imgs/open_weather_13d_2x.png')}
+                        />
+                    </View>
+                    <View style={[styles.description]}>
+                        <View style={[styles.card_text_container]}>
+                            <View style={[STYLE.rowContainer,STYLE.columnContainer,STYLE.centerColumn,styles.card_title_container]}>
+                                <Text numberOfLines={1} style={styles.card_title}>
+                                    {this.state.cultivation.name||'Loading...'}
+                                </Text>
+                                <Text numberOfLines={1} style={styles.card_title}>
+                                    {this.state.cultivation.cultivar||'Loading...'}
+                                </Text>
+                            </View>
+                            <View style={[STYLE.rowContainer,STYLE.columnContainer,STYLE.centerColumn,styles.card_title_container,STYLE.separator_horizontal_bottom]}>
+                            <Text numberOfLines={1} style={styles.card_text}>
+                                {'From: '+new Date(this.state.cultivation.sowingDate).toDateString()||'Loading...'}
                             </Text>
                             <Text numberOfLines={1} style={styles.card_text}>
-                                "status"
+                                {'To: '+ new Date (this.state.cultivation.harvestDate).toDateString()||'Loading...'}
                             </Text>
-                            <Text numberOfLines={3} style={styles.card_text}>
-                                "description descriptionde scriptiond escripti ondescri ptiondescr iptiondescription"
+                            </View>
+                            <Text numberOfLines={1} style={styles.card_text}>
+                                {'Harvest Weight : '+this.state.cultivation.harvestWeight||'Loading...'}
+                            </Text>
+                            <Text numberOfLines={5} style={styles.card_text}>
+                                {'Description : '+this.state.cultivation.description||'Loading...'}
                             </Text>
                         </View>
                     </View>
-                    <TouchableOpacity style={styles.footer}
+                </ScrollView>
+                <TouchableOpacity
+                    style={[STYLE.footer]}
                     onPress={()=>this.props.navigation.navigate('cultivation_form',{ cultivation: this.state.cultivation })}>
-                            <Text>
-                                "button"
-                            </Text>
+                    <Icon
+                        name="settings-sharp"
+                        size={40}
+                        color="#FFF"
+                    />
                 </TouchableOpacity>
             </View>
         );
@@ -82,42 +123,34 @@ class  CultivationDetailComponent extends React.Component{
 }
 
 const styles = StyleSheet.create({
-    container: {
-        backgroundColor: '#fff',
-        height: '100%',
-        justifyContent: 'space-between'
-    },
+
     //TODO flat list
     flat_list: {
         height: '100%',
         width: '100%', // maybe useless
     },
-    card_container: {
-        backgroundColor: '#aaa',
+
+    weather_container: {
         flex:1,
-        padding: 4,
-        borderRadius: 10,
-    },
-    card: {
         backgroundColor: '#fff',
-        padding: 10,
-        borderRadius: 10,
+        padding: 4,
+        borderRadius: 8,
         flexDirection:'row',
         borderWidth: StyleSheet.hairlineWidth,
         borderColor: '#aaa',
-        width: '100%', // maybe useless
         alignSelf: 'stretch',
+        margin: 4,
     },
     description: {
         flex:1,
         backgroundColor: '#fff',
-        padding: 10,
-        borderRadius: 10,
+        padding: 8,
+        borderRadius: 8,
         flexDirection:'row',
         borderWidth: StyleSheet.hairlineWidth,
         borderColor: '#aaa',
-        width: '100%', // maybe useless
         alignSelf: 'stretch',
+        margin: 4,
     },
     footer: {
         backgroundColor: 'green',
@@ -129,24 +162,22 @@ const styles = StyleSheet.create({
     },
     preview_image: {
         width: '100%',
-        height: 160,
-        borderRadius: 5,
+        height:160,
     },
     icon_image: {
-        width: '33%',
-        borderRadius: 5,
+        height:60,
     },
     card_text_container: {
-        backgroundColor: '#ddd',
-        width: '70%',
-        padding: 3,
-        margin: 4,
+        width: '100%',
+    },
+    card_title_container: {
+        flexDirection:'row',
+        justifyContent: 'space-around',
     },
     card_text: {
         textAlign: 'left',
         color: '#000',
         fontSize: 15,
-        fontWeight: 'bold',
     },
     card_title: {
         textAlign: 'left',
@@ -169,4 +200,22 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
     },
 });
-export default CultivationDetailComponent;
+const mapStateToProps = (state) => {
+
+    let stateret;
+    stateret = {
+        findSelector: CultivationSelector.find(state),
+    };
+    console.log('---------------------***********STATe :',state);
+    console.log('---------------------***********SEL :',CultivationSelector);
+    return stateret;
+
+};
+
+const mapDispatchToProps = (dispatch) => {
+    return {
+    };
+};
+
+
+export default connect(mapStateToProps, mapDispatchToProps)(CultivationDetailComponent);

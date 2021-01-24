@@ -8,7 +8,7 @@ import {
     ActivityIndicator,
     TouchableOpacity,
     ScrollView,
-    Picker,
+    Picker, StatusBar,
 } from 'react-native';
 import CameraComponent from "../components/CameraComponent";
 import Cultivation from '../model/Cultivation';
@@ -131,7 +131,7 @@ class CultivationFormPage extends Component {
     render() {
         return (
             <SafeAreaView style={{flex: 1}}>
-                <ScrollView style={styles.scrollView}>
+                <ScrollView style={styles.scrollView} showsVerticalScrollIndicator ={false}>
                 <View style={styles.form_container}>
                     <View style={styles.input_text_container}>
                         <TextInput

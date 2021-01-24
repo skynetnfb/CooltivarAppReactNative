@@ -4,6 +4,14 @@ const MAIN_COLOR = '#66bb6a';
 const MUTED_COLOR = '#777777';
 
 const STYLE = StyleSheet.create({
+    container: {
+        width: '100%', // maybe useless
+        height: '100%',
+    },
+    flat_list: {
+        height: '100%',
+        width: '100%', // maybe useless
+    },
     debug: {
         borderWidth: 2,
         borderColor: 'red',
@@ -101,7 +109,13 @@ const STYLE = StyleSheet.create({
     fill:{
         flexGrow: 1,
         // flexBasis: 0,
-    }
+    },
+    separator_horizontal_bottom: {
+        paddingBottom: 4,
+        marginBottom: 4,
+        borderBottomWidth: 0.5,
+        borderColor: '#aaa',
+    },
 });
 
 export {STYLE, MAIN_COLOR, MUTED_COLOR};

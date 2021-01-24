@@ -7,11 +7,15 @@ class AbstractCardComponent extends CultivationCardComponent {
     constructor(props){
         super(props);
         console.log('AbstractCard Props ------------------------ props:', this.props);
-        console.log('FieldCard props:', this.props, props);
+        console.log('Abstract Card props:', this.props, props);
 
         //costruttore chiamato prima che venga renderizzato il component
         this.goToDetail = function() {
-            this.props.navigation.navigate(this.props.navigate_to, props);
+            const args = {
+              id:this.props.item_id,
+            };
+            //this.props.navigation.navigate(this.props.navigate_to, props);
+            this.props.navigation.navigate(this.props.navigate_to, args);
         }.bind(this);
     }
 

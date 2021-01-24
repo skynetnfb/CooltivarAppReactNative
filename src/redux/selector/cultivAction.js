@@ -1,5 +1,5 @@
 export const findAll = (state) => () => {
-    return state.cultivations;
+    return state.cultivActions;
 };
 
 export const find = (state) => (id) => {
@@ -7,14 +7,14 @@ export const find = (state) => (id) => {
 };
 
 export const query = (state) => (queryFunction) => {
-    return state.cultivations.find(queryFunction);
+    return state.cultivActions.find(queryFunction);
 };
 
 export const queryIndex = (state) => (queryFunction) => {
-    return state.cultivations.findIndex(queryFunction);
+    return state.cultivActions.findIndex(queryFunction);
 };
 
-export const CultivationSelector = {
+export const CultivActionSelector = {
     findAll: findAll,
     find: find,
     query: query,
