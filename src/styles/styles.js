@@ -1,7 +1,15 @@
 import {StyleSheet} from 'react-native';
 
-const MAIN_COLOR = '#66bb6a';
-const MUTED_COLOR = '#777777';
+const COLOR = {
+    MAIN: '#66bb6a',
+    MUTED: '#777777',
+    LIGHT_MAIN: '#9ccc65',
+    ORANGE: '#ffca28',
+    IRRIGATION: '#29B6F6FF',
+    YELLOW: '#FFEE58FF',
+    RED: '#FF7043FF',
+    DARK_ORANGE: '#ffa726'
+}
 
 const STYLE = StyleSheet.create({
     container: {
@@ -23,18 +31,18 @@ const STYLE = StyleSheet.create({
         */
     },
     submitValid: {
-        backgroundColor: MAIN_COLOR,
+        backgroundColor: COLOR.MAIN,
     },
     submitInvalid: {
-        backgroundColor: MUTED_COLOR,
+        backgroundColor: COLOR.MUTED,
     },
     title_background: {
         display: 'flex',
         flexDirection: 'row',
-        backgroundColor: MAIN_COLOR,
+        backgroundColor: COLOR.MAIN,
     },
     title_text: {
-        backgroundColor: MAIN_COLOR,
+        backgroundColor: COLOR.MAIN,
         color: 'white',
         fontSize: 30,
         marginTop: 'auto',
@@ -43,7 +51,7 @@ const STYLE = StyleSheet.create({
         marginEnd: 'auto'
     },
     footer: {
-        backgroundColor: MAIN_COLOR,
+        backgroundColor: COLOR.MAIN,
         padding: 10,
         flexDirection: 'row',
         justifyContent: 'space-around',
@@ -60,7 +68,7 @@ const STYLE = StyleSheet.create({
         margin: 8
     },
     button: {
-        backgroundColor: MAIN_COLOR,
+        backgroundColor: COLOR.MAIN,
         color: 'white',
         display: 'flex',
     },
@@ -118,4 +126,4 @@ const STYLE = StyleSheet.create({
     },
 });
 
-export {STYLE, MAIN_COLOR, MUTED_COLOR};
+export {STYLE, COLOR};
