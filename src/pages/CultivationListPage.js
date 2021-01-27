@@ -40,7 +40,8 @@ constructor(props) {
                     navigation={navigation}
                     navigate_to={"cultivation"}
                     image={null}
-                    imageph={require('../../imgs/no_content.png')}
+
+                    imageph={item.preview&&{uri: item.preview}||require('../../imgs/no_content.png')}
                     title={item.name}
                     subtitle={item.cultivar}
                     body={item.description}
@@ -54,7 +55,7 @@ constructor(props) {
                 />
                 <TouchableOpacity
                     style={[STYLE.footer]}
-                    onPress={()=>this.props.navigation.navigate('cultivation_form')}>
+                    onPress={()=>this.props.navigation.navigate('cultivation_form',{id:null})}>
                     <Icon
                         name="md-add-circle-sharp"
                         size={40}

@@ -1,13 +1,17 @@
 import React from 'react';
-import {Image, SafeAreaView, ScrollView, StatusBar, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import {
+    Image,
+    ScrollView,
+    StyleSheet,
+    Text,
+    TouchableOpacity,
+    View
+} from 'react-native';
 import Cultivation from '../model/Cultivation';
 import {STYLE} from '../styles/styles';
 import Icon from 'react-native-vector-icons/Ionicons';
-import {FieldSelector} from '../redux/selector/field';
-import {FIND_FIELD_ACTION_REQ, INSERT_FIELD_ACTION_REQ} from '../redux/action/dispatchers/field';
 import {connect} from 'react-redux';
 import {CultivationSelector} from '../redux/selector/cultivation';
-import CultivationListPage from '../pages/CultivationListPage';
 
 
 class  CultivationDetailComponent extends React.Component{
@@ -32,9 +36,13 @@ class  CultivationDetailComponent extends React.Component{
             this.props.navigation.navigate('cultivation_form');
         }.bind(this);
 
+        this.deleteDialog = function() {
+
+        }.bind(this);
+
         this.openCamera = function() {
             return (
-                this.props.navigation.navigate('camera')
+                this.props.navigation.navigate('camera',{ id: this.state.cultivation.id })
             )
         }.bind(this);
     }
@@ -66,10 +74,9 @@ class  CultivationDetailComponent extends React.Component{
                     <TouchableOpacity onPress={this.openCamera}>
                         <Image
                             style={styles.preview_image}
-                            source={require('../../imgs/no_cultivation_preview.png')}
+                            source={this.state.cultivation.preview&&{uri: this.state.cultivation.preview}||require('../../imgs/no_cultivation_preview.png')}
                         />
                     </TouchableOpacity>
-
                     <View style={styles.weather_container}>
                         <Image style={styles.icon_image}
                                source={require('../../imgs/open_weather_02n_2x.png')}
@@ -90,33 +97,46 @@ class  CultivationDetailComponent extends React.Component{
                                 <Text numberOfLines={1} style={styles.card_title}>
                                     {this.state.cultivation.cultivar||'Loading...'}
                                 </Text>
+                                <Text numberOfLines={1} style={styles.card_title}>
+                                    {this.state.cultivation.status||'Loading...'}
+                                </Text>
                             </View>
                             <View style={[STYLE.rowContainer,STYLE.columnContainer,STYLE.centerColumn,styles.card_title_container,STYLE.separator_horizontal_bottom]}>
-                            <Text numberOfLines={1} style={styles.card_text}>
+                            <Text numberOfLines={1} style={styles.card_date_text}>
                                 {'From: '+new Date(this.state.cultivation.sowingDate).toDateString()||'Loading...'}
                             </Text>
-                            <Text numberOfLines={1} style={styles.card_text}>
+                            <Text numberOfLines={1} style={styles.card_date_text}>
                                 {'To: '+ new Date (this.state.cultivation.harvestDate).toDateString()||'Loading...'}
                             </Text>
                             </View>
-                            <Text numberOfLines={1} style={styles.card_text}>
-                                {'Harvest Weight : '+this.state.cultivation.harvestWeight||'Loading...'}
-                            </Text>
                             <Text numberOfLines={5} style={styles.card_text}>
                                 {'Description : '+this.state.cultivation.description||'Loading...'}
+                            </Text>
+                            <Text numberOfLines={1} style={styles.card_text}>
+                                {'Harvest Weight : '+this.state.cultivation.harvestWeight||'Loading...'}
                             </Text>
                         </View>
                     </View>
                 </ScrollView>
+                <View
+                    style={[STYLE.footer]}>
                 <TouchableOpacity
-                    style={[STYLE.footer]}
-                    onPress={()=>this.props.navigation.navigate('cultivation_form',{ cultivation: this.state.cultivation })}>
+                    onPress={this.deleteDialog}>
+                    <Icon
+                        name="ios-trash-sharp"
+                        size={40}
+                        color="#FFF"
+                    />
+                </TouchableOpacity>
+                <TouchableOpacity
+                    onPress={()=>this.props.navigation.navigate('cultivation_form',{ id: this.state.cultivation.id })}>
                     <Icon
                         name="settings-sharp"
                         size={40}
                         color="#FFF"
                     />
                 </TouchableOpacity>
+                </View>
             </View>
         );
     }
@@ -176,13 +196,20 @@ const styles = StyleSheet.create({
     },
     card_text: {
         textAlign: 'left',
-        color: '#000',
+        color: '#AAA',
         fontSize: 15,
+        marginTop: 4,
+    },
+    card_date_text: {
+        textAlign: 'left',
+        color: '#AAA',
+        fontSize: 14,
+        marginTop: 4,
     },
     card_title: {
         textAlign: 'left',
         color: 'green',
-        fontSize: 20,
+        fontSize: 18,
         fontWeight: 'bold',
     },
     loading_icon: {

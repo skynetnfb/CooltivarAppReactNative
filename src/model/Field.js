@@ -29,7 +29,8 @@ export default class Field {
         field.description = this.description;
         field.coordinate = this.coordinate; // asSerializable ? JSON.stringify(this.coordinate) : this.coordinate;
         field.image = this.image;
-        return field; }
+        return field;
+    }
 }
 
 export const FieldSchema = {

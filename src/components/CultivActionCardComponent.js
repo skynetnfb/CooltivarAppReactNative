@@ -22,14 +22,15 @@ class  CultivActionCardComponent extends React.Component{
                     return "ios-warning-sharp";
                     break
                 case "Remedy":
-                    return "ios-pulse-sharp";
+                    return "ios-checkmark-circle-sharp";
                     break
                 case "Custom":
-                    return "";
+                    return "cog-sharp";
                     break
                 case "Irrigation":
-                    return "";
+                    return "md-water-sharp";
                     break
+                default:return "cog-sharp";
             }
         }
 
@@ -38,16 +39,17 @@ class  CultivActionCardComponent extends React.Component{
             switch (this.props.type){
                 case "Threat":
                     return "orange";
-                    break
+                    break;
                 case "Remedy":
                     return "green";
-                    break
+                    break;
                 case "Custom":
                     return "#aaa";
-                    break
+                    break;
                 case "Irrigation":
                     return "blue";
-                    break
+                    break;
+                default: return "#aaa";
             }
         }
     }
@@ -62,7 +64,7 @@ class  CultivActionCardComponent extends React.Component{
     render() {
         let type = this.getIcon();
         let iconColor = this.getIconColor();
-        //console.log('--------------------------------------------Color:',iconColor)
+        console.log('*#--------------------------------------------PROPS:',this.props);
         return (
 
             <View style={styles.card_container}>
@@ -77,12 +79,14 @@ class  CultivActionCardComponent extends React.Component{
                                             color={iconColor}
                                 />
                             <Text numberOfLines={1} style={[styles.card_title]}>
-                                {this.props.type}
+                                {this.props.cultivAction.type}
                             </Text>
-                            <Text numberOfLines={1} style={styles.card_title}>- Status: "MOCK"
+                            <Text numberOfLines={1} style={styles.card_title}>
+                                {this.props.cultivAction.status}
                             </Text>
-                                <TouchableOpacity onPress={()=>this.props.navigation.navigate('action form')}>
-                                    <View style={[STYLE.centerColumn]} ><Icon
+                                <TouchableOpacity onPress={()=>this.props.navigation.navigate('action form',{cultivAction:this.props.cultivAction})}>
+                                    <View style={[STYLE.centerColumn]} >
+                                        <Icon
                                         name="ios-settings-sharp"
                                         size={24}
                                         color="green"
@@ -94,14 +98,14 @@ class  CultivActionCardComponent extends React.Component{
 
                             <View style={[STYLE.rowContainer,STYLE.separator_horizontal_bottom,styles.card_title_container]}>
                                 <Text numberOfLines={1} style={styles.card_date}>
-                                    From: 00-00-000
+                                    From: "{new Date (this.props.cultivAction.startDate).toDateString()}
                                 </Text>
                                 <Text numberOfLines={1} style={styles.card_date}>
-                                    to: 00-00-000
+                                    to: {new Date (this.props.cultivAction.endDate).toDateString()}
                                 </Text>
                             </View>
                             <Text numberOfLines={3} style={styles.card_text}>
-                                {'Description: '+"description descriptionde scriptiond escripti ondescri ptiondescr iptiondescription"}
+                                Description: {this.props.cultivAction.description}
 
                             </Text>
                         </View>
@@ -170,7 +174,7 @@ const styles = StyleSheet.create({
     card_date: {
         textAlign: 'left',
         color: '#aaa',
-        fontSize: 14,
+        fontSize: 12,
         fontWeight: 'bold',
     },
     card_title_container: {

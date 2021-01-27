@@ -8,21 +8,20 @@ import {
     ActivityIndicator,
     TouchableOpacity,
     ScrollView,
-    Picker, StatusBar,
+    Picker,
 } from 'react-native';
-import CameraComponent from "../components/CameraComponent";
 import Cultivation from '../model/Cultivation';
 import {DatePickerComponent} from '../components/DatePickerComponent';
 import {
-    createCultivation,
-    createField,
-    getAllCultivActions,
-    getAllCultivations,
-    getAllFields, getFieldById,
+    createCultivation, updateCultivation,
 } from '../model/Repository';
-import Field from '../model/Field';
 import {STYLE} from '../styles/styles';
-//import FirebaseAuth from '../utils/FirebaseAuth';
+import {CultivationSelector} from '../redux/selector/cultivation';
+import {
+    INSERT_CULTIVATION_ACTION_REQ,
+    UPDATE_CULTIVATION_ACTION_REQ,
+} from '../redux/action/dispatchers/cultivation';
+import {connect} from 'react-redux';
 
 
 class CultivationFormPage extends Component {
@@ -45,7 +44,17 @@ class CultivationFormPage extends Component {
             fields: null,
         };
 
-
+        if(this.props.cultivation!=null){
+            console.log('###------------------------------ DENTRO IF cultivation',this.props.cultivation);
+            this.state.name = this.props.cultivation.name;
+            this.state.cultivar = this.props.cultivation.cultivar;
+            this.state.description = this.props.cultivation.description;
+            this.state.sowingDate = this.props.cultivation.sowingDate.toString();
+            this.state.harvestDate = this.props.cultivation.harvestDate.toString();
+            this.state.harvestWeight = this.props.cultivation.harvestWeight.toString();
+            this.state.status = this.props.cultivation.status;
+            this.state.field_id = this.props.cultivation.field_id;
+        }
 
         this.formSuccess = function() {
             this.setState({
@@ -53,13 +62,6 @@ class CultivationFormPage extends Component {
                 loading: false,
             });
             this.props.navigation.goBack();
-        }.bind(this);
-
-        this.loginError = function(error) {
-            this.setState({
-                status: 'Cultivation Save Error',
-                loading: false,
-            });
         }.bind(this);
 
         this.handleChangeName = function(text) {
@@ -90,6 +92,13 @@ class CultivationFormPage extends Component {
             });
         }.bind(this);
 
+        this.handleChangeField = function(text) {
+            console.log('------------------------------handleChangeFIELD:',text);
+            this.setState({
+                field_id:text,
+            });
+        }.bind(this);
+
         this.resultStartDatePicker = function (date){
             this.setState({startDate:date});
             console.log('------------------------------STATE:',this.state.startDate)
@@ -111,13 +120,30 @@ class CultivationFormPage extends Component {
         }.bind(this);
 
         this.confirm = function() {
-            this.setState({loading: true});
-            //CULTIVATION constructor(name, cultivar, description, field_id, sowingDate, harvestDate, harvestWeight, status, preview)
-            //let cultivation = new Cultivation('this.state.name', 'this.state.cultivar', 'this.state.description', 1,new Date(),new Date(),999,'Grow', new ArrayBuffer());
-            let cultivation = new Cultivation(this.state.name, this.state.cultivar, this.state.description, 1,this.state.startDate,this.state.endDate,1,this.state.status, '');
-            createCultivation(cultivation);
-            //TODO come gestiamo il redirect? nadiamo back o andiamo avanti ricaricando i dati?
-            this.formSuccess();
+            if(this.props.cultivation==null){
+                console.log('###------------------------------  DENTRO IF  :');
+                this.setState({loading: true});
+                let cultivation = new Cultivation(this.state.name, this.state.cultivar, this.state.description, '1',this.state.startDate,this.state.endDate,1,this.state.status, '');
+                createCultivation(cultivation);
+                //TODO come gestiamo il redirect? nadiamo back o andiamo avanti ricaricando i dati?
+                this.formSuccess();
+            }else{
+                let _cultivation = new Cultivation();
+                _cultivation.id = this.props.cultivation.id;
+                _cultivation.name = this.state.name;
+                _cultivation.cultivar = this.state.cultivar;
+                _cultivation.description = this.state.description;
+                _cultivation.sowingDate = new Date(this.state.sowingDate);
+                _cultivation.harvestDate = new Date(this.state.harvestDate);
+                _cultivation.harvestWeight = this.state.harvestWeight;
+                _cultivation.status = this.state.status;
+                _cultivation.preview = this.props.cultivation.preview;
+                _cultivation.field_id = this.state.field_id;
+                console.log('###------------------------------  DENTRO ELSE _CULTIVATION :',_cultivation);
+                updateCultivation(_cultivation);
+                this.formSuccess();
+            }
+
             /*let cults = getAllCultivations();
             for(let cultivation of cults){
                 console.log(cultivation.sowingDate.getTime());
@@ -126,6 +152,7 @@ class CultivationFormPage extends Component {
     }
 
     componentDidMount() {
+
     }
 
     render() {
@@ -185,7 +212,7 @@ class CultivationFormPage extends Component {
                     </View>
 
                     <View style={styles.input_text_container}>
-                        <Picker selectedValue = {this.state.field} onValueChange = {this.handleChangeStatus}>
+                        <Picker selectedValue = {this.state.field} onValueChange = {this.handleChangeField}>
                             <Picker.Item label = "MOCKfield.name1" value = "MOCKfield.id1" />
                             <Picker.Item label = "MOCKfield.name2" value = "MOCKfield.id2" />
                         </Picker>
@@ -193,13 +220,11 @@ class CultivationFormPage extends Component {
 
                     <View style = {[STYLE.columnContainer, {width: '100%'}]}>
                         <Text style={[STYLE.center]}>From</Text>
-                        <DatePickerComponent ref='startDateDP' result = {this.resultStartDatePicker}/>
+                        <DatePickerComponent initial_value ={this.state.sowingDate||new Date()} ref='startDateDP' result = {this.resultStartDatePicker}/>
                         <Text style={[STYLE.center]}>to</Text>
-                        <DatePickerComponent ref='startDateDP' result = {this.resultEndDatePicker}/>
+                        <DatePickerComponent  initial_value ={this.state.harvestDate||new Date()} ref='startDateDP' result = {this.resultEndDatePicker}/>
                     </View>
-
                 </View>
-
 
                 <View style={styles.button_container}>
                     <TouchableOpacity style={styles.confirm_button} onPress={this.confirm}>
@@ -217,7 +242,6 @@ class CultivationFormPage extends Component {
                 <View style={styles.alert_box}>
                     <Text style={styles.alert_message}>{this.state.validation}</Text>
                 </View>
-
                 </ScrollView>
             </SafeAreaView>
         );
@@ -298,4 +322,20 @@ const styles = StyleSheet.create({
     },
 });
 
-export default CultivationFormPage;
+const mapStateToProps = (state,props) => {
+    let stateret;
+    stateret = {
+        cultivation:props.route.params.id? CultivationSelector.find(state)(props.route.params.id):null,
+        selectors: CultivationSelector,
+    };
+    return stateret;
+};
+
+const mapDispatchToProps = (dispatch) => {
+    return {
+        insert_cultivation: INSERT_CULTIVATION_ACTION_REQ(dispatch),
+        update_cultivation: UPDATE_CULTIVATION_ACTION_REQ(dispatch),
+    };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(CultivationFormPage);

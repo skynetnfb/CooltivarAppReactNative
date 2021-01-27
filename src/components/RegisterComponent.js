@@ -12,40 +12,35 @@ import FirebaseAuth from '../utils/FirebaseAuth';
 import Icon from 'react-native-vector-icons/Ionicons';
 import firebase from 'firebase';
 import RootNavigator from '../navigator/RootNavigator';
-import {initRealm} from '../model/Repository';
-import {STYLE} from '../styles/styles';
 
 
-class LoginComponent extends Component {
+
+class RegisterComponent extends Component {
     constructor(props) {
         super(props);
         this.state = {
             email: '',
             password: '',
             status: '',
-            user: false,
+            user: null,
             loading: false,
         };
 
 
-        this.loginSuccess = function() {
+        this.registerSuccess = function() {
             this.setState({
-                status: 'Login completed',
+                status: 'Registration Complete',
                 loading: false,
                 user:true,
             });
-
-            let userDbPath;
-            if(firebase.auth().currentUser!=null){userDbPath = firebase.auth().currentUser.email;}
-            initRealm(userDbPath);
-            this.props.navigation.navigate('home', {user:true});
+            this.props.navigation.navigate('home',{user:true});
         }.bind(this);
 
-        this.loginError = function(error) {
+        this.registerError = function(error) {
+            console.log('ERROR REGISTER MESSAGE: ',error.message);
             this.setState({
                 status: error.message,
                 loading: false,
-                user:false,
             });
         }.bind(this);
 
@@ -61,46 +56,28 @@ class LoginComponent extends Component {
             });
         }.bind(this);
 
-        this.register = function(text) {
-            console.log('----------------------MAIL:',this.state.email,);
-            firebase.auth().signOut().then(()=>{
-                console.log('----------------------SUCCESS SIGNOUT');
-                this.props.navigation.navigate('register',{user:false});
-            }).catch(()=>{
-                console.log('----------------------FAIL SIGNOUT');
-            });
-        }.bind(this);
-
-        this.doLogin = function() {
-            console.log('----------------------MAIL:',this.state.email);
-            console.log('----------------------MAIL:',this.state.password);
+        this.doRegister = function() {
             this.setState({loading: true});
-            let email=null;
-            //email=this.state.email;
-            email='a@a.it';
-            let password=null;
-            password=this.state.password;
-            password='123456';
-            FirebaseAuth.signIn(email,password )
+            FirebaseAuth.signUp(this.state.email, this.state.password)
                 .then(() => {
-                    console.log('----------------------Success:');
-                    this.loginSuccess();
+                    this.registerSuccess();
                 })
                 .catch(error => {
-                    console.log('----------------------Fail:');
-                    this.loginError(error);
+                    this.registerError(error);
                 });
-
-                this.setState({loading: true});
-
         }.bind(this);
+
+
+    this.login = function(text) {
+        //console.log('----------------------INSIDE REGISTER PROPS',this.props);
+        this.props.navigation.navigate('login');
+    }.bind(this);
 
 
     }
 
     render() {
 
-        console.log('**----------------------INSIDE REGISTER PROPS UNDEFINED',this.props);
         const firebaseConfig = {
             apiKey: 'AIzaSyC_F98EhQTmgzbbalgnYqQFpCgOXcgcnxs',
             authDomain: 'reactcooltivarapp.firebaseapp.com',
@@ -115,8 +92,6 @@ class LoginComponent extends Component {
             firebase.initializeApp(firebaseConfig);
         }
 
-
-
         return (
             <SafeAreaView style={styles.main_container}>
                 <View style={styles.app_name_container}>
@@ -125,7 +100,7 @@ class LoginComponent extends Component {
                           size={60}
                           color={'green'}
                     />
-                    <Text style={styles.app_name}>Cooltivar App</Text>
+                    <Text style={styles.app_name}>Register to Cooltivar </Text>
                 </View>
                 <View style={styles.login_box}>
                     <View style={styles.login_email_container}>
@@ -148,9 +123,9 @@ class LoginComponent extends Component {
                         />
                     </View>
                 </View>
-                <View style = {[styles.login_button_container]}>
-                    <TouchableOpacity style={styles.login_button} onPress={this.doLogin}>
-                        <Text style={styles.login_button_text}>Login</Text>
+                <View style={styles.login_button_container}>
+                    <TouchableOpacity style={styles.login_button} onPress={this.doRegister}>
+                        <Text style={styles.login_button_text}>Register</Text>
                         {this.state.loading && (
                             <ActivityIndicator
                                 size="small"
@@ -159,8 +134,8 @@ class LoginComponent extends Component {
                             />
                         )}
                     </TouchableOpacity>
-                    <TouchableOpacity style={styles.login_button} onPress={this.register}>
-                        <Text style={styles.login_button_text}>Register</Text>
+                    <TouchableOpacity style={styles.login_button} onPress={this.login}>
+                        <Text style={styles.login_button_text}>Back</Text>
                         {this.state.loading && (
                             <ActivityIndicator
                                 size="small"
@@ -256,4 +231,4 @@ const styles = StyleSheet.create({
     },
 });
 
-export default LoginComponent;
+export default RegisterComponent;

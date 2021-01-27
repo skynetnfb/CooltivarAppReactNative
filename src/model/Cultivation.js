@@ -26,6 +26,19 @@ export default class Cultivation {
         this.preview = preview;
     }
 
+    clone(cultivationOriginalObj) {
+        this.id = cultivationOriginalObj.id;
+        this.name = cultivationOriginalObj.name;
+        this.cultivar = cultivationOriginalObj.cultivar;
+        this.description = cultivationOriginalObj.description;
+        this.field_id = cultivationOriginalObj.field_id;
+        this.sowingDate = cultivationOriginalObj.sowingDate;
+        this.harvestDate = cultivationOriginalObj.harvestDate;
+        this.harvestWeight = cultivationOriginalObj.harvestWeight;
+        this.status = cultivationOriginalObj.status;
+        this.preview = cultivationOriginalObj.preview;
+    }
+
     getRealmObject() {
         return {
             id:this.id,
@@ -42,8 +55,9 @@ export default class Cultivation {
     }
 
     updateObjectInfo(cultivation: any) {
-        if (!cultivation)
+        if (!cultivation){
             return;
+        }
         cultivation['id'] = this.id;
         cultivation['name'] = this.name;
         cultivation['cultivar'] = this.cultivar;
@@ -51,7 +65,7 @@ export default class Cultivation {
         cultivation['field_id'] = this.field_id;
         cultivation['sowingDate'] = this.sowingDate;
         cultivation['harvestDate'] = this.harvestDate;
-        cultivation['harvestWeight'] = this.harvestWeight;
+        cultivation['harvestWeight'] = +this.harvestWeight;
         cultivation['status'] = this.status;
         cultivation['preview'] = this.preview;
     }
@@ -64,7 +78,7 @@ export const CultivationSchema = {
         name: 'string?',
         cultivar: 'string?',
         description: 'string?',
-        field_id: 'int?',
+        field_id: 'string?',
         sowingDate:'date?',
         harvestDate:'date?',
         harvestWeight: 'int?',

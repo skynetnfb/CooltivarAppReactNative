@@ -15,7 +15,7 @@ const initialState = {
         new Cultivation('MOCK', 'cultivar1', 'description of cultivation1', '1', new Date(), new Date(), 500, 'Grow', new ArrayBuffer()),
     ],
     cultivActions:[],
-    user:{},
+    user:null,
 };
 //TODO
 initialState.cultivations[0].id = '1611331189935';

@@ -46,7 +46,7 @@ class  CultivActionsHistoryComponent extends Component{
                     data={this.props.cultivActions}
                     style={[STYLE.flat_list]}
                     renderItem={({item}) => (
-                <CultivActionCardComponent children={"Valore Card CultivActionHistoy"} cultivation_id={routeParams2.id} navigation={this.props.navigation} type={"Remedy"} icon={"ios-warning-sharp"} icon_color ={'red'}></CultivActionCardComponent>
+                <CultivActionCardComponent children={"Valore Card CultivActionHistoy"} cultivAction={item} cultivation_id={routeParams2.id} navigation={this.props.navigation} type={item.type} icon={"ios-warning-sharp"} icon_color ={'red'}></CultivActionCardComponent>
                     )}
                     keyExtractor={item => item.id.toString()}
                     onEndReachedThreshold={0.2}
@@ -54,7 +54,7 @@ class  CultivActionsHistoryComponent extends Component{
                 />
                 <TouchableOpacity
                     style={[STYLE.footer]}
-                    onPress={()=>this.props.navigation.navigate('action form')}>
+                    onPress={()=>this.props.navigation.navigate('action form',{cultivation_id:routeParams2.id})}>
                     <Icon
                         name="md-add-circle-sharp"
                         size={40}

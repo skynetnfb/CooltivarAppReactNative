@@ -15,6 +15,7 @@ import FieldForm from '../components/Field/FieldForm';
 import FieldFormComponent from '../components/Field/FieldFormComponent';
 import CameraComponent from '../components/CameraComponent';
 import CultivActionsThreatRemedyComponent from '../components/CultivActionsThreatRemedyComponent';
+import RegisterComponent from '../components/RegisterComponent';
 
 const RootStackNavigator = createStackNavigator();
 const MaterialTopTabNavigator = createMaterialTopTabNavigator();
@@ -22,15 +23,16 @@ const MaterialTopTabNavigator = createMaterialTopTabNavigator();
 export default class RootNavigator extends Component {
     constructor(props) {
         super(props);
-        this.login = false;
+        //TODO DEBUG
+        this.logged=null;
         //costruttore chiamato prima che venga renderizzato il component
     }
 
     render(){
-
-        let logged = false;
-        //if(this.login)logged =this.login;
-
+           if(this.route!==undefined){
+               this.logged=this.route.params.user;
+           }else this.logged=false;
+        //this.logged=true; //debug
         const createHomeTabNavigation = () =>(
             <MaterialTopTabNavigator.Navigator
                 name = "Cultivations"
@@ -145,10 +147,10 @@ export default class RootNavigator extends Component {
         return (
             <NavigationContainer>
                 <RootStackNavigator.Navigator name="home">
-                    {!logged && (
+                    {!this.logged && (
                         <RootStackNavigator.Screen name="login" component={LoginComponent} />
                     )}
-                    {logged && (
+                    {this.logged && (
                         <RootStackNavigator.Screen name = {'Cultivations'} component = { createHomeTabNavigation }/>
                     )}
                     <RootStackNavigator.Screen name = {'home'} component = { createHomeTabNavigation }/>
@@ -161,6 +163,7 @@ export default class RootNavigator extends Component {
                     <RootStackNavigator.Screen name = {'camera'} component = { CameraComponent }/>
                     <RootStackNavigator.Screen name = {'action form'} component = { CultivActionFormPage }/>
                     <RootStackNavigator.Screen name = {'field_form'} component = { FieldFormComponent }/>
+                    <RootStackNavigator.Screen name = {'register'} component = { RegisterComponent }/>
                 </RootStackNavigator.Navigator>
             </NavigationContainer>
         )

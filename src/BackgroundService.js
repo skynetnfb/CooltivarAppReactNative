@@ -1,16 +1,16 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
-import * as firebase from 'firebase';
+import  firebase from 'firebase';
 import {userLogin, userLogout} from './actions';
 
 const firebaseConfig = {
     apiKey: 'AIzaSyC_F98EhQTmgzbbalgnYqQFpCgOXcgcnxs',
-    authDomain: '',
+    authDomain: 'reactcooltivarapp.firebaseapp.com',
     databaseURL: '',
     projectId: 'reactcooltivarapp',
-    storageBucket: '',
-    messagingSenderId: '',
-    appId: '',
+    storageBucket: 'reactcooltivarapp.appspot.com',
+    messagingSenderId: '461253967081',
+    appId: '1:461253967081:web:6c21b324129a2319960478',
     measurementId: '',
 };
 
