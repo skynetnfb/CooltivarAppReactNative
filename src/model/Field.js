@@ -29,8 +29,15 @@ export default class Field {
         field.description = this.description;
         field.coordinate = this.coordinate; // asSerializable ? JSON.stringify(this.coordinate) : this.coordinate;
         field.image = this.image;
-        return field;
+        return field; }
+
+    static getLoadingPlaceholder() {
+        const l = 'Loading...';
+        const f = new Field(l, l, l, null, null);
+        f.id = -1;
+        return f;
     }
+    static isLoadingPlaceholder(field) { return field && field.id === -1; }
 }
 
 export const FieldSchema = {

@@ -14,7 +14,7 @@ import {
     UPDATE_FIELD_ACTION_REQ,
 } from '../redux/action/dispatchers/field';
 import {connect} from 'react-redux';
-import {STYLE} from '../styles/styles';
+import {COLOR, STYLE} from '../styles/styles';
 import {FIND_CULTIVATION_ACTION_REQ} from '../redux/action/dispatchers/cultivation';
 import {getAllCultivations} from '../model/Repository';
 import Field from '../model/Field';
