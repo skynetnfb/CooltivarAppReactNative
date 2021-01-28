@@ -8,19 +8,19 @@ import {makeFindAction} from './field';
 
 // per prendere il "trigger": INSERT_OPERATION_ACTION(dispatch);
 // per eseguirla direttamente: INSERT_OPERATION_ACTION(dispatch)();
-export const INSERT_OPERATION_ACTION_REQ = (dispatch) => { return (field) => dispatch({type: E_INSERT_OPERATION_REQ, field: field}); };
-export const INSERT_OPERATION_ACTION_SUCCESS = (dispatch) => { return (field) => dispatch({type: E_INSERT_OPERATION_SUCCESS, field: field}); };
-export const INSERT_OPERATION_ACTION_FAIL = (dispatch) => { return (field) => dispatch({type: E_INSERT_OPERATION_FAIL, field: field}); };
+export const INSERT_OPERATION_ACTION_REQ = (dispatch) => { return (cultivAction) => dispatch({type: E_INSERT_OPERATION_REQ, cultivAction: cultivAction}); };
+export const INSERT_OPERATION_ACTION_SUCCESS = (dispatch) => { return (cultivAction) => dispatch({type: E_INSERT_OPERATION_SUCCESS, cultivAction: cultivAction}); };
+export const INSERT_OPERATION_ACTION_FAIL = (dispatch) => { return (cultivAction) => dispatch({type: E_INSERT_OPERATION_FAIL, cultivAction: cultivAction}); };
 
 
-export const UPDATE_OPERATION_ACTION_REQ = (dispatch) => { return (field) => dispatch({type: E_UPDATE_OPERATION_REQ, field: field}); };
-export const UPDATE_OPERATION_ACTION_SUCCESS = (dispatch) => { return (field) => dispatch({type: E_UPDATE_OPERATION_SUCCESS, field: field}); };
-export const UPDATE_OPERATION_ACTION_FAIL = (dispatch) => { return (field) => dispatch({type: E_UPDATE_OPERATION_FAIL, field: field}); };
+export const UPDATE_OPERATION_ACTION_REQ = (dispatch) => { return (cultivAction) => dispatch({type: E_UPDATE_OPERATION_REQ, cultivAction: cultivAction}); };
+export const UPDATE_OPERATION_ACTION_SUCCESS = (dispatch) => { return (cultivAction) => dispatch({type: E_UPDATE_OPERATION_SUCCESS, cultivAction: cultivAction}); };
+export const UPDATE_OPERATION_ACTION_FAIL = (dispatch) => { return (cultivAction) => dispatch({type: E_UPDATE_OPERATION_FAIL, cultivAction: cultivAction}); };
 
 
-export const DELETE_OPERATION_ACTION_REQ = (dispatch) => { return (field, id) => dispatch({type: E_DELETE_OPERATION_REQ, field: field, id: id}); };
-export const DELETE_OPERATION_ACTION_SUCCESS = (dispatch) => { return (field, id) => dispatch({type: E_DELETE_OPERATION_SUCCESS, field: field, id: id}); };
-export const DELETE_OPERATION_ACTION_FAIL = (dispatch) => { return (field, id) => dispatch({type: E_DELETE_OPERATION_FAIL, field: field, id: id}); };
+export const DELETE_OPERATION_ACTION_REQ = (dispatch) => { return (cultivAction, id) => dispatch({type: E_DELETE_OPERATION_REQ, cultivAction: cultivAction, id: id}); };
+export const DELETE_OPERATION_ACTION_SUCCESS = (dispatch) => { return (cultivAction, id) => dispatch({type: E_DELETE_OPERATION_SUCCESS, cultivAction: cultivAction, id: id}); };
+export const DELETE_OPERATION_ACTION_FAIL = (dispatch) => { return (cultivAction, id) => dispatch({type: E_DELETE_OPERATION_FAIL, cultivAction: cultivAction, id: id}); };
 
 
 // no args = findAll
@@ -33,7 +33,7 @@ export const FIND_OPERATION_ACTION_FAIL = (dispatch) => {
 
 /*
 template to paste:
-export const _OPERATION_ACTION_REQ = (dispatch) => { return (field, id) => dispatch({type: E__OPERATION_REQ, field: field, id: id}); };
-export const _OPERATION_ACTION_SUCCESS = (dispatch) => { return (field, id) => dispatch({type: E__OPERATION_SUCCESS, field: field, id: id}); };
-export const _OPERATION_ACTION_FAIL = (dispatch) => { return (field, id) => dispatch({type: E__OPERATION_FAIL, field: field, id: id}); };
+export const _OPERATION_ACTION_REQ = (dispatch) => { return (cultivAction, id) => dispatch({type: E__OPERATION_REQ, cultivAction: cultivAction, id: id}); };
+export const _OPERATION_ACTION_SUCCESS = (dispatch) => { return (cultivAction, id) => dispatch({type: E__OPERATION_SUCCESS, cultivAction: cultivAction, id: id}); };
+export const _OPERATION_ACTION_FAIL = (dispatch) => { return (cultivAction, id) => dispatch({type: E__OPERATION_FAIL, cultivAction: cultivAction, id: id}); };
 */

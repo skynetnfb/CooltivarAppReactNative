@@ -193,21 +193,25 @@ export const updateCultivAction = (cultivAction: CultivAction) => {
 };
 
 export const deleteCultivAction = (cultivAction: CultivAction) => {
+    console.log('DENTRO DELETE INIZIO');
     if (!cultivAction) {
         throw 'Invalid input!';
     }
     let findcultivAction = getCultivActionById(cultivAction.id);
     if (!findcultivAction) {
+        console.log('DENTRO DELETE NON TROVATA');
         return false;
     }
     try {
         realm.write(() => {
+            console.log('DENTRO DELETE PRIMA WRITE');
             realm.delete(findcultivAction);
+            console.log('DENTRO DELETE DOPO WRITE')
         });
         return true;
     } catch(e) {
-        throw 'Error Updating Cultiv Action: ${e.message}';
-    } finally {}
+        throw 'Error Deleting Cultiv Action: ${e.message}';
+    }
 };
 
 const checkIfCultivActionExists = (id: number) => {

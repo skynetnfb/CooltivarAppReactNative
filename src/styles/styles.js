@@ -9,7 +9,7 @@ const COLOR = {
     YELLOW: '#FFEE58FF',
     RED: '#FF7043FF',
     DARK_ORANGE: '#ffa726'
-}
+};
 
 const STYLE = StyleSheet.create({
     container: {

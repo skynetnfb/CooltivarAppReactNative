@@ -78,6 +78,7 @@ class CameraComponent extends PureComponent {
                     _cultivation.preview = this.state.path;
                     console.log("###-------------------------------------------------Clone:",_cultivation)
             updateCultivation(_cultivation);
+            this.props.update_cultivation(_cultivation);
         }.bind(this);
 
     }

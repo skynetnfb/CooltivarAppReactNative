@@ -129,5 +129,6 @@ const mapDispatchToProps = (dispatch) => {
     };
 };
 
+//TODO item.image && {uri: item.image}
 
 export default connect(mapStateToProps, mapDispatchToProps)(FieldListPage);

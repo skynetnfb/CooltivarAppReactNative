@@ -124,6 +124,7 @@ class CultivationFormPage extends Component {
                 console.log('###------------------------------  DENTRO IF  :');
                 this.setState({loading: true});
                 let cultivation = new Cultivation(this.state.name, this.state.cultivar, this.state.description, '1',this.state.startDate,this.state.endDate,1,this.state.status, '');
+                //this.props.insert_cultivation(cultivation);
                 createCultivation(cultivation);
                 //TODO come gestiamo il redirect? nadiamo back o andiamo avanti ricaricando i dati?
                 this.formSuccess();
@@ -141,6 +142,7 @@ class CultivationFormPage extends Component {
                 _cultivation.field_id = this.state.field_id;
                 console.log('###------------------------------  DENTRO ELSE _CULTIVATION :',_cultivation);
                 updateCultivation(_cultivation);
+                this.props.update_cultivation(_cultivation);
                 this.formSuccess();
             }
 
@@ -222,7 +224,7 @@ class CultivationFormPage extends Component {
                         <Text style={[STYLE.center]}>From</Text>
                         <DatePickerComponent initial_value ={this.state.sowingDate||new Date()} ref='startDateDP' result = {this.resultStartDatePicker}/>
                         <Text style={[STYLE.center]}>to</Text>
-                        <DatePickerComponent  initial_value ={this.state.harvestDate||new Date()} ref='startDateDP' result = {this.resultEndDatePicker}/>
+                        <DatePickerComponent  initial_value ={this.state.harvestDate||new Date()} ref='endDateDP' result = {this.resultEndDatePicker}/>
                     </View>
                 </View>
 

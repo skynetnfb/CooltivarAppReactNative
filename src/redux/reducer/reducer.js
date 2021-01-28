@@ -1,6 +1,6 @@
 import {initialState} from '../store/store';
 import { FieldEnum } from '../action/enum/field';
-import {CultivActionDB, CultivationDB, FieldDB} from '../../model/Repository';
+import {CultivActionDB, CultivationDB, deleteCultivAction, deleteCultivation, FieldDB} from '../../model/Repository';
 import {FieldSelector} from '../selector/field';
 import {CultivationEnum} from '../action/enum/cultivation';
 import {CultivActionEnum} from '../action/enum/Operation';
@@ -79,12 +79,16 @@ const reducer = (state = initialState, action) => {
             newState.cultivations = response;
             break;
         case CultivationEnum.UPDATE_REQ:
-            //TODO
-            console.log('!!!---------------------TODO---------------------------!!!');
+            let _cultivation = action.cultivation;
+            index = newState.cultivations.findIndex((e)=> (e.id === _cultivation.id));
+            console.log('!!!---------------------UPDATE---------------------------!!! POSITION', position,"CULTIVATION",_cultivation, "STATE cultivation:",  newState.cultivations[position]);
+            newState.cultivations[index] = _cultivation;
             break;
         case CultivationEnum.DELETE_REQ:
-            //TODO
-            console.log('!!!---------------------TODO---------------------------!!!');
+            let id = action.id;
+            deleteCultivation(action.cultivation);
+            index = newState.cultivations.findIndex((e)=> (e.id === action.cultivation));
+            newState.cultivations.splice(index,1);
             break;
         case CultivActionEnum.FIND_REQ:
             console.log('!!!---------------------------------------------CultivActionEnum.FIND_REQ');

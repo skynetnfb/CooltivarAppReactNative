@@ -39,9 +39,8 @@ constructor(props) {
                 <AbstractCardComponent
                     navigation={navigation}
                     navigate_to={"cultivation"}
-                    image={null}
-
-                    imageph={item.preview&&{uri: item.preview}||require('../../imgs/no_content.png')}
+                    image={''}
+                    imageph={require('../../imgs/no_content.png')}
                     title={item.name}
                     subtitle={item.cultivar}
                     body={item.description}
@@ -91,6 +90,6 @@ const mapDispatchToProps = (dispatch) => {
     };
 };
 
-
+//TODO item.preview && {uri: item.preview}||
 export default connect(mapStateToProps, mapDispatchToProps)(CultivationListPage);
 
