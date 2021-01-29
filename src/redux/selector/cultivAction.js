@@ -18,11 +18,11 @@ export const findAllByType = (state) => (type) => {
 };
 
 export const find = (state) => (id) => {
-    return query(state)( (e) => (e.id === id) );
+    return query(state)( (e) => (e.id === id) )[0];
 };
 
 export const query = (state) => (queryFunction) => {
-    return state.cultivActions.find(queryFunction);
+    return state.cultivActions.filter(queryFunction);
 };
 
 export const queryIndex = (state) => (queryFunction) => {

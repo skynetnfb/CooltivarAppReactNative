@@ -8,20 +8,20 @@ export default class Field {
     city:'string';
     description:'string';
     coordinate:'string';
-    image: ArrayBuffer;
+    image: 'string';
 
     constructor(name, city, description, coordinate, image) {
         this.id =  new Date().getTime() + "" + Field.counter++;
         this.name = name;
         this.city = city;
         this.description = description;
-        this.coordinate = coordinate || '[]';
+        this.coordinate = coordinate || [];
         this.image = image || null; // || new ArrayBuffer();
     }
 
-    getRealmObject() { return this.updateObjectInfo({}, true); }
+    getRealmObject():Field { return this.updateObjectInfo({}); }
 
-    updateObjectInfo(field, asSerializable = false) {
+    updateObjectInfo(field):Field {
         if (!field) return null;
         field.id = this.id;
         field.name = this.name;
@@ -31,6 +31,10 @@ export default class Field {
         field.image = this.image;
         return field; }
 
+     clone(fieldJson: Field): void {
+        this.updateObjectInfo.call(fieldJson, this);
+     }
+
     static getLoadingPlaceholder() {
         const l = 'Loading...';
         const f = new Field(l, l, l, null, null);
@@ -38,6 +42,7 @@ export default class Field {
         return f;
     }
     static isLoadingPlaceholder(field) { return field && field.id === -1; }
+
 }
 
 export const FieldSchema = {
@@ -48,7 +53,7 @@ export const FieldSchema = {
         city:'string?',
         description:'string?',
         coordinate:'string?',
-        image:'data?'
+        image:'string?'
     }
 };
 

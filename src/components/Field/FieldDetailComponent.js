@@ -1,103 +1,55 @@
 import React, {Component} from 'react';
 import {StyleSheet, View, Image, Button} from 'react-native';
 import {Text} from 'react-native';
-import {STYLE, MAIN_COLOR} from '../../styles/styles';
+import {STYLE, MAIN_COLOR, MAP_LABEL_STYLE} from '../../styles/styles';
 import MapComponent from '../common/MapComponent';
 import EditButton from '../common/EditButton';
 import MapView from 'react-native-maps';
 import {CultivationSelector} from '../../redux/selector/cultivation';
 import {FIND_CULTIVATION_ACTION_REQ, INSERT_CULTIVATION_ACTION_REQ} from '../../redux/action/dispatchers/cultivation';
 import {connect} from 'react-redux';
-import {FIND_FIELD_ACTION_REQ} from '../../redux/action/dispatchers/field';
+import {
+    FIND_FIELD_ACTION_REQ,
+    INSERT_FIELD_ACTION_REQ,
+    UPDATE_FIELD_ACTION_REQ,
+} from '../../redux/action/dispatchers/field';
 import {FieldSelector} from '../../redux/selector/field';
 import Field from '../../model/Field';
+import FieldMap from './FieldMap';
 
-class FieldDetailComponent extends Component{
+class FieldDetailComponent extends FieldMap{
     constructor(props) {
         super(props);
-        const route = this.props.route;
-        const routeParams1 = route.params;
-        const route2 = routeParams1.route;
-        const routeParams2 = route2.params;
-        this.params = routeParams2;
     }
 
     editClicked() {
         console.log('editClicked');
-        const props = this.params;
-        this.props.navigation.navigate('field_form', props);
+        const field_id = this.props.id;
+        this.props.navigation.navigate('field_form', {id: field_id});
     }
 
     render() {
-        const param = this.params;
+        console.log('field detail props:', this.props);
+        const field: Field = this.props.field;
+        const fields: Field[] = this.props.fields;
         const coordinates = []; //routeParams2 && routeParams2.coordinates || [];
-        const mapStyle = [
-            {
-                "featureType": "administrative.land_parcel",
-                "elementType": "labels",
-                "stylers": [
-                    {
-                        "visibility": "off"
-                    }
-                ]
-            },
-            {
-                "featureType": "poi",
-                "elementType": "labels.text",
-                "stylers": [
-                    {
-                        "visibility": "off"
-                    }
-                ]
-            },
-            {
-                "featureType": "road.local",
-                "elementType": "labels",
-                "stylers": [
-                    {
-                        "visibility": "off"
-                    }
-                ]
-            }
-        ];
-        // const navigationParams = this.props.navigation.getParam("params_object");
-        let debugFlex =
-            <View style={[STYLE.columnContainer, STYLE.fill, styles.root]}>
-                <View style={[STYLE.centerColumn, {backgroundColor: 'red'}]}><Text>RED</Text></View>
-                <View style={[STYLE.centerColumn, {backgroundColor: 'green'}]}><Text>GREEN</Text></View>
-                <View style={[STYLE.centerColumn, STYLE.fill, {backgroundColor: 'blue'}]}><Text>BLUE</Text></View>
-            </View>;
+        const mapComponent = super.render();
 
         let ret =
             <View style={[STYLE.rowContainer, STYLE.fill, styles.root]}>
                 <View style={[STYLE.title_background, styles.title_background]}>
-                    <Text style={[STYLE.title_text]}>{"Field: " + param.title}</Text>
+                    <Text style={[STYLE.title_text]}>{"Field: " + field.name}</Text>
                     <EditButton style={[styles.edit_button]} onPress={this.editClicked.bind(this)}/>
                 </View>
-                <MapView style={[styles.map]}
-                         mapType={'hybrid'}
-                         customMapStyle={mapStyle}
-                         initialRegion={{
-                        latitude: 37.78825,
-                        longitude: -122.4324,
-                        latitudeDelta: 0.0922,
-                        longitudeDelta: 0.0421,
-                    }}
-                />
-
-                <View style={[STYLE.rowContainer, STYLE.card, STYLE.fill, styles.card, {display: 'none'}]}>
+                {mapComponent}
+                <View style={[STYLE.rowContainer, STYLE.card, STYLE.fill, styles.card]}>
                     <View style={[STYLE.columnContainer]}>
-                        <Text style={[STYLE.centerColumn, STYLE.fill, styles.city]}>{"City: " + param.subtitle}</Text>
+                        <Text style={[STYLE.centerColumn, STYLE.fill, styles.city]}>{"City: " + field.city}</Text>
                         <Image style={[STYLE.centerColumn, styles.meteo_image]} />
                     </View>
                     <View style={[STYLE.fill, STYLE.columnContainer, styles.body]}>
-                        <Text style={[STYLE.center]}>{param.body}</Text>
+                        <Text style={[STYLE.centerColumn]}>{field.description}</Text>
                     </View>
-                </View>
-                <View style={{display: 'none'}}>
-                    <Text>DEBUG SECTION:</Text>
-                    <Text>{ "\nroute:\n\n" + JSON.stringify(param, null, 4) }</Text>
-                    <Text>{ "\nprops:\n\n" + JSON.stringify(this.props, null, 4) } }</Text>
                 </View>
             </View>;
         return ret;
@@ -141,10 +93,36 @@ const styles = StyleSheet.create({
 });
 
 
+
 const mapStateToProps = (state, props) => {
-    let field = FieldSelector.find(state)(props.id || 1) || Field.getLoadingPlaceholder(); // todo: passa l'id vero in props.id;
-    console.log('state map return:', field);
-    return field;
+    const routeParamsLv1 = props.route && props.route.params;
+    const routeParamsLv2 = routeParamsLv1 && routeParamsLv1.route && routeParamsLv1.route.params;
+    let fieldID = (routeParamsLv2 || routeParamsLv1 || {}).id; // .route.params.id;
+    let addProps = {};
+
+    console.log("xxxxx mapstatetoprops:", addProps, "state:", state, 'FieldID', fieldID);
+    console.log("xxxxx routeParams Lv1:", routeParamsLv1);
+    console.log("xxxxx routeParams Lv2:", routeParamsLv2);
+    const emptyField = new Field("namee", "cityy", "descc", "[]", null);
+    emptyField.coordinate = [{latitude: 42.18530921673116, longitude: 14.420321434736252}, {latitude: 42.1852602756412, longitude: 14.42043274641037}, {latitude: 42.185234190273235, longitude: 14.420227222144606}];
+    addProps.field = fieldID ? FieldSelector.find(state)(fieldID) : emptyField;
+
+    console.log("xxxxx addProps.field:", addProps.field );
+    addProps.isUpdate = !!fieldID;
+    addProps.fields = FieldSelector.findAll(state)();
+    addProps.fields = addProps.fields.filter( field => field.id !== addProps.field.id) || [];
+    addProps.allowEditPolygon = false;
+    console.log("xxxxx addProps:", addProps, "state:", state, 'FieldID', fieldID);
+    // addProps.field.coordinate = JSON.parse(addProps.field.coordinate);
+    console.log("xxxxx addProps 1:", addProps, "state:", state, 'FieldID', fieldID);
+    //for (const f of addProps.fields) { f.coordinate = JSON.parse(f.coordinate); }
+    console.log("xxxxx addProps 2:", addProps, "state:", state, 'FieldID', fieldID);
+
+    // addProps.field = JSON.parse(JSON.stringify(addProps.field));
+    // addProps.fields = JSON.parse(JSON.stringify(addProps.fields));
+    console.log('state map return:', addProps);
+    console.log('state map fieldID:', fieldID);
+    return addProps;
 };
 
 const mapDispatchToProps = (dispatch) => {
@@ -153,6 +131,6 @@ const mapDispatchToProps = (dispatch) => {
     };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(FieldDetailComponent);
+export default connect(mapStateToProps, null)(FieldDetailComponent);
 
 // export default FieldDetailComponent;
