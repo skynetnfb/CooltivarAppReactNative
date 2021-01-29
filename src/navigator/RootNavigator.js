@@ -16,25 +16,31 @@ import FieldFormComponent from '../components/Field/FieldFormComponent';
 import CameraComponent from '../components/CameraComponent';
 import CultivActionsThreatRemedyComponent from '../components/CultivActionsThreatRemedyComponent';
 import RegisterComponent from '../components/RegisterComponent';
+import {UserSelector} from '../redux/selector/UserSelector';
+import {USER_LOGGED_OUT_REQ, USER_LOGGED_REQ} from '../redux/action/dispatchers/UserAction';
+import {connect} from 'react-redux';
 
 const RootStackNavigator = createStackNavigator();
 const MaterialTopTabNavigator = createMaterialTopTabNavigator();
 
-export default class RootNavigator extends Component {
+class RootNavigator extends Component {
     constructor(props) {
         super(props);
         //TODO DEBUG
-        this.logged=null;
         //costruttore chiamato prima che venga renderizzato il component
     }
 
     render(){
-           if(this.route!==undefined){
+        console.log("###-----------------------------------------------ROOT NAV PROPS",this.props);
+           /*if(this.route!==undefined){
                this.logged=this.route.params.user;
-           }else this.logged=false;
-        //this.logged=true; //debug
+           }else this.logged=false;*/
+        let logged=this.props.logged;//debug
+        console.log("******-----------------------------------------------ROOT NAV PROPS",logged);
+        //let user=this.props.userSelector(); //debug
         const createHomeTabNavigation = () =>(
             <MaterialTopTabNavigator.Navigator
+                shifting={true}
                 name = "Cultivations"
                 initialRouteName="Cultivations"
                 tabBarOptions={{
@@ -147,10 +153,10 @@ export default class RootNavigator extends Component {
         return (
             <NavigationContainer>
                 <RootStackNavigator.Navigator name="home">
-                    {!this.logged && (
+                    {!logged && (
                         <RootStackNavigator.Screen name="login" component={LoginComponent} />
                     )}
-                    {this.logged && (
+                    {logged && (
                         <RootStackNavigator.Screen name = {'Cultivations'} component = { createHomeTabNavigation }/>
                     )}
                     <RootStackNavigator.Screen name = {'home'} component = { createHomeTabNavigation }/>
@@ -169,4 +175,5 @@ export default class RootNavigator extends Component {
         )
     }
 }
+export default RootNavigator;
 

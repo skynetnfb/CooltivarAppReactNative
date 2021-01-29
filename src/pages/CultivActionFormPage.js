@@ -29,7 +29,6 @@ class CultivActionFormPage extends Component {
             cultivation_id:-1,
             cultivAction: null,
         };
-        console.log('###-------------------------------------------CONSTRUCTOR this.props.route.params.cultivAction ',this.props.route.params.cultivAction);
         if(this.props.route.params.cultivAction!==undefined){
             this.state.cultivAction= this.props.route.params.cultivAction;
             this.state.description = this.props.route.params.cultivAction.description;
@@ -56,36 +55,23 @@ class CultivActionFormPage extends Component {
             this.setState({
                 status: text,
             });
+            console.log('***---------------------------------------------------Change Status',this.state.status);
         }.bind(this);
 
         this.handleChangeType = function(text) {
             this.setState({
                 type: text,
             });
+            console.log('***---------------------------------------------------Change TYPE',this.state.type);
         }.bind(this);
-
-        /*
-        this.onChangeStartDate = function (event, selectedDate) {
-            const currentDate = selectedDate || this.state.startDate;
-            console.log('---------------------------selected Date:',this.state.startDate);
-            console.log('---------------------------this.startDate:',this.state.startDate);
-            console.log('---------------------------current:',currentDate);
-            this.setState({startDate:currentDate})
-        }.bind(this);
-
-        this.onChangeEndDate = function (event, selectedDate) {
-            const currentDate = selectedDate || endDate;
-            setShow(Platform.OS === 'ios');
-            setEndDate(currentDate);
-        }.bind(this);
-        */
-
 
         this.confirm = function() {
             this.setState({loading: true});
             if(this.state.cultivAction==null){
                 let cultivation_id = this.props.route.params.cultivation_id;
-                this.state.cultivAction = new CultivAction(this.state.description,new Date(),new Date(), this.state.status,this.state.type, cultivation_id);
+                console.log('***---------------------------------------------------TYPE',this.state.type);
+                this.state.cultivAction = new CultivAction(this.state.description,new Date(this.state.startDate),new Date(this.state.endDate), this.state.status,this.state.type, cultivation_id);
+                console.log('***---------------------------------------------------CULTIV ACTION ',this.state.cultivAction);
                 createCultivAction(this.state.cultivAction);
             }else {
                 let _cultivAction = new CultivAction();
@@ -97,9 +83,9 @@ class CultivActionFormPage extends Component {
                 _cultivAction.status=this.state.status;
                 _cultivAction.type=this.state.type;
                 _cultivAction.cultivation_id=cultivActionRealm.cultivation_id;
+                console.log('***---------------------------------------------------TYPE',this.state.type);
                 updateCultivAction(_cultivAction);
             }
-            console.log('###---------------------------------------------------GOBACK()')
             this.props.navigation.goBack();
         }.bind(this);
 
@@ -116,8 +102,6 @@ class CultivActionFormPage extends Component {
     componentDidMount(){
     }
     componentWillUnmount(): void {
-        //viene chiamata prima di essere distrutto il component
-        // se si deve fare qualcosa con qualche evento legato a questo component deve essere fatto qui
     };
 
 

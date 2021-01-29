@@ -16,6 +16,7 @@ const initialState = {
     ],
     cultivActions:[],
     user:null,
+    logged:false,
 };
 //TODO
 initialState.cultivations[0].id = '1611331189935';

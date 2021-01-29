@@ -16,7 +16,7 @@ class  CultivActionCardComponent extends React.Component{
         }.bind(this);
 
         this.getIcon= function (){
-            //console.log('--------------------------------------------TYPE:',this.props.type)
+            console.log('***--------------------------------------------TYPE:',this.props.type);
             switch (this.props.type){
                 case "Threat":
                     return "ios-warning-sharp";
@@ -54,7 +54,6 @@ class  CultivActionCardComponent extends React.Component{
         }
     }
     componentDidMount(){
-        //viene chiamato quando si deve renderizzare
     }
     componentWillUnmount(): void {
         //viene chiamata prima di essere distrutto il component

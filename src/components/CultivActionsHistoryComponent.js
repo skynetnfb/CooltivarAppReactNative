@@ -26,7 +26,6 @@ class  CultivActionsHistoryComponent extends Component{
 
 
     }
-
     componentDidMount(): void {
         //this.setState({cultivActions:getAllCultivActions()});
         this.props.find_cultivActions();
@@ -38,7 +37,7 @@ class  CultivActionsHistoryComponent extends Component{
         const route2 = routeParams1.route;
         const routeParams2 = route2.params;
         console.log('------------cult HISTORY ROUTEPARAM2:',routeParams2);
-        console.log('*#--------------------------this.props.cultivActions',this.props.cultivActions);
+        console.log('***--------------------------this.props.cultivActions',this.props.cultivActions);
 
         return (
             <View style={STYLE.container}>

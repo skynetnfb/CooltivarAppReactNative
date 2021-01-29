@@ -1,9 +1,18 @@
 import {initialState} from '../store/store';
 import { FieldEnum } from '../action/enum/field';
-import {CultivActionDB, CultivationDB, deleteCultivAction, deleteCultivation, FieldDB} from '../../model/Repository';
+import {
+    createCultivation,
+    CultivActionDB,
+    CultivationDB,
+    deleteCultivAction,
+    deleteCultivation,
+    FieldDB,
+    updateCultivation,
+} from '../../model/Repository';
 import {FieldSelector} from '../selector/field';
 import {CultivationEnum} from '../action/enum/cultivation';
 import {CultivActionEnum} from '../action/enum/Operation';
+import {UserEnum} from '../action/enum/UserEnum';
 import {CultivationSelector} from '../selector/cultivation';
 
 
@@ -80,9 +89,17 @@ const reducer = (state = initialState, action) => {
             break;
         case CultivationEnum.UPDATE_REQ:
             let _cultivation = action.cultivation;
+            console.log('!!!---------------------REDUCER CULTIVATION UPDATE---------------------------!!! CULTIVATION',_cultivation);
+            updateCultivation(_cultivation);
             index = newState.cultivations.findIndex((e)=> (e.id === _cultivation.id));
-            console.log('!!!---------------------UPDATE---------------------------!!! POSITION', position,"CULTIVATION",_cultivation, "STATE cultivation:",  newState.cultivations[position]);
+            console.log('!!!---------------------REDUCER CULTIVATION UPDATE---------------------------!!! POSITION', position,"CULTIVATION",_cultivation, "STATE cultivation:",  newState.cultivations[position]);
             newState.cultivations[index] = _cultivation;
+            break;
+        case CultivationEnum.INSERT_REQ:
+            _cultivation = action.cultivation;
+            createCultivation(_cultivation);
+            console.log("!!!--------------------- REDUCER INSERT---------------------------!!!CULTIVATION",_cultivation, );
+            newState.cultivations.push(_cultivation);
             break;
         case CultivationEnum.DELETE_REQ:
             let id = action.id;
@@ -91,7 +108,6 @@ const reducer = (state = initialState, action) => {
             newState.cultivations.splice(index,1);
             break;
         case CultivActionEnum.FIND_REQ:
-            console.log('!!!---------------------------------------------CultivActionEnum.FIND_REQ');
             // query | id | none of those (findall)
             if (action.id) {
                 response = CultivActionDB.find(+action.id);
@@ -126,6 +142,16 @@ const reducer = (state = initialState, action) => {
             if (!newState.fields) newState.fields = [];
             FieldDB.insert(action.field);
             newState.fields.push(action.field);
+            break;
+        case UserEnum.USER_LOGGED:
+            console.log('###!!!---------------------------------------------REDUCER UserEnum.USER_LOGGED');
+            newState.logged = true;
+            newState.user = action.user;
+            break;
+        case UserEnum.USER_LOGGED_OUT:
+            console.log('###!!!---------------------------------------------REDUCER UserEnum.USER_LOGGED_OUT');
+            newState.logged = false;
+            newState.user = null;
             break;
     }
     return newState;

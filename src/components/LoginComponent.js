@@ -34,10 +34,9 @@ class LoginComponent extends Component {
                 loading: false,
                 user:true,
             });
-
             let userDbPath;
             if(firebase.auth().currentUser!=null){userDbPath = firebase.auth().currentUser.email;}
-            initRealm(userDbPath);
+            //initRealm(userDbPath);
             this.props.navigation.navigate('home', {user:true});
         }.bind(this);
 
@@ -99,7 +98,7 @@ class LoginComponent extends Component {
     }
 
     render() {
-
+/*
         console.log('**----------------------INSIDE REGISTER PROPS UNDEFINED',this.props);
         const firebaseConfig = {
             apiKey: 'AIzaSyC_F98EhQTmgzbbalgnYqQFpCgOXcgcnxs',
@@ -114,7 +113,7 @@ class LoginComponent extends Component {
         if (!firebase.apps.length) {
             firebase.initializeApp(firebaseConfig);
         }
-
+*/
 
 
         return (

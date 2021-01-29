@@ -124,9 +124,8 @@ class CultivationFormPage extends Component {
                 console.log('###------------------------------  DENTRO IF  :');
                 this.setState({loading: true});
                 let cultivation = new Cultivation(this.state.name, this.state.cultivar, this.state.description, '1',this.state.startDate,this.state.endDate,1,this.state.status, '');
-                //this.props.insert_cultivation(cultivation);
-                createCultivation(cultivation);
-                //TODO come gestiamo il redirect? nadiamo back o andiamo avanti ricaricando i dati?
+                this.props.insert_cultivation(cultivation);
+                //TODO COLLEGAMENTO DINAMICO DEI FIELD NELLA SELECT
                 this.formSuccess();
             }else{
                 let _cultivation = new Cultivation();
@@ -141,15 +140,10 @@ class CultivationFormPage extends Component {
                 _cultivation.preview = this.props.cultivation.preview;
                 _cultivation.field_id = this.state.field_id;
                 console.log('###------------------------------  DENTRO ELSE _CULTIVATION :',_cultivation);
-                updateCultivation(_cultivation);
+                //updateCultivation(_cultivation);
                 this.props.update_cultivation(_cultivation);
                 this.formSuccess();
             }
-
-            /*let cults = getAllCultivations();
-            for(let cultivation of cults){
-                console.log(cultivation.sowingDate.getTime());
-            }*/
         }.bind(this);
     }
 

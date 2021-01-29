@@ -6,6 +6,7 @@ import {Text} from 'react-native'
 import {Provider} from 'react-redux';
 import {store} from './redux/store/store';
 import firebase from 'firebase';
+import UserService from './UserService';
 
 //const Realm = require('realm');
 class App extends React.Component{
@@ -30,12 +31,14 @@ class App extends React.Component{
 
     render() {
         return (
+            <>
 
             <Provider store={store}>
                <SafeAreaView style={{flex: 1}}>
-                    <RootNavigator/>
+                   <UserService/>
                </SafeAreaView>
             </Provider>
+            </>
             //<TitleComponent title = {"Titolo Login da App.js"}/>
             //                    <CultivationListComponent children = {"Children di Cultivation List"} />
                     //altre componment

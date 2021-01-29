@@ -23,6 +23,7 @@ constructor(props) {
     super(props);
 }
     componentDidMount(): void {
+    console.log('####--------------------------------------Cultivation LIST PROPS',this.props);
         //this.setState({cultivations:getAllCultivations()});
         this.props.find_cultivations();
     }
