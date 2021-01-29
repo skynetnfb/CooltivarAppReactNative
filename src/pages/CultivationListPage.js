@@ -39,7 +39,7 @@ constructor(props) {
                 <AbstractCardComponent
                     navigation={navigation}
                     navigate_to={"cultivation"}
-                    image={null}
+                    image={''}
                     imageph={require('../../imgs/no_content.png')}
                     title={item.name}
                     subtitle={item.cultivar}
@@ -54,7 +54,7 @@ constructor(props) {
                 />
                 <TouchableOpacity
                     style={[STYLE.footer]}
-                    onPress={()=>this.props.navigation.navigate('cultivation_form')}>
+                    onPress={()=>this.props.navigation.navigate('cultivation_form',{id:null})}>
                     <Icon
                         name="md-add-circle-sharp"
                         size={40}
@@ -90,6 +90,6 @@ const mapDispatchToProps = (dispatch) => {
     };
 };
 
-
+//TODO item.preview && {uri: item.preview}||
 export default connect(mapStateToProps, mapDispatchToProps)(CultivationListPage);
 

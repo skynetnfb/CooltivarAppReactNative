@@ -19,6 +19,19 @@ export default class CultivAction {
         this.cultivation_id = cultivation_id;
     }
 
+    clone( cultivAction) {
+        let temp = new CultivAction();
+        temp.id = cultivAction.id;
+        temp.description = cultivAction.description;
+        temp.startDate = cultivAction.startDate;
+        temp.endDate = cultivAction.endDate;
+        temp.status = cultivAction.status;
+        temp.type = cultivAction.type;
+        temp.cultivation_id = cultivAction.cultivation_id;
+        return temp;
+    }
+
+
     getRealmObject() {
         return {
             id: this.id,
@@ -34,7 +47,7 @@ export default class CultivAction {
     updateObjectInfo(cultivAction: any) {
         if (!cultivAction)
             return;
-        cultivAction['name'] = this.name;
+        cultivAction['id'] = this.id;
         cultivAction['description'] = this.description;
         cultivAction['startDate'] = this.startDate;
         cultivAction['endDate'] = this.endDate;

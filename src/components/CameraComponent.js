@@ -3,15 +3,18 @@ import React, { PureComponent } from 'react';
 import { AppRegistry, StyleSheet, Text, TouchableOpacity, View,Image,PermissionsAndroid} from 'react-native';
 import { RNCamera } from 'react-native-camera';
 import Cultivation from '../model/Cultivation';
-import {createCultivation} from '../model/Repository';
+import {createCultivation, updateCultivation} from '../model/Repository';
 var RNFS = require('react-native-fs');
 import RNFetchBlob from 'react-native-fetch-blob'
 import {STYLE} from '../styles/styles';
+import {CultivationSelector} from '../redux/selector/cultivation';
+import {INSERT_CULTIVATION_ACTION_REQ, UPDATE_CULTIVATION_ACTION_REQ} from '../redux/action/dispatchers/cultivation';
+import {connect} from 'react-redux';
 // create a path you want to write to
 // :warning: on iOS, you cannot write into `RNFS.MainBundlePath`,
 // but `RNFS.DocumentDirectoryPath` exists on both platforms and is writable
 //var PATH = RNFS.DocumentDirectoryPath + '/cultivation_id.txt';
-var PATH = RNFetchBlob.fs.dirs.DocumentDir + '/cultivation_id4.jpg';
+
 
 
 
@@ -23,6 +26,11 @@ class CameraComponent extends PureComponent {
             data:'',
             cultivation:this.props.cultivation,
         };
+        let PATH = RNFetchBlob.fs.dirs.DocumentDir;
+        if(this.props.cultivation!=null){
+        PATH = RNFetchBlob.fs.dirs.DocumentDir + this.props.cultivation.id;
+        this.state.path=this.props.cultivation.preview;
+        }
 
         this.requestStoragePermission = async () => {
             try {
@@ -51,19 +59,26 @@ class CameraComponent extends PureComponent {
             RNFetchBlob.fs.writeFile(PATH, this.state.data.base64, 'base64')
                 .then(() => {
                     console.log('FILE WRITTEN!');
-                    console.log('FILE WRITTEN!',PATH);
+                    console.log('##--------------------------------------------------------FILE WRITTEN on PATH!',PATH );
                     this.setState({path:'file://'+PATH});
-                    console.log('CONSOLE LOG STATE PATH',this.state.path);
-                    console.log('CONSOLE LOG STATE DATA',this.state.data);
+                    this.updateCultivationpreview('file://'+PATH);
                     if (true) {
-                        RNFetchBlob.android.actionViewIntent(this.state.path, 'application/pdf').then(r => {console.log('THEN')});
+                        RNFetchBlob.android.actionViewIntent(this.props.cultivation.id, 'application/pdf').then(r => {console.log('THEN')});
                     } else {
                         RNFetchBlob.ios.previewDocument(this.state.path);
                     }
-                })
-                .catch((err) => {
+                }).catch((err) => {
                     console.log(err.message);
                 });
+        }.bind(this);
+
+        this.updateCultivationpreview = function (path) {
+                let _cultivation = new Cultivation();
+                    _cultivation.clone(this.props.cultivation);
+                    _cultivation.preview = this.state.path;
+                    console.log("###-------------------------------------------------Clone:",_cultivation)
+            updateCultivation(_cultivation);
+            this.props.update_cultivation(_cultivation);
         }.bind(this);
 
     }
@@ -100,7 +115,7 @@ class CameraComponent extends PureComponent {
                 <View style={styles.preview_container}>
                     <Image
                         style={styles.preview_image}
-                        source={{uri: 'file:///data/user/0/com.cooltivarappreactnative/files/cultivation_id2.jpg'}}
+                        source={{uri: this.state.path}}
                     />
                     <View style={styles.buttons_container}>
                     <TouchableOpacity onPress={this.takePicture.bind(this)} style={styles.button_camera}>
@@ -119,21 +134,12 @@ class CameraComponent extends PureComponent {
         if (this.camera) {
             const options = { quality: 0.5, base64: true };
             this.state.data = await this.camera.takePictureAsync(options);
-            console.log('----------------------TIPO',this.state.data);
             this.setState({ path: this.state.data.uri });
-            //let cultivation = new Cultivation('this.state.name', 'this.state.cultivar', 'this.state.description', 1,new Date(),new Date(),999,'Grow', 'TODO' );
-            //createCultivation(cultivation);
-            //this.path = data.uri;
-            console.log('PATH',this.state.data.uri);
+            console.log('#####------------------------------------------------------SNAP PATH',this.state.data.uri);
             this.requestStoragePermission();
         }
     };
-
-    // require the module
-
-
-
-
+    /*
     renderImage() {
         return (
             <Image
@@ -141,7 +147,7 @@ class CameraComponent extends PureComponent {
                 style={styles.preview}
             />
         );
-    }
+    }*/
 }
 
 const styles = StyleSheet.create({
@@ -184,4 +190,19 @@ const styles = StyleSheet.create({
         alignSelf: 'center',
     },
 });
-export  default CameraComponent;
+const mapStateToProps = (state,props) => {
+    let stateret;
+    stateret = {
+        cultivation:props.route.params.id? CultivationSelector.find(state)(props.route.params.id):null,
+        selectors: CultivationSelector,
+    };
+    return stateret;
+};
+
+const mapDispatchToProps = (dispatch) => {
+    return {
+        update_cultivation: UPDATE_CULTIVATION_ACTION_REQ(dispatch),
+    };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(CameraComponent);

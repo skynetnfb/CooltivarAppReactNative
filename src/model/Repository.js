@@ -1,12 +1,37 @@
-import Cultivation, {CULTIVATION_SCHEMA, CultivationSchema} from './Cultivation';
-import CultivAction, {CultivActionSchema}from './CultivAction';
-import Field,{FieldSchema} from './Field';
-let Realm = require('realm');
-let realm = new Realm({ path: 'db.realm', schema: [Cultivation.schema,CultivAction.schema,Field.schema] });
+import Cultivation, {CULTIVATION_SCHEMA} from './Cultivation';
+import CultivAction from './CultivAction';
+import Field from './Field';
+import FirebaseAuth from '../utils/FirebaseAuth';
+import firebase from 'firebase';
+
+    let Realm = require('realm');
+    let userDbPath = null;
+/*
+    export const firebaseConfig = {
+        apiKey: 'AIzaSyC_F98EhQTmgzbbalgnYqQFpCgOXcgcnxs',
+        authDomain: 'reactcooltivarapp.firebaseapp.com',
+        databaseURL: '',
+        projectId: 'reactcooltivarapp',
+        storageBucket: 'reactcooltivarapp.appspot.com',
+        messagingSenderId: '461253967081',
+        appId: '1:461253967081:web:6c21b324129a2319960478',
+        measurementId: '',
+    };
+    if (!firebase.apps.length) {
+        firebase.initializeApp(firebaseConfig);
+    }
 
 
+    if(firebase.auth().currentUser!=null){userDbPath = firebase.auth().currentUser.email;
+    console.log('!!!!!-----------------LOGGED USER : ',firebase.auth().currentUser.email);
+    console.log('!!!!!-----------------DB USER : ',userDbPath);}
+    */
+    let realm = null;
+    export const initRealm =function(userDbPath){
+       realm = new Realm({ path: userDbPath+'db.realm', schema: [Cultivation.schema,CultivAction.schema,Field.schema] });
+       return realm;
+    };
 
-//------------------------------------------Cultivation START----------------------------------------------------------//
 
 
 export const createCultivation = (cultivation: Cultivation) => {
@@ -67,14 +92,15 @@ export const updateCultivation = (cultivation: Cultivation) => {
         throw 'No Cultivation Found';
     }
     try {
+        console.log('###------------------------------updateCultivation Prima del WRITE :REALM CULT ',findCultivation);
+        console.log('###------------------------------updateCultivation Prima del WRITE cultivation:',cultivation);
         realm.write(() => {
             cultivation.updateObjectInfo(findCultivation);
         });
+        console.log('###------------------------------ UPDATED WRITE :');
         return true;
     } catch(e) {
         return false
-    } finally {
-        throw 'Error Updating Cultivation: ${e.message}';
     }
 };
 
@@ -163,27 +189,29 @@ export const updateCultivAction = (cultivAction: CultivAction) => {
         return true;
     } catch(e) {
         return false
-    } finally {
-        throw 'Error Updating Cultiv Action: ${e.message}';
     }
 };
 
 export const deleteCultivAction = (cultivAction: CultivAction) => {
+    console.log('DENTRO DELETE INIZIO');
     if (!cultivAction) {
         throw 'Invalid input!';
     }
     let findcultivAction = getCultivActionById(cultivAction.id);
     if (!findcultivAction) {
+        console.log('DENTRO DELETE NON TROVATA');
         return false;
     }
     try {
         realm.write(() => {
+            console.log('DENTRO DELETE PRIMA WRITE');
             realm.delete(findcultivAction);
+            console.log('DENTRO DELETE DOPO WRITE')
         });
         return true;
     } catch(e) {
-        throw 'Error Updating Cultiv Action: ${e.message}';
-    } finally {}
+        throw 'Error Deleting Cultiv Action: ${e.message}';
+    }
 };
 
 const checkIfCultivActionExists = (id: number) => {
@@ -255,8 +283,6 @@ export const updateField = (field: Field) => {
         return true;
     } catch(e) {
         return false
-    } finally {
-        throw 'Error Updating Field : ${e.message}';
     }
 };
 

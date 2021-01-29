@@ -5,6 +5,7 @@ import {SafeAreaView} from "react-native-safe-area-context";
 import {Text} from 'react-native'
 import {Provider} from 'react-redux';
 import {store} from './redux/store/store';
+import firebase from 'firebase';
 
 //const Realm = require('realm');
 class App extends React.Component{
@@ -12,27 +13,20 @@ class App extends React.Component{
         super(props);
         this.state = { realm: null };
     }
-    /*
-    componentDidMount() {
-        Realm.open({
-            schema: [{name: 'Dog', properties: {name: 'string'}}]
-        }).then(realm => {
 
-            realm.write(() => {
-                realm.create('Dog', {name: 'Rex'});
-            });
-            console.log('#########################SCHEMA DOG', realm.schema);
-            this.setState({ realm });
-        });
+    componentDidMount() {
+
     }
 
-    componentWillUnmount() {
-        // Close the realm if there is one open.
-        const {realm} = this.state;
-        if (realm !== null && !realm.isClosed) {
-            realm.close();
+        componentWillUnmount()
+        {
+            // Close the realm if there is one open.
+            const {realm} = this.state;
+            if (realm !== null && !realm.isClosed) {
+                realm.close();
+            }
         }
-    }*/
+
 
     render() {
         return (

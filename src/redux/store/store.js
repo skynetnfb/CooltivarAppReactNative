@@ -23,7 +23,7 @@ const initialState: AppState = {
         new Cultivation('MOCK', 'cultivar1', 'description of cultivation1', '1', new Date(), new Date(), 500, 'Grow', null),
     ],
     cultivActions:[],
-    user: {},
+    user:null,
 };
 
 //TODO

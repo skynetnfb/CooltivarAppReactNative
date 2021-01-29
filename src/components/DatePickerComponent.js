@@ -3,7 +3,7 @@ import {View, Button, Platform, StyleSheet} from 'react-native';
 import DateTimePicker from '@react-native-community/datetimepicker';
 
 export const DatePickerComponent = (props) => {
-    const [date, setDate] = useState(new Date("2021-01-01"));
+    const [date, setDate] = useState(new Date(props.initial_value.toString()));
     const [mode, setMode] = useState('date');
     const [show, setShow] = useState(false);
 

@@ -1,13 +1,21 @@
 import React from 'react';
-import {Image, SafeAreaView, ScrollView, StatusBar, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import {
+    Image,
+    ScrollView,
+    StyleSheet,
+    Text,
+    TouchableOpacity,
+    View
+} from 'react-native';
 import Cultivation from '../model/Cultivation';
 import {STYLE} from '../styles/styles';
 import Icon from 'react-native-vector-icons/Ionicons';
-import {FieldSelector} from '../redux/selector/field';
-import {FIND_FIELD_ACTION_REQ, INSERT_FIELD_ACTION_REQ} from '../redux/action/dispatchers/field';
 import {connect} from 'react-redux';
 import {CultivationSelector} from '../redux/selector/cultivation';
-import CultivationListPage from '../pages/CultivationListPage';
+import {forecast, getForecastToday} from '../api/api';
+import ModalComponent from './abstract/ModalComponent';
+import {DELETE_CULTIVATION_ACTION_REQ, UPDATE_CULTIVATION_ACTION_REQ} from '../redux/action/dispatchers/cultivation';
+import {deleteCultivAction} from '../model/Repository';
 
 
 class  CultivationDetailComponent extends React.Component{
@@ -32,26 +40,40 @@ class  CultivationDetailComponent extends React.Component{
             this.props.navigation.navigate('cultivation_form');
         }.bind(this);
 
+        this.deleteDialog = function() {
+
+        }.bind(this);
+
         this.openCamera = function() {
             return (
-                this.props.navigation.navigate('camera')
+                this.props.navigation.navigate('camera',{ id: this.props.cultivation.id })
             )
+        }.bind(this);
+
+        this.resultModal = function (modalResult){
+            console.log('#######------------------------------RESULT MODAL CULTIVATION:', this.props.cultivation);
+            if(modalResult){
+                //deleteCultivAction(this.props.cultivation.id);
+                this.props.delete_cultivation(this.props.cultivation);
+                this.props.navigation.navigate('home',{user:true})
+            }
+
+
         }.bind(this);
     }
     componentDidMount(){
-        const route = this.props.route;
-        const routeParams1 = route.params;
-        const route2 = routeParams1.route;
-        const routeParams2 = route2.params;
-        console.log('------------cult detail ROUTEPARAM2:',routeParams2);
-        //const args = routeParams2.args.id;
-        console.log('--------------------------------- ID :',routeParams2.id);
-        //console.log('------------***********cult detail navigation ITEM:',routeParams2.item.name);
-        let temp = this.props.findSelector(routeParams2.id);
-        console.log('--------------------------------- Result Selector:'+temp);
-        //this.setState({cultivation:routeParams2.item});
-        this.setState({cultivation:this.props.findSelector(routeParams2.id)});
-        console.log('---------------------***********STATe Cultivation:',this.state.cultivation);
+
+        let coord = {
+            latitude:null,
+            longitude:null,
+        };
+        coord.latitude = 10;
+        coord.longitude = 30;
+
+        let fc = forecast(coord,3);
+        //let fc = getForecastToday(coord);
+
+        console.log('###-------------------------------------------------forecast:',fc)
     }
     componentWillUnmount(): void {
         //viene chiamata prima di essere distrutto il component
@@ -62,14 +84,14 @@ class  CultivationDetailComponent extends React.Component{
     render() {
         return (
             <View style={STYLE.container}>
+
                 <ScrollView style = {styles.scrollView} showsVerticalScrollIndicator ={false}>
                     <TouchableOpacity onPress={this.openCamera}>
                         <Image
                             style={styles.preview_image}
-                            source={require('../../imgs/no_cultivation_preview.png')}
+                            source={this.props.cultivation.preview&&{uri: this.props.cultivation.preview}||require('../../imgs/no_cultivation_preview.png')}
                         />
                     </TouchableOpacity>
-
                     <View style={styles.weather_container}>
                         <Image style={styles.icon_image}
                                source={require('../../imgs/open_weather_02n_2x.png')}
@@ -85,38 +107,51 @@ class  CultivationDetailComponent extends React.Component{
                         <View style={[styles.card_text_container]}>
                             <View style={[STYLE.rowContainer,STYLE.columnContainer,STYLE.centerColumn,styles.card_title_container]}>
                                 <Text numberOfLines={1} style={styles.card_title}>
-                                    {this.state.cultivation.name||'Loading...'}
+                                    {this.props.cultivation.name||'Loading...'}
                                 </Text>
                                 <Text numberOfLines={1} style={styles.card_title}>
-                                    {this.state.cultivation.cultivar||'Loading...'}
+                                    {this.props.cultivation.cultivar||'Loading...'}
+                                </Text>
+                                <Text numberOfLines={1} style={styles.card_title}>
+                                    {this.props.cultivation.status||'Loading...'}
                                 </Text>
                             </View>
                             <View style={[STYLE.rowContainer,STYLE.columnContainer,STYLE.centerColumn,styles.card_title_container,STYLE.separator_horizontal_bottom]}>
-                            <Text numberOfLines={1} style={styles.card_text}>
-                                {'From: '+new Date(this.state.cultivation.sowingDate).toDateString()||'Loading...'}
+                            <Text numberOfLines={1} style={styles.card_date_text}>
+                                {'From: '+new Date(this.props.cultivation.sowingDate).toDateString()||'Loading...'}
                             </Text>
-                            <Text numberOfLines={1} style={styles.card_text}>
-                                {'To: '+ new Date (this.state.cultivation.harvestDate).toDateString()||'Loading...'}
+                            <Text numberOfLines={1} style={styles.card_date_text}>
+                                {'To: '+ new Date (this.props.cultivation.harvestDate).toDateString()||'Loading...'}
                             </Text>
                             </View>
-                            <Text numberOfLines={1} style={styles.card_text}>
-                                {'Harvest Weight : '+this.state.cultivation.harvestWeight||'Loading...'}
-                            </Text>
                             <Text numberOfLines={5} style={styles.card_text}>
-                                {'Description : '+this.state.cultivation.description||'Loading...'}
+                                {'Description : '+this.props.cultivation.description||'Loading...'}
+                            </Text>
+                            <Text numberOfLines={1} style={styles.card_text}>
+                                {'Harvest Weight : '+this.props.cultivation.harvestWeight||'Loading...'}
                             </Text>
                         </View>
                     </View>
                 </ScrollView>
+                <View
+                    style={[STYLE.footer]}>
                 <TouchableOpacity
-                    style={[STYLE.footer]}
-                    onPress={()=>this.props.navigation.navigate('cultivation_form',{ cultivation: this.state.cultivation })}>
+                    onPress={this.deleteDialog}>
+                    <ModalComponent
+                        modalMessage = {"Cultivation will be deleted! Are You Sure? "}
+                        icon ={"settings-sharp"}
+                        result = {this.resultModal}
+                    />
+                </TouchableOpacity>
+                <TouchableOpacity
+                    onPress={()=>this.props.navigation.navigate('cultivation_form',{ id: this.props.cultivation.id })}>
                     <Icon
                         name="settings-sharp"
                         size={40}
                         color="#FFF"
                     />
                 </TouchableOpacity>
+                </View>
             </View>
         );
     }
@@ -176,13 +211,20 @@ const styles = StyleSheet.create({
     },
     card_text: {
         textAlign: 'left',
-        color: '#000',
+        color: '#AAA',
         fontSize: 15,
+        marginTop: 4,
+    },
+    card_date_text: {
+        textAlign: 'left',
+        color: '#AAA',
+        fontSize: 14,
+        marginTop: 4,
     },
     card_title: {
         textAlign: 'left',
         color: 'green',
-        fontSize: 20,
+        fontSize: 18,
         fontWeight: 'bold',
     },
     loading_icon: {
@@ -200,20 +242,24 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
     },
 });
-const mapStateToProps = (state) => {
+const mapStateToProps = (state,props) => {
+
+    const route = props.route;
+    const routeParams1 = route.params;
+    const route2 = routeParams1.route;
+    const routeParams2 = route2.params;
 
     let stateret;
     stateret = {
+        cultivation : CultivationSelector.find(state)(routeParams2.id),
         findSelector: CultivationSelector.find(state),
     };
-    console.log('---------------------***********STATe :',state);
-    console.log('---------------------***********SEL :',CultivationSelector);
     return stateret;
-
 };
 
 const mapDispatchToProps = (dispatch) => {
     return {
+        delete_cultivation: DELETE_CULTIVATION_ACTION_REQ(dispatch),
     };
 };
 

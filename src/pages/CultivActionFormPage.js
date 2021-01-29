@@ -8,12 +8,12 @@ import {
     ActivityIndicator,
     TouchableOpacity,
     ScrollView,
-    Picker, Button, Platform,
-} from 'react-native';
-import {createCultivAction} from '../model/Repository';
+    Picker,
+        } from 'react-native';
+import {createCultivAction, updateCultivAction} from '../model/Repository';
 import CultivAction from '../model/CultivAction';
 import {DatePickerComponent} from '../components/DatePickerComponent';
-import DateTimePicker from '@react-native-community/datetimepicker';
+import {STYLE} from '../styles/styles';
 
 class CultivActionFormPage extends Component {
     constructor(props) {
@@ -24,30 +24,20 @@ class CultivActionFormPage extends Component {
             status: '',
             type: '',
             validation:'validation message test',
-            //startDate:useState(new Date("2021-01-01")),
-            //endDate: useState(new Date("2021-01-01")),
             startDate:new Date("2021-01-01"),
             endDate: new Date("2021-01-01"),
             cultivation_id:-1,
             cultivAction: null,
         };
-
-
-
-        this.formSuccess = function() {
-            this.setState({
-                status: 'Cultivation Saved',
-                loading: false,
-            });
-            this.props.navigation.goBack();
-        }.bind(this);
-
-        this.loginError = function(error) {
-            this.setState({
-                status: 'Cultivation Save Error',
-                loading: false,
-            });
-        }.bind(this);
+        console.log('###-------------------------------------------CONSTRUCTOR this.props.route.params.cultivAction ',this.props.route.params.cultivAction);
+        if(this.props.route.params.cultivAction!==undefined){
+            this.state.cultivAction= this.props.route.params.cultivAction;
+            this.state.description = this.props.route.params.cultivAction.description;
+            this.state.status = this.props.route.params.cultivAction.status;
+            this.state.type = this.props.route.params.cultivAction.type;
+            this.state.startDate = new Date(this.props.route.params.cultivAction.startDate).toDateString();
+            this.state.endDate = new Date(this.props.route.params.cultivAction.endDate).toDateString();
+        }
 
 
         this.handleChangeDescription = function(text) {
@@ -74,6 +64,7 @@ class CultivActionFormPage extends Component {
             });
         }.bind(this);
 
+        /*
         this.onChangeStartDate = function (event, selectedDate) {
             const currentDate = selectedDate || this.state.startDate;
             console.log('---------------------------selected Date:',this.state.startDate);
@@ -82,7 +73,6 @@ class CultivActionFormPage extends Component {
             this.setState({startDate:currentDate})
         }.bind(this);
 
-        /*
         this.onChangeEndDate = function (event, selectedDate) {
             const currentDate = selectedDate || endDate;
             setShow(Platform.OS === 'ios');
@@ -93,26 +83,42 @@ class CultivActionFormPage extends Component {
 
         this.confirm = function() {
             this.setState({loading: true});
-            //CULTIVA_ACTION constructor( description,startDate,endDate, status, type,cultivation_id)
-            let cultivAction = new CultivAction('Descrizione test',new Date(),new Date(), 'STATUS mock','TYPE mock', '35416841568971864');
-            createCultivAction(cultivAction);
-            //TODO come gestiamo il redirect? nadiamo back o andiamo avanti ricaricando i dati?
-            //this.props.navigation.goBack();
+            if(this.state.cultivAction==null){
+                let cultivation_id = this.props.route.params.cultivation_id;
+                this.state.cultivAction = new CultivAction(this.state.description,new Date(),new Date(), this.state.status,this.state.type, cultivation_id);
+                createCultivAction(this.state.cultivAction);
+            }else {
+                let _cultivAction = new CultivAction();
+                let cultivActionRealm = this.props.route.params.cultivAction;
+                _cultivAction.id =cultivActionRealm.id;
+                _cultivAction.description =this.state.description;
+                _cultivAction.startDate=new Date(this.state.startDate);
+                _cultivAction.endDate=new Date(this.state.endDate);
+                _cultivAction.status=this.state.status;
+                _cultivAction.type=this.state.type;
+                _cultivAction.cultivation_id=cultivActionRealm.cultivation_id;
+                updateCultivAction(_cultivAction);
+            }
+            console.log('###---------------------------------------------------GOBACK()')
+            this.props.navigation.goBack();
         }.bind(this);
-
 
         this.resultStartDatePicker = function (date){
             this.setState({startDate:date});
-            console.log('------------------------------DATE:',date);
-            console.log('------------------------------STATE:',this.state.startDate)
         }.bind(this);
 
         this.resultEndDatePicker = function (date){
             this.setState({startDate:date});
-            console.log('------------------------------End DATE:',date);
-            console.log('------------------------------End Date STATE:',this.state.endDate)
         }.bind(this);
     }
+
+
+    componentDidMount(){
+    }
+    componentWillUnmount(): void {
+        //viene chiamata prima di essere distrutto il component
+        // se si deve fare qualcosa con qualche evento legato a questo component deve essere fatto qui
+    };
 
 
 
@@ -133,18 +139,6 @@ class CultivActionFormPage extends Component {
                             />
                         </View>
 
-                        <View style = {styles.input_text_container}>
-                            <TextInput
-                                style = {styles.input_text_area}
-                                placeholder = {'Date'}
-                                onChangeText = {this.handleChangeDescription}
-                                value = {this.state.description}
-                            />
-                        </View>
-
-                        <DatePickerComponent ref='startDateDP' result = {this.resultStartDatePicker}/>
-                        <DatePickerComponent ref='startDateDP' result = {this.resultEndDatePicker}/>
-
                         <View style={styles.input_text_container}>
                             <Picker selectedValue = {this.state.type} onValueChange = {this.handleChangeType}>
                                 <Picker.Item label = "Threat" value = "Threat" />
@@ -160,6 +154,13 @@ class CultivActionFormPage extends Component {
                                 <Picker.Item label = "Completed" value = "Completed" />
                                 <Picker.Item label = "Fail" value = "Fail" />
                             </Picker>
+                        </View>
+
+                        <View style = {[STYLE.columnContainer, {width: '100%'}]}>
+                            <Text style={[STYLE.center]}>From</Text>
+                            <DatePickerComponent initial_value ={this.state.startDate||new Date()} ref='startDateDP' result = {this.resultStartDatePicker}/>
+                            <Text style={[STYLE.center]}>to</Text>
+                            <DatePickerComponent initial_value ={this.state.endDate||new Date()} ref='startDateDP' result = {this.resultEndDatePicker}/>
                         </View>
                     </View>
 
@@ -226,6 +227,7 @@ const styles = StyleSheet.create({
     button_container: {
         paddingVertical: 2,
         paddingHorizontal: 100,
+        marginTop: 10,
     },
     confirm_button: {
         backgroundColor: 'green',

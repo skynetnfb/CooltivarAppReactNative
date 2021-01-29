@@ -79,6 +79,7 @@ const STYLE = StyleSheet.create({
         backgroundColor: COLOR.MAIN,
         padding: 10,
         flexDirection: 'row',
+        alignItems: 'center',
         justifyContent: 'space-around',
         borderTopWidth: StyleSheet.hairlineWidth,
         borderColor: '#aaa',
