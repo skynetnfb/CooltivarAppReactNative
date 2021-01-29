@@ -29,6 +29,7 @@ class ValidationComponent2 extends ValidationComponent {
 
     onChange(keyVal) {
         this.setState(keyVal);
+        this.setState({pristine: false});
         setTimeout( () => this.doValidation(), 1);
     }
 

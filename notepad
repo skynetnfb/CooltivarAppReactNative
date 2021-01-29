@@ -1,3 +1,8 @@
 
 per abilitare la mappa su ios
 https://github.com/react-native-maps/react-native-maps/blob/master/docs/installation.md#enabling-google-maps-on-ios-react-native-all-versions
+
+
+BUGFIX: React-native build error: Execution failed for task ':react-native-maps...'
+* run "react-native run-android" multiple times until fixed (around 2 to 15 times)
+* or "cd android && ./gradlew clean && cd .. && react-native run-android"

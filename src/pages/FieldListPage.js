@@ -55,7 +55,7 @@ class  FieldListPage extends React.Component{
                             title={item.name}
                             subtitle={item.city}
                             body={item.description}
-                            item = {item}
+                            item_id = {item.id}
                         />
                 )}
                 keyExtractor={item => "" + item.id}

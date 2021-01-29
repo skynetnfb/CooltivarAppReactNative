@@ -5,18 +5,41 @@ import {FieldSelector} from '../selector/field';
 import {CultivationEnum} from '../action/enum/cultivation';
 import {CultivActionEnum} from '../action/enum/Operation';
 import {CultivationSelector} from '../selector/cultivation';
+import Field from '../../model/Field';
+import Cultivation from '../../model/Cultivation';
+import CultivAction from '../../model/CultivAction';
 
+function debugStatusSize(state) {
+    let ret = {};
+    ret = state;
+    /*
+    if (!state) return {'??' : 'not an object?'};
+    for (let key in state) {
+        const val = state[key];
+        let previewVal;
+        switch( typeof(val) ){
+            case 'object':
+                previewVal = Array.isArray(val) ? val.length : val;
+                break;
+        }
+        ret[key] = typeof(val) === 'object' ? (Array.isArray(val) ? val.length : typeof 'object') : val;
+    }*/
+    return ret;
+}
 
 const reducer = (state = initialState, action) => {
     if (!action) return state;
-    const newState = JSON.parse(JSON.stringify(state)); // lo stato deve essere immutabile, quindi lo clono.
+    const newState: AppState = JSON.parse(JSON.stringify(state)); // lo stato deve essere immutabile, quindi lo clono.
     if (action.type && action.type.indexOf("@@redux/INIT") === 0) {
         // redux passa stringhe tipo "@@redux/INITx.n.j.n.w.l" per inizializzare (con codici random?)
         action.type0 = action.type;
         action.type = "@@redux/INIT";
     }
 
-    console.log("REDUCER EXECUTING ACTION: " + (action.type), action);
+    let field: Field = null;
+    let cultivation: Cultivation = null;
+    let cultivAction: CultivAction = null;
+    console.log("REDUCER EXECUTING ACTION: " + (action.type), action, " Status : ", debugStatusSize(state));
     let response, index;
     switch (action.type) {
         default:
@@ -28,14 +51,13 @@ const reducer = (state = initialState, action) => {
             // query | id | none of those (findall)
             if (action.id) {
                 response = FieldDB.find(+action.id);
-                if (!response) return;
+                if (!response) break;
                 index = FieldSelector.queryIndex(newState)( (f) => (f.id === action.id) );
                 if (index >= 0) newState.fields[index] = response;
                 else newState.fields.push(response);
-                break;
                 // newState.findResponses[action.key] = response;
                 // per recuperarlo usa un selector
-            }
+            } else
             if (action.query) {
                 response = FieldDB.query(action.query);
                 if (!response) break;
@@ -45,10 +67,11 @@ const reducer = (state = initialState, action) => {
                     if (index >= 0) newState.fields[index] = item;
                     else newState.fields.push(item);
                 }
-                break;
+            } else {
+                response = FieldDB.findAll() || [];
+                newState.fields = response;
             }
-            response = FieldDB.findAll() || [];
-            newState.fields = response;
+            newState.fields = JSON.parse(JSON.stringify(newState.fields));
             break;
         case CultivationEnum.FIND_REQ:
             console.log('!!!---------------------------------------------CultivationEnum.FIND_REQ');
@@ -119,11 +142,18 @@ const reducer = (state = initialState, action) => {
         // .then( dispatch({ type: E_FIND_FIELD_SUCCESS, ...})).catch( dispatch({ type: E_FIND_FIELD_FAIL, ...});
             break;
         case FieldEnum.INSERT_REQ:
-            if (!newState.fields) newState.fields = [];
-            FieldDB.insert(action.field);
-            newState.fields.push(action.field);
+            console.log('!!!---------------------------------------------FIELD ACTION.INSERT_REQ', action);
+            field = action.field;
+            if (Array.isArray(field.coordinate)) {
+                field.coordinate = JSON.stringify(field.coordinate);
+            }
+            // field.image = null;
+            FieldDB.insert(field);
+            newState.fields.push(field);
+            console.log('!!!---------------------------------------------FIELD ACTION.INSERT_REQ  size: ', state.fields.length, ' ---> ', newState.fields.length);
             break;
     }
+    console.log("REDUCER RETURNING Status : ", debugStatusSize(newState));
     return newState;
 };
 

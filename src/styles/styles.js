@@ -3,13 +3,38 @@ import {StyleSheet} from 'react-native';
 const COLOR = {
     MAIN: '#66bb6a',
     MUTED: '#777777',
+    DARK_MUTED: '#474747',
+    LIGHT_MUTED: '#a7a7a7',
     LIGHT_MAIN: '#9ccc65',
     ORANGE: '#ffca28',
-    IRRIGATION: '#29B6F6FF',
-    YELLOW: '#FFEE58FF',
-    RED: '#FF7043FF',
-    DARK_ORANGE: '#ffa726'
+    IRRIGATION: '#29B6F6',
+    YELLOW: '#FFEE58',
+    RED: '#FF7043',
+    DARK_ORANGE: '#ffa726',
+
 }
+COLOR.MAP_POLYGON_STROKE_MAIN = COLOR.DARK_ORANGE;
+COLOR.MAP_POLYGON_FILL_MAIN = COLOR.DARK_ORANGE + '77';
+COLOR.MAP_POLYGON_STROKE_MUTED = COLOR.DARK_MUTED;
+COLOR.MAP_POLYGON_FILL_MUTED = COLOR.MUTED;
+/**  NB: i marker possono avere solo colori con saturazione e luminosità 100%, alcuni rgb validi sono:
+red (default)
+tomato
+orange
+yellow
+gold
+wheat
+tan
+linen
+green
+blue / navy
+aqua / teal / turquoise
+violet / purple / plum
+indigo
+**/
+COLOR.MARKER_USER = 'red';
+COLOR.MARKER_FIELD = 'linen';
+COLOR.MARKER_FIELD_MUTED = 'wheat';
 
 const STYLE = StyleSheet.create({
     container: {
@@ -112,7 +137,7 @@ const STYLE = StyleSheet.create({
     },
     centerRow: {
         marginStart: 'auto',
-        marginEnd: 'auto'
+        marginEnd: 'auto',
     },
     fill:{
         flexGrow: 1,
@@ -126,4 +151,35 @@ const STYLE = StyleSheet.create({
     },
 });
 
-export {STYLE, COLOR};
+
+const MAP_LABEL_STYLE = [
+    {
+        "featureType": "administrative.land_parcel",
+        "elementType": "labels",
+        "stylers": [
+            {
+                "visibility": "off"
+            }
+        ]
+    },
+    {
+        "featureType": "poi",
+        "elementType": "labels.text",
+        "stylers": [
+            {
+                "visibility": "off"
+            }
+        ]
+    },
+    {
+        "featureType": "road.local",
+        "elementType": "labels",
+        "stylers": [
+            {
+                "visibility": "off"
+            }
+        ]
+    }
+];
+
+export {STYLE, COLOR, MAP_LABEL_STYLE};

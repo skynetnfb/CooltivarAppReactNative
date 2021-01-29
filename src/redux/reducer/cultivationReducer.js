@@ -1,4 +1,4 @@
-import {initialState} from '../store/store';
+import {AppState, initialState} from '../store/store';
 import { FieldEnum } from '../action/enum/field';
 import {CultivActionDB, CultivationDB, FieldDB} from '../../model/Repository';
 import {FieldSelector} from '../selector/field';
@@ -6,9 +6,9 @@ import {CultivationEnum} from '../action/enum/cultivation';
 import {CultivationSelector} from '../selector/cultivation';
 
 
-const cultivationReducer = (state = initialState, action) => {
+const cultivationReducer = (state: AppState = initialState, action): AppState => {
     if (!action) return state;
-    const newState = JSON.parse(JSON.stringify(state)); // lo stato deve essere immutabile, quindi lo clono.
+    const newState: AppState = JSON.parse(JSON.stringify(state)); // lo stato deve essere immutabile, quindi lo clono.
     if (action.type && action.type.indexOf("@@redux/INIT") === 0) {
         // redux passa stringhe tipo "@@redux/INITx.n.j.n.w.l" per inizializzare (con codici random?)
         action.type0 = action.type;

@@ -212,7 +212,7 @@ export const createField = (field: Field) => {
         });
         return field.id;
     } catch(e) {
-        throw 'Error Creating cultivAction: ${e.message}';
+        throw 'Error Creating field: ' + e;
     } finally {}
 };
 
