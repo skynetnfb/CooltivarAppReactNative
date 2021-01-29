@@ -76,7 +76,8 @@ class LoginComponent extends Component {
             this.setState({loading: true});
             let email=null;
             //email=this.state.email;
-            email='a@a.it';
+            email='b@b.it';
+            //email='a@a.it';
             let password=null;
             password=this.state.password;
             password='123456';
@@ -98,6 +99,12 @@ class LoginComponent extends Component {
     }
 
     render() {
+       /* firebase.auth().signOut().then(()=>{
+            console.log('----------------------SUCCESS SIGNOUT');
+            this.props.navigation.navigate('register',{user:false});
+        }).catch(()=>{
+            console.log('----------------------FAIL SIGNOUT');
+        });
 /*
         console.log('**----------------------INSIDE REGISTER PROPS UNDEFINED',this.props);
         const firebaseConfig = {

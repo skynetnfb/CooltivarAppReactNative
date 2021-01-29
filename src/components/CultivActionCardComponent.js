@@ -6,7 +6,7 @@ import {
     TouchableOpacity,
     View
 } from 'react-native';
-import {STYLE} from '../styles/styles';
+import {COLOR, STYLE} from '../styles/styles';
 class  CultivActionCardComponent extends React.Component{
     constructor(props){
         super(props);
@@ -16,7 +16,6 @@ class  CultivActionCardComponent extends React.Component{
         }.bind(this);
 
         this.getIcon= function (){
-            console.log('***--------------------------------------------TYPE:',this.props.type);
             switch (this.props.type){
                 case "Threat":
                     return "ios-warning-sharp";
@@ -32,22 +31,21 @@ class  CultivActionCardComponent extends React.Component{
                     break
                 default:return "cog-sharp";
             }
-        }
+        };
 
         this.getIconColor= function (){
-            //console.log('--------------------------------------------Color:',this.props.type)
             switch (this.props.type){
                 case "Threat":
-                    return "orange";
+                    return COLOR.DARK_ORANGE;
                     break;
                 case "Remedy":
-                    return "green";
+                    return COLOR.MAIN;
                     break;
                 case "Custom":
-                    return "#aaa";
+                    return COLOR.MUTED;
                     break;
                 case "Irrigation":
-                    return "blue";
+                    return COLOR.IRRIGATION;
                     break;
                 default: return "#aaa";
             }
@@ -63,13 +61,9 @@ class  CultivActionCardComponent extends React.Component{
     render() {
         let type = this.getIcon();
         let iconColor = this.getIconColor();
-        console.log('*#--------------------------------------------PROPS:',this.props);
         return (
-
             <View style={styles.card_container}>
-
                     <View style={styles.card}>
-
                         <View style={styles.card_text_container}>
                             <View style={[STYLE.rowContainer,STYLE.columnContainer,STYLE.centerColumn,styles.card_title_container]}>
                                     <Icon style={[styles.card_image]}
@@ -92,9 +86,7 @@ class  CultivActionCardComponent extends React.Component{
                                     />
                                     </View>
                                 </TouchableOpacity>
-
                                 </View>
-
                             <View style={[STYLE.rowContainer,STYLE.separator_horizontal_bottom,styles.card_title_container]}>
                                 <Text numberOfLines={1} style={styles.card_date}>
                                     From: "{new Date (this.props.cultivAction.startDate).toDateString()}
@@ -105,7 +97,6 @@ class  CultivActionCardComponent extends React.Component{
                             </View>
                             <Text numberOfLines={3} style={styles.card_text}>
                                 Description: {this.props.cultivAction.description}
-
                             </Text>
                         </View>
 

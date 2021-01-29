@@ -84,7 +84,6 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
     return {
         find_cultivActions: FIND_OPERATION_ACTION_REQ(dispatch),
-        insert_cultivAction: INSERT_OPERATION_ACTION_REQ(dispatch),
     };
 };
 

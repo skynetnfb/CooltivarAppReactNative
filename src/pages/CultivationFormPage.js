@@ -22,6 +22,7 @@ import {
     UPDATE_CULTIVATION_ACTION_REQ,
 } from '../redux/action/dispatchers/cultivation';
 import {connect} from 'react-redux';
+import Field from '../model/Field';
 
 
 class CultivationFormPage extends Component {
@@ -152,6 +153,12 @@ class CultivationFormPage extends Component {
     }
 
     render() {
+        let fields = [
+            new Field('field_1', 'Agrigento', 'primo agr test'),
+            new Field('field_2', 'Frosinone', 'fros desc test'),
+            new Field('field_3', 'Termini', 'term desc test'),
+            new Field('field_4', 'Terni', 'tern desc test'),
+        ];
         return (
             <SafeAreaView style={{flex: 1}}>
                 <ScrollView style={styles.scrollView} showsVerticalScrollIndicator ={false}>
@@ -209,16 +216,15 @@ class CultivationFormPage extends Component {
 
                     <View style={styles.input_text_container}>
                         <Picker selectedValue = {this.state.field} onValueChange = {this.handleChangeField}>
-                            <Picker.Item label = "MOCKfield.name1" value = "MOCKfield.id1" />
-                            <Picker.Item label = "MOCKfield.name2" value = "MOCKfield.id2" />
+                            {fields.map( (element, index) => <Picker.Item key= {index} label = {element.name} value = {element.id} />)}
                         </Picker>
                     </View>
 
                     <View style = {[STYLE.columnContainer, {width: '100%'}]}>
                         <Text style={[STYLE.center]}>From</Text>
-                        <DatePickerComponent initial_value ={this.state.sowingDate||new Date()} ref='startDateDP' result = {this.resultStartDatePicker}/>
+                        <DatePickerComponent initial_value ={this.state.sowingDate||new Date()}  result = {this.resultStartDatePicker}/>
                         <Text style={[STYLE.center]}>to</Text>
-                        <DatePickerComponent  initial_value ={this.state.harvestDate||new Date()} ref='endDateDP' result = {this.resultEndDatePicker}/>
+                        <DatePickerComponent  initial_value ={this.state.harvestDate||new Date()}  result = {this.resultEndDatePicker}/>
                     </View>
                 </View>
 

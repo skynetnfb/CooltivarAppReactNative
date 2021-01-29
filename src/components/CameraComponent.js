@@ -64,18 +64,19 @@ class CameraComponent extends PureComponent {
         };
 
         this.savePicture = function () {
-// write the file
-            RNFetchBlob.fs.writeFile(PATH, this.state.data.base64, 'base64')
+            let filetimestamp =new Date().getTime().toString();
+            RNFetchBlob.fs.writeFile(PATH+filetimestamp, this.state.data.base64, 'base64')
                 .then(() => {
                     console.log('FILE WRITTEN!');
-                    console.log('##--------------------------------------------------------FILE WRITTEN on PATH!',PATH );
-                    this.setState({path:'file://'+PATH});
-                    this.updateCultivationpreview('file://'+PATH+"-"+new Date().toDateString());
-                    if (true) {
+                    console.log('##--------------------------------------------------------FILE WRITTEN on PATH!',PATH+filetimestamp );
+                    this.setState({path:'file://'+PATH+filetimestamp});
+                    //this.updateCultivationpreview('file://'+PATH+"-"+new Date().toDateString());
+                    this.updateCultivationpreview(this.state.path);
+                    /*if (true) {
                         RNFetchBlob.android.actionViewIntent(this.props.cultivation.id, 'application/pdf').then(r => {console.log('THEN')});
                     } else {
                         RNFetchBlob.ios.previewDocument(this.state.path);
-                    }
+                    }*/
                 }).catch((err) => {
                 console.log('##--------------------------------------------------------Catch ERROR!!!!!',err);
                     console.log(err.message);
@@ -87,7 +88,7 @@ class CameraComponent extends PureComponent {
                     _cultivation.clone(this.props.cultivation);
                     _cultivation.preview = this.state.path;
                     console.log("###-------------------------------------------------Clone:",_cultivation)
-            updateCultivation(_cultivation);
+            //updateCultivation(_cultivation);
             ToastAndroid.showWithGravity(
                 "Preview Updated!",
                 ToastAndroid.SHORT,

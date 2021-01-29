@@ -1,12 +1,13 @@
 import {initialState} from '../store/store';
 import { FieldEnum } from '../action/enum/field';
 import {
+    createCultivAction,
     createCultivation,
     CultivActionDB,
     CultivationDB,
     deleteCultivAction,
     deleteCultivation,
-    FieldDB,
+    FieldDB, updateCultivAction,
     updateCultivation,
 } from '../../model/Repository';
 import {FieldSelector} from '../selector/field';
@@ -14,6 +15,7 @@ import {CultivationEnum} from '../action/enum/cultivation';
 import {CultivActionEnum} from '../action/enum/Operation';
 import {UserEnum} from '../action/enum/UserEnum';
 import {CultivationSelector} from '../selector/cultivation';
+import {CultivActionSelector} from '../selector/cultivAction';
 
 
 const reducer = (state = initialState, action) => {
@@ -60,7 +62,7 @@ const reducer = (state = initialState, action) => {
             newState.fields = response;
             break;
         case CultivationEnum.FIND_REQ:
-            console.log('!!!---------------------------------------------CultivationEnum.FIND_REQ');
+            //console.log('!!!---------------------------------------------CultivationEnum.FIND_REQ');
             // query | id | none of those (findall)
             if (action.id) {
                 response = CultivationDB.find(+action.id);
@@ -72,7 +74,7 @@ const reducer = (state = initialState, action) => {
                 // newState.findResponses[action.key] = response;
             }
             if (action.query) {
-                console.log('!!!---------------------------------------------CultivationEnum.FIND_REQ if(action.query)');
+                //console.log('!!!---------------------------------------------CultivationEnum.FIND_REQ if(action.query)');
                 response = CultivationDB.query(action.query);
                 if (!response) break;
                 if (!Array.isArray(response)) response = [response];
@@ -84,15 +86,15 @@ const reducer = (state = initialState, action) => {
                 break;
             }
             response = CultivationDB.findAll() || [];
-            console.log('----------------------------RESPONSE REDUCER CultivationDB.findAll():',response);
+            //console.log('----------------------------RESPONSE REDUCER CultivationDB.findAll():',response);
             newState.cultivations = response;
             break;
         case CultivationEnum.UPDATE_REQ:
             let _cultivation = action.cultivation;
-            console.log('!!!---------------------REDUCER CULTIVATION UPDATE---------------------------!!! CULTIVATION',_cultivation);
+            //console.log('!!!---------------------REDUCER CULTIVATION UPDATE---------------------------!!! CULTIVATION',_cultivation);
             updateCultivation(_cultivation);
             index = newState.cultivations.findIndex((e)=> (e.id === _cultivation.id));
-            console.log('!!!---------------------REDUCER CULTIVATION UPDATE---------------------------!!! POSITION', position,"CULTIVATION",_cultivation, "STATE cultivation:",  newState.cultivations[position]);
+            //console.log('!!!---------------------REDUCER CULTIVATION UPDATE---------------------------!!! POSITION', index,"CULTIVATION",_cultivation, "STATE cultivation:",  newState.cultivations[index]);
             newState.cultivations[index] = _cultivation;
             break;
         case CultivationEnum.INSERT_REQ:
@@ -113,7 +115,7 @@ const reducer = (state = initialState, action) => {
                 response = CultivActionDB.find(+action.id);
                 if (!response) return;
                 index = CultivActionSelector.queryIndex(newState)( (ca) => (ca.id === action.id) );
-                if (index >= 0) newState.cultivations[index] = response;
+                if (index >= 0) newState.cultivActions[index] = response;
                 else newState.cultivActions.push(response);
                 break;
                 // newState.findResponses[action.key] = response;
@@ -125,13 +127,45 @@ const reducer = (state = initialState, action) => {
                 for (let item of response) {
                     index = CultivActionSelector.queryIndex(newState)( (c) => (c.id === item.id) );
                     if (index >= 0) newState.cultivActions[index] = item;
-                    else newState.fields.push(item);
+                    else newState.cultivActions.push(item);
                 }
                 break;
             }
             response = CultivActionDB.findAll() || [];
             console.log('----------------------------RESPONSE REDUCER Cultiv_ACTIONS .findAll():',response);
             newState.cultivActions = response;
+            break;
+        case CultivActionEnum.FIND_BY_CULTIVATION_REQ:
+            // query | id | none of those (findall)
+            if (action.query) {
+                response = CultivActionDB.findAllByCultivation(+action.query)||[];
+                //response = CultivActionDB.findAll() || [];
+                console.log('òòòòòòòò----------------------------REDUCER CultivActionEnum.FIND_BY_CULTIVATION_REQ DOPO FIND DB:',);
+                /*if (!response) return;
+                index = CultivActionSelector.queryIndex(newState)( (ca) => (ca.cultivation_id === action.query) );
+                if (index >= 0) newState.cultivations[index] = response;
+                else newState.cultivActions.push(response);*/
+                //newState.cultivActions.push(response);
+                //TODO forse è meglio sostituire le action della coltivazione corrente
+                newState.cultivActions=response;
+                console.log('òòòòòòòò----------------------------REDUCER CultivActionEnum.FIND_BY_CULTIVATION_REQ RESPONSE:',response);
+                break;
+                // newState.findResponses[action.key] = response;
+            }
+            break;
+        case CultivActionEnum.INSERT_REQ:
+            let _cultiv_Action = action.cultivAction;
+            createCultivAction(_cultiv_Action);
+            //console.log("!!!--------------------- REDUCER INSERT CULTIV_ACTION---------------------------!!!CULTIVATION",_cultiv_Action, );
+            newState.cultivActions.push(_cultiv_Action);
+            break;
+        case CultivActionEnum.UPDATE_REQ:
+            _cultiv_Action = action.cultivAction;
+            //console.log('!!!---------------------REDUCER CULTIV_ACTION UPDATE---------------------------!!! CULTIVATION',_cultiv_Action);
+            updateCultivAction(_cultiv_Action);
+            index = newState.cultivations.findIndex((e)=> (e.id === _cultiv_Action.id));
+            newState.cultivActions[index] = _cultiv_Action;
+            //console.log('!!!---------------------REDUCER CULTIV_ACTION UPDATE FINISH---------------------------!!! ');
             break;
         case FieldEnum.FIND_SUCCESS:
         case FieldEnum.FIND_FAIL:

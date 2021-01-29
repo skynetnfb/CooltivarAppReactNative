@@ -2,7 +2,7 @@ import {
     E_INSERT_OPERATION_REQ, E_INSERT_OPERATION_SUCCESS, E_INSERT_OPERATION_FAIL,
     E_UPDATE_OPERATION_REQ, E_UPDATE_OPERATION_SUCCESS, E_UPDATE_OPERATION_FAIL,
     E_DELETE_OPERATION_REQ, E_DELETE_OPERATION_SUCCESS, E_DELETE_OPERATION_FAIL,
-    E_FIND_OPERATION_REQ, E_FIND_OPERATION_SUCCESS, E_FIND_OPERATION_FAIL,
+    E_FIND_OPERATION_REQ, E_FIND_OPERATION_SUCCESS, E_FIND_OPERATION_FAIL, E_FIND_OPERATION_BY_CULTIVATION_REQ,
 } from '../enum/Operation';
 import {makeFindAction} from './field';
 
@@ -26,6 +26,8 @@ export const DELETE_OPERATION_ACTION_FAIL = (dispatch) => { return (cultivAction
 // no args = findAll
 export const FIND_OPERATION_ACTION_REQ = (dispatch) => {
     return (field_or_query_or_numberid, key='cultivAction') => dispatch(makeFindAction(E_FIND_OPERATION_REQ, field_or_query_or_numberid, key)); };
+export const FIND_OPERATION_BY_CULTIVATION_ACTION_REQ = (dispatch) => {
+    return (field_or_query_or_numberid, key='cultivAction') => dispatch(makeFindAction(E_FIND_OPERATION_BY_CULTIVATION_REQ, field_or_query_or_numberid, key)); };
 export const FIND_OPERATION_ACTION_SUCCESS = (dispatch) => {
     return (field_or_query_or_numberid, key='cultivAction') => dispatch(makeFindAction(E_FIND_OPERATION_SUCCESS, field_or_query_or_numberid, key)); };
 export const FIND_OPERATION_ACTION_FAIL = (dispatch) => {

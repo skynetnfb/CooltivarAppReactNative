@@ -164,6 +164,21 @@ export const getAllCultivActions = () => {
     } finally {}
 };
 
+export const getAllCultivActionsByCultivationId = (cultivation_id: string) => {
+    let cultivActions = getAllCultivActions();
+    console.log('òòòòòòòò----------------------------REPOSITORY getAllCultivActionsByCultivationId:',cultivActions,'cult_id:',cultivation_id);
+    try {
+        let findCultivAction = cultivActions.filtered(`cultivation_id="${cultivation_id}"`); // return collections
+        console.log('òòòòòòòò----------------------------REPOSITORY getAllCultivActionsByCultivationId: query result',findCultivAction);
+        return findCultivAction;
+
+    }catch(e){
+        console.log('òòòòòòòò----------------------------REPOSITORY ERROR ------------------------ query result',);
+        return null;
+    }
+};
+
+
 export const getCultivActionById = (id: string) => {
     let cultivActions = getAllCultivActions();
     try {
@@ -328,6 +343,7 @@ export const CultivActionDB = {
     update: updateCultivAction,
     delete: deleteCultivAction,
     findAll: getAllCultivActions,
+    findAllByCultivation: getAllCultivActionsByCultivationId,
     find: getCultivActionById,
     check: checkIfCultivActionExists
 };

@@ -51,7 +51,7 @@ class  CultivationDetailComponent extends React.Component{
         }.bind(this);
 
         this.resultModal = function (modalResult){
-            console.log('#######------------------------------RESULT MODAL CULTIVATION:', this.props.cultivation);
+            console.log('****------------------------------RESULT DETAIL PROPS CULTIVATION:', this.props.cultivation);
             if(modalResult){
                 //deleteCultivAction(this.props.cultivation.id);
                 this.props.delete_cultivation(this.props.cultivation);
