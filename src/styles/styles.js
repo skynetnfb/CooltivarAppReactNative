@@ -149,6 +149,14 @@ const STYLE = StyleSheet.create({
         borderBottomWidth: 0.5,
         borderColor: '#aaa',
     },
+    markerTitle: {
+        fontSize: 17,
+        fontWeight: "700",
+        textAlign: 'center'
+    },
+    markerBody: {
+        textAlign: 'center'
+    }
 });
 
 
