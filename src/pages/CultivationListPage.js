@@ -28,7 +28,6 @@ constructor(props) {
     }
 
     render() {
-
         const navigation = this.props.navigation;
         return (
             <View style={[styles.container]}>

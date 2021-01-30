@@ -8,6 +8,8 @@ import {CultivationSelector} from '../selector/cultivation';
 import Field from '../../model/Field';
 import Cultivation from '../../model/Cultivation';
 import CultivAction from '../../model/CultivAction';
+import {METEO_TODAY_REQUEST} from '../action/dispatchers/meteoAction';
+import {E_OPENWEATHER_GET_FORECAST, E_OPENWEATHER_GET_TODAY, METEO_ENUM} from '../action/enum/MeteoActionEnum';
 
 function debugStatusSize(state) {
     let ret = {};
@@ -39,6 +41,7 @@ const reducer = (state = initialState, action) => {
     let field: Field = null;
     let cultivation: Cultivation = null;
     let cultivAction: CultivAction = null;
+    let id: string;
     console.log("REDUCER EXECUTING ACTION: " + (action.type), action, " Status : ", debugStatusSize(state));
     let response, index;
     switch (action.type) {
@@ -46,6 +49,7 @@ const reducer = (state = initialState, action) => {
             console.error("invalid reducer action:", action.type, action);
             break;
         case "@@redux/INIT": return state;
+        // field
         case FieldEnum.FIND_REQ:
             console.log('!!!---------------------------------------------FieldEnum.FIND_REQ');
             // query | id | none of those (findall)
@@ -73,6 +77,33 @@ const reducer = (state = initialState, action) => {
             }
             newState.fields = JSON.parse(JSON.stringify(newState.fields));
             break;
+        case FieldEnum.INSERT_REQ:
+            console.log('!!!---------------------------------------------FIELD ACTION.INSERT_REQ', action);
+            field = action.field;
+            if (Array.isArray(field.coordinate)) {
+                field.coordinate = JSON.stringify(field.coordinate);
+            }
+            // field.image = null;
+            FieldDB.insert(field);
+            newState.fields.push(field);
+            console.log('!!!---------------------------------------------FIELD ACTION.INSERT_REQ  size: ', state.fields.length, ' ---> ', newState.fields.length);
+            break;
+        case FieldEnum.UPDATE_REQ:
+            field = action.field;
+            id = field.id;
+            index = FieldSelector.queryIndex(newState)((f) => f.id === id);
+            FieldDB.update(field);
+            newState.fields[index] = field;
+            break;
+        case FieldEnum.DELETE_REQ:
+            id = action.id || action.field.id;
+            let cultivations = CultivationSelector.findByField(newState)(action.field.id);
+            if (cultivations.length) { console.warn("cannot delete a field used in cultivations"); }
+            index = FieldSelector.queryIndex(newState)((f) => f.id === id);
+            FieldDB.delete(field);
+            field = newState.fields.splice(index,1);
+            break;
+        // cultivation
         case CultivationEnum.FIND_REQ:
             console.log('!!!---------------------------------------------CultivationEnum.FIND_REQ');
             // query | id | none of those (findall)
@@ -104,11 +135,12 @@ const reducer = (state = initialState, action) => {
         case CultivationEnum.UPDATE_REQ:
             let _cultivation = action.cultivation;
             index = newState.cultivations.findIndex((e)=> (e.id === _cultivation.id));
+            // todo: manca la call al db, uniscile.
             console.log('!!!---------------------UPDATE---------------------------!!! POSITION', position,"CULTIVATION",_cultivation, "STATE cultivation:",  newState.cultivations[position]);
             newState.cultivations[index] = _cultivation;
             break;
         case CultivationEnum.DELETE_REQ:
-            let id = action.id;
+            id = action.id;
             deleteCultivation(action.cultivation);
             index = newState.cultivations.findIndex((e)=> (e.id === action.cultivation));
             newState.cultivations.splice(index,1);
@@ -140,22 +172,22 @@ const reducer = (state = initialState, action) => {
             console.log('----------------------------RESPONSE REDUCER Cultiv_ACTIONS .findAll():',response);
             newState.cultivActions = response;
             break;
-        case FieldEnum.FIND_SUCCESS:
-        case FieldEnum.FIND_FAIL:
-        // NB: adesso l'accesso al db è sincrono, se diventa asincrono nella _REQ si dovrebbe fare una cosa tipo:
-        // .then( dispatch({ type: E_FIND_FIELD_SUCCESS, ...})).catch( dispatch({ type: E_FIND_FIELD_FAIL, ...});
+
+        case E_OPENWEATHER_GET_FORECAST: // id: fieldid, icons: meteoicon[]
+            index = FieldSelector.queryIndex(newState)((f) => f.id === action.id);
+            field = newState.fields[index];
+            field.forecast = action.icons;
+            field.forecastTime = new Date().getTime();
+            console.log("reducer set forecast:", index, field);
             break;
-        case FieldEnum.INSERT_REQ:
-            console.log('!!!---------------------------------------------FIELD ACTION.INSERT_REQ', action);
-            field = action.field;
-            if (Array.isArray(field.coordinate)) {
-                field.coordinate = JSON.stringify(field.coordinate);
-            }
-            // field.image = null;
-            FieldDB.insert(field);
-            newState.fields.push(field);
-            console.log('!!!---------------------------------------------FIELD ACTION.INSERT_REQ  size: ', state.fields.length, ' ---> ', newState.fields.length);
+        case E_OPENWEATHER_GET_TODAY: // id: fieldid, icon: meteoicon
+            index = FieldSelector.queryIndex(newState)((f) => f.id === action.id);
+            field = newState.fields[index];
+            field.weather = action.icon;
+            field.weatherTime = new Date().getTime();
+            console.log("reducer set weather:", index, field);
             break;
+
     }
     console.log("REDUCER RETURNING Status : ", debugStatusSize(newState));
     return newState;

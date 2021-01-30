@@ -30,6 +30,7 @@ import Field from '../../model/Field';
 import MapView, {Polygon, Marker} from 'react-native-maps';
 import {BoundaryHelper} from '../../utils/CoordUtils';
 import FieldMap from './FieldMap';
+import {API_CALLS} from '../../api/api';
 
 class FieldFormComponent extends FieldMap{
 
@@ -65,21 +66,17 @@ class FieldFormComponent extends FieldMap{
         // this.props.navigation.back(); // navigate('field', data);
     }.bind(this);
 
-    getUpdatedFieldData = function(): Field {
-        const field: Field = {...this.getField() };
-        field.name = this.state.name;
-        field.city = this.state.city;
-        field.description = this.state.description;
-        field.coordinate = JSON.stringify(this.state.coordinate);
-        field.image = this.state.mapSnapshot;
-        return field; }.bind(this);
-
-    finalizeSubmit = function(){
+    finalizeSubmit = function(thenExit = false){
         const fieldRaw: Field = this.getUpdatedFieldData();
         const field = new Field();
         field.clone(fieldRaw);
         console.log('__fc submit field:', field, ' calling action:', this.props.isUpdate ? this.props.update_field : this.props.insert_field);
         this.props.isUpdate ? this.props.update_field(field) : this.props.insert_field(field);
+        if (this.props.isUpdate && !thenExit) {
+            setTimeout( () => this.finalizeSubmit(true), 1);
+        } else {
+            this.props.navigation.pop();
+        }
     }.bind(this);
 
     markerOnDrag = function(syntethicEvent, index) {
@@ -99,7 +96,24 @@ class FieldFormComponent extends FieldMap{
         console.log("__fc syntethicEvent:", syntethicEvent, 'nativeEvent:', nativeEvent);
         console.log("__fc coordinates:", coordinates, 'coordinate:', coordinate);
         this.setCoordinate(coordinates);
+        if (coordinates.length === 1 && this.state.city === '') this.requestCity(coordinate);
         console.log("__fc state:", this.state);
+    }.bind(this);
+
+    requestCity = function(coord): void {
+        console.log("__fc req city()");
+        API_CALLS.city(coord, this.onCityReceive, this.onCityReceiveFail)
+    }.bind(this);
+
+    onCityReceive = function(city: string): void{
+        console.log("__fc got city", city, 'old:', this.state.city);
+        if (!!this.state.city) return;
+        this.setState({city: city});
+        this.onChange({city});
+    }.bind(this);
+
+    onCityReceiveFail = function(error: any): void{
+        console.warn("__fc got city FAILURE", error);
     }.bind(this);
 
     componentDidMount(): void {
@@ -210,9 +224,9 @@ const mapStateToProps = (state, props) => {
     let addProps = {};
 
     console.log("xxxxx mapstatetoprops:", addProps, "state:", state, 'FieldID', fieldID);
-    const emptyField = new Field("namee", "cityy", "descc", "[]", null);
-    emptyField.coordinate = [{latitude: 42.18530921673116, longitude: 14.420321434736252}, {latitude: 42.1852602756412, longitude: 14.42043274641037}, {latitude: 42.185234190273235, longitude: 14.420227222144606}];
-    emptyField.coordinate = [];
+    const mockField = new Field("namee", "cityy", "descc", [], null);
+    mockField.coordinate = [{latitude: 42.18530921673116, longitude: 14.420321434736252}, {latitude: 42.1852602756412, longitude: 14.42043274641037}, {latitude: 42.185234190273235, longitude: 14.420227222144606}];
+    const emptyField = new Field('', '', '', [], null);
     addProps.field = fieldID ? FieldSelector.find(state)(fieldID) : emptyField;
     addProps.isUpdate = !!fieldID;
     addProps.fields = FieldSelector.findAll(state)();

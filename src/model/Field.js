@@ -2,15 +2,21 @@ export const FIELD_SCHEMA ='Field';
 
 
 export default class Field {
-    static counter = 0;
-    id:'string';
-    name:'string';
-    city:'string';
-    description:'string';
-    coordinate:'string';
-    image: 'string';
+    static counter: number = 0;
+    id: string;
+    name: string;
+    city: string;
+    description: string;
+    coordinate: string | {latitude: number, longitude: number};
+    image: string;
 
-    constructor(name, city, description, coordinate, image) {
+    // non-persistent
+    weather: string = null;
+    forecast: string[] = [];
+    forecastTime: number;
+    weatherTime: number;
+
+    constructor(name: string, city: string, description: string, coordinate: string | {latitude: number, longitude: number}, image: string) {
         this.id =  new Date().getTime() + "" + Field.counter++;
         this.name = name;
         this.city = city;
@@ -21,7 +27,7 @@ export default class Field {
 
     getRealmObject():Field { return this.updateObjectInfo({}); }
 
-    updateObjectInfo(field):Field {
+    updateObjectInfo(field: Field):Field {
         if (!field) return null;
         field.id = this.id;
         field.name = this.name;
@@ -35,13 +41,13 @@ export default class Field {
         this.updateObjectInfo.call(fieldJson, this);
      }
 
-    static getLoadingPlaceholder() {
+    static getLoadingPlaceholder(): Field {
         const l = 'Loading...';
         const f = new Field(l, l, l, null, null);
         f.id = -1;
         return f;
     }
-    static isLoadingPlaceholder(field) { return field && field.id === -1; }
+    static isLoadingPlaceholder(field: Field): boolean { return field && field.id === -1; }
 
 }
 

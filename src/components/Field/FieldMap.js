@@ -86,7 +86,7 @@ class FieldMap extends ValidationComponent2{
         field.name = this.state.name;
         field.city = this.state.city;
         field.description = this.state.description;
-        field.coordinate = JSON.stringify(this.state.coordinate);
+        field.coordinate = JSON.stringify(this.getCoordinate());
         field.image = this.state.mapSnapshot;
         return field; }.bind(this);
 
@@ -124,7 +124,9 @@ class FieldMap extends ValidationComponent2{
 
     setCoordinate = function(coordinates: []) {
         console.log('__ fm set coord:', [...coordinates]);
-        this.setState({coordinate: coordinates, coordinateStr: this.toUnaryString(coordinates.length)});
+        const unaryCoord = this.toUnaryString(coordinates.length);
+        this.setState({coordinate: coordinates, coordinateStr: unaryCoord});
+        this.onChange({coordinateStr: unaryCoord});
     }.bind(this);
 
     onMarkerPress = function() {
@@ -256,19 +258,33 @@ class FieldMap extends ValidationComponent2{
         return str;
     }.bind(this);
 
-    getCenter = function(coords) {
-        let max = {latitude: Number.MIN_VALUE, longitude: Number.MIN_VALUE};
-        let min = {latitude: Number.MAX_VALUE, longitude: Number.MAX_VALUE};
+    getCenter = function(coords, asBoundRectangle = false) {
+        if (asBoundRectangle) return this.getBoundRectangleCenter(coords);
+        let center = {latitude: 0, longitude: 0};
+        for (let coord of coords) {
+            center.latitude += coord.latitude;
+            center.longitude += coord.longitude;
+        }
+        center.latitude /= coords.length;
+        center.longitude /= coords.length;
+        console.log('__fm getCenter ret', center, ' coords:', coords);
+        return center;
+    }.bind(this);
+
+    getBoundRectangleCenter = function(coords) {
+        let max = {latitude: Number.NEGATIVE_INFINITY, longitude: Number.NEGATIVE_INFINITY};
+        let min = {latitude: Number.POSITIVE_INFINITY, longitude: Number.POSITIVE_INFINITY};
         for (let coord of coords) {
             min.latitude = Math.min(min.latitude, coord.latitude);
             min.longitude = Math.min(min.longitude, coord.longitude);
             max.latitude = Math.max(max.latitude, coord.latitude);
             max.longitude = Math.max(max.longitude, coord.longitude);
         }
-        min.latitude = (min.latitude + max.latitude) / 2;
-        min.longitude = (min.longitude + max.longitude) / 2;
-        console.log('__fm getCenter ret', min, 'first pt:', coords[0]);
-        return min;
+        let ret = {}
+        ret.latitude = (min.latitude + max.latitude) / 2;
+        ret.longitude = (min.longitude + max.longitude) / 2;
+        console.log('__fm getBoundRectangleCenter ret', ret, min, max, ' coords:', coords);
+        return ret;
         // return min;
     }.bind(this);
 

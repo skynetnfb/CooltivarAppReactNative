@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
-import {StyleSheet, View, Image, Button} from 'react-native';
+import {StyleSheet, View, Image, Button, TouchableOpacity} from 'react-native';
 import {Text} from 'react-native';
-import {STYLE, MAIN_COLOR, MAP_LABEL_STYLE} from '../../styles/styles';
+import {STYLE, MAIN_COLOR, MAP_LABEL_STYLE, COLOR} from '../../styles/styles';
 import MapComponent from '../common/MapComponent';
 import EditButton from '../common/EditButton';
 import MapView from 'react-native-maps';
@@ -16,16 +16,69 @@ import {
 import {FieldSelector} from '../../redux/selector/field';
 import Field from '../../model/Field';
 import FieldMap from './FieldMap';
+import {METEO_TODAY_REQUEST} from '../../redux/action/dispatchers/meteoAction';
+import {WEATHER_ICON} from '../../utils/WeatherIcons';
+import Icon from 'react-native-vector-icons/Ionicons';
+import ModalComponent from '../abstract/ModalComponent';
 
 class FieldDetailComponent extends FieldMap{
     constructor(props) {
         super(props);
     }
 
-    editClicked() {
+    editClicked = function(){
         console.log('editClicked');
-        const field_id = this.props.id;
+        const field_id = this.getField().id;
         this.props.navigation.navigate('field_form', {id: field_id});
+    }.bind(this);
+
+    resultDeleteModalCallback = function(result: boolean){
+        console.log('deleteClicked');
+        if (this.props.cultivations.length === 0) {
+
+        }
+        //todo: chiama popup conferma se cultiations == 0
+    }.bind(this);
+
+    deleteConfirmed = function() {
+        this.props.navigation.pop();
+    }.bind(this);
+
+    componentDidMount(): void {
+        // one time only e solo se non ha già caricato i dati meteo e non sono troppo vecchi.
+        const field: Field = this.getField();
+        const hours = 1000 * 60 * 60;
+        if (field.weather && (field.weather.timestamp >= new Date().getTime() - 1 * hours)) return;
+        const coord = this.getCenter(field.coordinate);
+        console.log('__fd select meteo:', coord, field.id);
+        this.props.get_meteo_today_action(coord, field.id);
+    }
+
+    shouldComponentUpdate(): boolean {
+        // shouldComponentUpdate() è chiamato prima di render
+        // componentDidUpdate() è chiamato dopo.
+        const coordinate = this.getCoordinate(); // from local state
+        const field = this.getField(); // from props
+        // todo: stopUpdatingGui should = false per evitare di continuare ad aggiornare gui prima dell'update dello stato, ma interrompe anche la chiamata che dovrebbe triggerare con il setState()
+        const stopUpdatingGui = true;
+        const continueUpdatingGui = true;
+        console.log('__fd shouldUpdate()', this.props.navigation);
+
+        //this.props.navigation.setOptions({headerTitle: "Field:" + field.name});
+        if (coordinate.length !== field.coordinate.length) {
+            console.log('__fd shouldUpdate() different length updated');
+            this.setCoordinate(field.coordinate);
+            return stopUpdatingGui;
+        }
+        for (let i = 0; i < coordinate.length; i++) {
+            if (coordinate[i].latitude !== field.coordinate[i].latitude || coordinate[i].longitude !== field.coordinate[i].longitude){
+                console.log('__fd shouldUpdate() different coord values updated');
+                this.setCoordinate(field.coordinate)
+                return stopUpdatingGui;
+            }
+        }
+        console.log('__fd shouldUpdate() coord not updated', coordinate, field.coordinate);
+        return continueUpdatingGui;
     }
 
     render() {
@@ -34,23 +87,66 @@ class FieldDetailComponent extends FieldMap{
         const fields: Field[] = this.props.fields;
         const coordinates = []; //routeParams2 && routeParams2.coordinates || [];
         const mapComponent = super.render();
+        let modalChildren =
+            <Icon
+                name="trash-sharp"
+                size={40}
+                color="#FFF"
+            />;
 
         let ret =
             <View style={[STYLE.rowContainer, STYLE.fill, styles.root]}>
                 <View style={[STYLE.title_background, styles.title_background]}>
                     <Text style={[STYLE.title_text]}>{"Field: " + field.name}</Text>
-                    <EditButton style={[styles.edit_button]} onPress={this.editClicked.bind(this)}/>
+                    <Icon style={[styles.edit_button ]}
+                          name={'create'}
+                          size={60}
+                          color="white"
+                          onPress={this.editClicked}
+                    />
                 </View>
                 {mapComponent}
                 <View style={[STYLE.rowContainer, STYLE.card, STYLE.fill, styles.card]}>
                     <View style={[STYLE.columnContainer]}>
                         <Text style={[STYLE.centerColumn, STYLE.fill, styles.city]}>{"City: " + field.city}</Text>
-                        <Image style={[STYLE.centerColumn, styles.meteo_image]} />
+                        <Image style={[STYLE.centerColumn, styles.meteo_image]}
+                               source={ WEATHER_ICON.get(field.weather) }
+                        />
+
                     </View>
                     <View style={[STYLE.fill, STYLE.columnContainer, styles.body]}>
                         <Text style={[STYLE.centerColumn]}>{field.description}</Text>
                     </View>
                 </View>
+                <TouchableOpacity
+                    style={[STYLE.footer, STYLE.debug]}
+                    onPress={()=>this.props.navigation.navigate('field_form')}>
+                    {modalChildren}
+                    {
+                        this.props.cultivations.length ?
+                        <ModalComponent
+                            style = {[/*ignored*/]}
+                            modalMessage = {"Cannot delete a field used in cultivations."}
+                            icon = {"trash-sharp"}
+                            result = {this.resultDeleteModalCallback}
+                            todo = { "modal body che cambia: se hai 0 coltivazioni fa solo un warn (you cannot...) altrimenti richiede confirm-undo"}
+                        >{modalChildren}</ModalComponent>
+                        :
+                        <ModalComponent
+                            style = {[/*ignored*/]}
+                            modalMessage = {"Field will be deleted! Are You Sure?"}
+                            icon = {"trash-sharp"}
+                            result = {this.resultDeleteModalCallback}
+                            todo = { "modal body che cambia: se hai 0 coltivazioni fa solo un warn (you cannot...) altrimenti richiede confirm-undo"}
+                        >{modalChildren}</ModalComponent>
+                    }
+                    <Icon style={[ ]}
+                          name={'create'}
+                          size={40}
+                          color={this.props.cultivations.length === 0 ? "white" : COLOR.MUTED}
+                          onPress={this.editClicked}
+                    />
+                </TouchableOpacity>
             </View>;
         return ret;
     }
@@ -87,8 +183,7 @@ const styles = StyleSheet.create({
         // backgroundColor: 'red',
     },
     edit_button:{
-        height: 60,
-        width: 60,
+        maxHeight: '100%'
     },
 });
 
@@ -110,6 +205,7 @@ const mapStateToProps = (state, props) => {
     console.log("xxxxx addProps.field:", addProps.field );
     addProps.isUpdate = !!fieldID;
     addProps.fields = FieldSelector.findAll(state)();
+    addProps.cultivations = CultivationSelector.findByField(state)(fieldID);
     addProps.fields = addProps.fields.filter( field => field.id !== addProps.field.id) || [];
     addProps.allowEditPolygon = false;
     console.log("xxxxx addProps:", addProps, "state:", state, 'FieldID', fieldID);
@@ -128,9 +224,10 @@ const mapStateToProps = (state, props) => {
 const mapDispatchToProps = (dispatch) => {
     return {
         find_field_action: FIND_FIELD_ACTION_REQ(dispatch),
+        get_meteo_today_action: METEO_TODAY_REQUEST(dispatch),
     };
 };
 
-export default connect(mapStateToProps, null)(FieldDetailComponent);
+export default connect(mapStateToProps, mapDispatchToProps)(FieldDetailComponent);
 
 // export default FieldDetailComponent;

@@ -146,7 +146,7 @@ export default class RootNavigator extends Component {
 
         return (
             <NavigationContainer>
-                <RootStackNavigator.Navigator name="home">
+                <RootStackNavigator.Navigator name="home" screenOptions={{headerShown: false}}>
                     {!this.logged && (
                         <RootStackNavigator.Screen name="login" component={LoginComponent} />
                     )}
@@ -158,6 +158,7 @@ export default class RootNavigator extends Component {
                     <RootStackNavigator.Screen name = {'field list'} component = { FieldListPage }/>
                     <RootStackNavigator.Screen name = {'cultivation'} component = { createCultivationTabNavigation }/>
                     <RootStackNavigator.Screen name = {'field'} component = { createFieldTabNavigation }
+                                               screenOptions={{headerShown: false}}
                                                initialParams={{ parameterPassedFromRootNavigator: 'zzzzz' }} />
                     <RootStackNavigator.Screen name = {'cultivation_form'} component = { CultivationFormPage }/>
                     <RootStackNavigator.Screen name = {'camera'} component = { CameraComponent }/>

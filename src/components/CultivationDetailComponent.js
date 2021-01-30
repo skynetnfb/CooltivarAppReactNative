@@ -12,10 +12,11 @@ import {STYLE} from '../styles/styles';
 import Icon from 'react-native-vector-icons/Ionicons';
 import {connect} from 'react-redux';
 import {CultivationSelector} from '../redux/selector/cultivation';
-import {forecast, getForecastToday} from '../api/api';
 import ModalComponent from './abstract/ModalComponent';
 import {DELETE_CULTIVATION_ACTION_REQ, UPDATE_CULTIVATION_ACTION_REQ} from '../redux/action/dispatchers/cultivation';
 import {deleteCultivAction} from '../model/Repository';
+import {METEO_FORECAST_REQUEST} from '../redux/action/dispatchers/meteoAction';
+import {FieldSelector} from '../redux/selector/field';
 
 
 class  CultivationDetailComponent extends React.Component{
@@ -63,18 +64,11 @@ class  CultivationDetailComponent extends React.Component{
     }
     componentDidMount(){
 
-        let coord = {
-            latitude:null,
-            longitude:null,
-        };
-        coord.latitude = 10;
-        coord.longitude = 30;
-
-        let fc = forecast(coord,3);
-        //let fc = getForecastToday(coord);
-
-        console.log('###-------------------------------------------------forecast:',fc)
+        const field = this.props.field;
+        const coordinate = field && field.coordinate[0]; // || {longitude:-122.49343838542698, latitude:37.7889790728136}; // san francisco
+        // this.props.forecast_action(coordinate, field.id); todo: decommenta quando hai il terreno ben linkato
     }
+
     componentWillUnmount(): void {
         //viene chiamata prima di essere distrutto il component
         // se si deve fare qualcosa con qualche evento legato a questo component deve essere fatto qui
@@ -252,14 +246,17 @@ const mapStateToProps = (state,props) => {
     let stateret;
     stateret = {
         cultivation : CultivationSelector.find(state)(routeParams2.id),
-        findSelector: CultivationSelector.find(state),
+        field: null,
     };
+    stateret.field = FieldSelector.find(state)(stateret.cultivation.field_id);
     return stateret;
 };
 
 const mapDispatchToProps = (dispatch) => {
     return {
         delete_cultivation: DELETE_CULTIVATION_ACTION_REQ(dispatch),
+        forecast_action: METEO_FORECAST_REQUEST(dispatch),
+
     };
 };
 
