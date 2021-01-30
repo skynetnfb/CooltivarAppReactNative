@@ -8,14 +8,17 @@ import {
     View,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
+import {STYLE} from '../../styles/styles';
 
 const ModalComponent = (props) => {
-    console.log('#######------------------------------MODAL Compoent:',);
     const [modalVisible, setModalVisible] = useState(false);
     const [modalMessage, setModalMessage] = useState(props.modalMessage);
+    const [icon, seticon] = useState(props.icon);
+    const [buttonLeft, setButtonLeft] = useState(props.icon);
+    const [buttonRight, setButtonRight] = useState(props.icon);
     const [modalResult, setModalResult] = useState(false);
     return (
-        <View style={styles.centeredView}>
+        <View >
             <Modal
                 animationType="slide"
                 transparent={true}
@@ -36,7 +39,7 @@ const ModalComponent = (props) => {
                                 props.result(false);
                             }}
                         >
-                            <Text style={styles.textStyle}>Cancel</Text>
+                            <Text style={styles.textStyle}>{buttonLeft}</Text>
                         </TouchableHighlight>
                         <TouchableHighlight
                             style={{ ...styles.openButton, backgroundColor: "#FF7043FF" }}
@@ -47,24 +50,24 @@ const ModalComponent = (props) => {
                             }}
                             value={modalResult}
                         >
-                            <Text style={styles.textStyle}>Confirm</Text>
+                            <Text style={styles.textStyle}>{buttonRight}</Text>
                         </TouchableHighlight>
                     </View>
                     </View>
                 </View>
             </Modal>
 
-            <TouchableHighlight
+            <TouchableOpacity
                 onPress={() => {
                     setModalVisible(true);
                 }}
             >
                 <Icon
-                    name="ios-trash-sharp"
+                    name={icon}
                     size={40}
                     color="#FFF"
                 />
-            </TouchableHighlight>
+            </TouchableOpacity>
         </View>
     );
 };
