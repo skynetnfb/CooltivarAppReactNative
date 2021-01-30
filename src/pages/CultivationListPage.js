@@ -23,6 +23,7 @@ constructor(props) {
     super(props);
 }
     componentDidMount(): void {
+    console.log('####--------------------------------------Cultivation LIST PROPS',this.props);
         //this.setState({cultivations:getAllCultivations()});
         this.props.find_cultivations();
     }
@@ -38,7 +39,7 @@ constructor(props) {
                 <AbstractCardComponent
                     navigation={navigation}
                     navigate_to={"cultivation"}
-                    image={''}
+                    image={item.preview.length && {uri: item.preview}}
                     imageph={require('../../imgs/no_content.png')}
                     title={item.name}
                     subtitle={item.cultivar}
@@ -89,6 +90,6 @@ const mapDispatchToProps = (dispatch) => {
     };
 };
 
-//TODO item.preview && {uri: item.preview}||
+//TODO item.preview && {uri: item.preview}
 export default connect(mapStateToProps, mapDispatchToProps)(CultivationListPage);
 

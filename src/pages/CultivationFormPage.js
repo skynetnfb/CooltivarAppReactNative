@@ -22,6 +22,8 @@ import {
     UPDATE_CULTIVATION_ACTION_REQ,
 } from '../redux/action/dispatchers/cultivation';
 import {connect} from 'react-redux';
+import Field from '../model/Field';
+import {FieldSelector} from '../redux/selector/field';
 
 
 class CultivationFormPage extends Component {
@@ -124,9 +126,8 @@ class CultivationFormPage extends Component {
                 console.log('###------------------------------  DENTRO IF  :');
                 this.setState({loading: true});
                 let cultivation = new Cultivation(this.state.name, this.state.cultivar, this.state.description, '1',this.state.startDate,this.state.endDate,1,this.state.status, '');
-                //this.props.insert_cultivation(cultivation);
-                createCultivation(cultivation);
-                //TODO come gestiamo il redirect? nadiamo back o andiamo avanti ricaricando i dati?
+                this.props.insert_cultivation(cultivation);
+                //TODO COLLEGAMENTO DINAMICO DEI FIELD NELLA SELECT
                 this.formSuccess();
             }else{
                 let _cultivation = new Cultivation();
@@ -141,23 +142,18 @@ class CultivationFormPage extends Component {
                 _cultivation.preview = this.props.cultivation.preview;
                 _cultivation.field_id = this.state.field_id;
                 console.log('###------------------------------  DENTRO ELSE _CULTIVATION :',_cultivation);
-                updateCultivation(_cultivation);
+                //updateCultivation(_cultivation);
                 this.props.update_cultivation(_cultivation);
                 this.formSuccess();
             }
-
-            /*let cults = getAllCultivations();
-            for(let cultivation of cults){
-                console.log(cultivation.sowingDate.getTime());
-            }*/
         }.bind(this);
     }
 
     componentDidMount() {
-
     }
 
     render() {
+        let fields = this.props.fields;
         return (
             <SafeAreaView style={{flex: 1}}>
                 <ScrollView style={styles.scrollView} showsVerticalScrollIndicator ={false}>
@@ -215,16 +211,15 @@ class CultivationFormPage extends Component {
 
                     <View style={styles.input_text_container}>
                         <Picker selectedValue = {this.state.field} onValueChange = {this.handleChangeField}>
-                            <Picker.Item label = "MOCKfield.name1" value = "MOCKfield.id1" />
-                            <Picker.Item label = "MOCKfield.name2" value = "MOCKfield.id2" />
+                            {fields.map( (element, index) => <Picker.Item key= {index} label = {element.name} value = {element.id} />)}
                         </Picker>
                     </View>
 
                     <View style = {[STYLE.columnContainer, {width: '100%'}]}>
                         <Text style={[STYLE.center]}>From</Text>
-                        <DatePickerComponent initial_value ={this.state.sowingDate||new Date()} ref='startDateDP' result = {this.resultStartDatePicker}/>
+                        <DatePickerComponent initial_value ={this.state.sowingDate||new Date()}  result = {this.resultStartDatePicker}/>
                         <Text style={[STYLE.center]}>to</Text>
-                        <DatePickerComponent  initial_value ={this.state.harvestDate||new Date()} ref='endDateDP' result = {this.resultEndDatePicker}/>
+                        <DatePickerComponent  initial_value ={this.state.harvestDate||new Date()}  result = {this.resultEndDatePicker}/>
                     </View>
                 </View>
 
@@ -327,8 +322,9 @@ const styles = StyleSheet.create({
 const mapStateToProps = (state,props) => {
     let stateret;
     stateret = {
+        fields: FieldSelector.findAll(state)(),
         cultivation:props.route.params.id? CultivationSelector.find(state)(props.route.params.id):null,
-        selectors: CultivationSelector,
+        selectors: CultivationSelector,FieldSelector
     };
     return stateret;
 };

@@ -1,6 +1,15 @@
 'use strict';
 import React, { PureComponent } from 'react';
-import { AppRegistry, StyleSheet, Text, TouchableOpacity, View,Image,PermissionsAndroid} from 'react-native';
+import {
+    AppRegistry,
+    StyleSheet,
+    Text,
+    TouchableOpacity,
+    View,
+    Image,
+    PermissionsAndroid,
+    ToastAndroid,
+} from 'react-native';
 import { RNCamera } from 'react-native-camera';
 import Cultivation from '../model/Cultivation';
 import {createCultivation, updateCultivation} from '../model/Repository';
@@ -55,19 +64,21 @@ class CameraComponent extends PureComponent {
         };
 
         this.savePicture = function () {
-// write the file
-            RNFetchBlob.fs.writeFile(PATH, this.state.data.base64, 'base64')
+            let filetimestamp =new Date().getTime().toString();
+            RNFetchBlob.fs.writeFile(PATH+filetimestamp, this.state.data.base64, 'base64')
                 .then(() => {
                     console.log('FILE WRITTEN!');
-                    console.log('##--------------------------------------------------------FILE WRITTEN on PATH!',PATH );
-                    this.setState({path:'file://'+PATH});
-                    this.updateCultivationpreview('file://'+PATH);
-                    if (true) {
+                    console.log('##--------------------------------------------------------FILE WRITTEN on PATH!',PATH+filetimestamp );
+                    this.setState({path:'file://'+PATH+filetimestamp});
+                    //this.updateCultivationpreview('file://'+PATH+"-"+new Date().toDateString());
+                    this.updateCultivationpreview(this.state.path);
+                    /*if (true) {
                         RNFetchBlob.android.actionViewIntent(this.props.cultivation.id, 'application/pdf').then(r => {console.log('THEN')});
                     } else {
                         RNFetchBlob.ios.previewDocument(this.state.path);
-                    }
+                    }*/
                 }).catch((err) => {
+                console.log('##--------------------------------------------------------Catch ERROR!!!!!',err);
                     console.log(err.message);
                 });
         }.bind(this);
@@ -77,7 +88,12 @@ class CameraComponent extends PureComponent {
                     _cultivation.clone(this.props.cultivation);
                     _cultivation.preview = this.state.path;
                     console.log("###-------------------------------------------------Clone:",_cultivation)
-            updateCultivation(_cultivation);
+            //updateCultivation(_cultivation);
+            ToastAndroid.showWithGravity(
+                "Preview Updated!",
+                ToastAndroid.SHORT,
+                ToastAndroid.CENTER
+            );
             this.props.update_cultivation(_cultivation);
         }.bind(this);
 
@@ -119,10 +135,10 @@ class CameraComponent extends PureComponent {
                     />
                     <View style={styles.buttons_container}>
                     <TouchableOpacity onPress={this.takePicture.bind(this)} style={styles.button_camera}>
-                        <Text style={{ fontSize: 14}}> SNAP </Text>
+                        <Text style={styles.buttons_text}> SNAP </Text>
                     </TouchableOpacity>
                     <TouchableOpacity onPress={this.savePicture} style={styles.button_camera}>
-                        <Text style={{ fontSize: 14}}> SAVE </Text>
+                        <Text style={styles.buttons_text}> SAVE </Text>
                     </TouchableOpacity>
                     </View>
                 </View>
@@ -171,6 +187,11 @@ const styles = StyleSheet.create({
     buttons_container: {
         flexDirection:'row',
         justifyContent: 'space-around',
+        alignItems: 'center',
+    },
+    buttons_text: {
+        color:'#FFF',
+        fontSize:16,
         alignItems: 'center',
     },
     button_camera: {

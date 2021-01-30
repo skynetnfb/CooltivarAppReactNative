@@ -14,22 +14,28 @@ import {createCultivAction, updateCultivAction} from '../model/Repository';
 import CultivAction from '../model/CultivAction';
 import {DatePickerComponent} from '../components/DatePickerComponent';
 import {STYLE} from '../styles/styles';
+import {CultivationSelector} from '../redux/selector/cultivation';
+import {connect} from 'react-redux';
+import {
+    INSERT_OPERATION_ACTION_REQ,
+    UPDATE_OPERATION_ACTION_REQ,
+} from '../redux/action/dispatchers/operationDispatcher';
+import {CultivActionSelector} from '../redux/selector/cultivAction';
 
 class CultivActionFormPage extends Component {
     constructor(props) {
         super(props);
         this.state = {
             loading: false,
-            description: '',
-            status: '',
-            type: '',
+            description: 'Description',
+            status: 'Todo',
+            type: 'Custom',
             validation:'validation message test',
-            startDate:new Date("2021-01-01"),
-            endDate: new Date("2021-01-01"),
+            startDate:new Date(),
+            endDate: new Date(),
             cultivation_id:-1,
             cultivAction: null,
         };
-        console.log('###-------------------------------------------CONSTRUCTOR this.props.route.params.cultivAction ',this.props.route.params.cultivAction);
         if(this.props.route.params.cultivAction!==undefined){
             this.state.cultivAction= this.props.route.params.cultivAction;
             this.state.description = this.props.route.params.cultivAction.description;
@@ -46,47 +52,29 @@ class CultivActionFormPage extends Component {
             });
         }.bind(this);
 
-        this.handleChangeCultivar = function(text) {
-            this.setState({
-                cultivar: text,
-            });
-        }.bind(this);
-
         this.handleChangeStatus = function(text) {
             this.setState({
                 status: text,
             });
+            console.log('***---------------------------------------------------Change Status',this.state.status);
         }.bind(this);
 
         this.handleChangeType = function(text) {
             this.setState({
                 type: text,
             });
+            console.log('***---------------------------------------------------Change TYPE',this.state.type);
         }.bind(this);
-
-        /*
-        this.onChangeStartDate = function (event, selectedDate) {
-            const currentDate = selectedDate || this.state.startDate;
-            console.log('---------------------------selected Date:',this.state.startDate);
-            console.log('---------------------------this.startDate:',this.state.startDate);
-            console.log('---------------------------current:',currentDate);
-            this.setState({startDate:currentDate})
-        }.bind(this);
-
-        this.onChangeEndDate = function (event, selectedDate) {
-            const currentDate = selectedDate || endDate;
-            setShow(Platform.OS === 'ios');
-            setEndDate(currentDate);
-        }.bind(this);
-        */
-
 
         this.confirm = function() {
             this.setState({loading: true});
             if(this.state.cultivAction==null){
                 let cultivation_id = this.props.route.params.cultivation_id;
-                this.state.cultivAction = new CultivAction(this.state.description,new Date(),new Date(), this.state.status,this.state.type, cultivation_id);
-                createCultivAction(this.state.cultivAction);
+                console.log('***---------------------------------------------------TYPE',this.state.type);
+                this.state.cultivAction = new CultivAction(this.state.description,new Date(this.state.startDate),new Date(this.state.endDate), this.state.status,this.state.type, cultivation_id);
+                console.log('***---------------------------------------------------CULTIV ACTION ',this.state.cultivAction);
+                //createCultivAction(this.state.cultivAction);
+                this.props.insert_cultivAction(this.state.cultivAction)
             }else {
                 let _cultivAction = new CultivAction();
                 let cultivActionRealm = this.props.route.params.cultivAction;
@@ -97,9 +85,10 @@ class CultivActionFormPage extends Component {
                 _cultivAction.status=this.state.status;
                 _cultivAction.type=this.state.type;
                 _cultivAction.cultivation_id=cultivActionRealm.cultivation_id;
-                updateCultivAction(_cultivAction);
+                console.log('***---------------------------------------------------TYPE',this.state.type);
+                //updateCultivAction(_cultivAction);
+                this.props.update_cultivAction(this.state.cultivAction)
             }
-            console.log('###---------------------------------------------------GOBACK()')
             this.props.navigation.goBack();
         }.bind(this);
 
@@ -116,8 +105,6 @@ class CultivActionFormPage extends Component {
     componentDidMount(){
     }
     componentWillUnmount(): void {
-        //viene chiamata prima di essere distrutto il component
-        // se si deve fare qualcosa con qualche evento legato a questo component deve essere fatto qui
     };
 
 
@@ -158,9 +145,9 @@ class CultivActionFormPage extends Component {
 
                         <View style = {[STYLE.columnContainer, {width: '100%'}]}>
                             <Text style={[STYLE.center]}>From</Text>
-                            <DatePickerComponent initial_value ={this.state.startDate||new Date()} ref='startDateDP' result = {this.resultStartDatePicker}/>
+                            <DatePickerComponent initial_value ={this.state.startDate||new Date()}  result = {this.resultStartDatePicker}/>
                             <Text style={[STYLE.center]}>to</Text>
-                            <DatePickerComponent initial_value ={this.state.endDate||new Date()} ref='startDateDP' result = {this.resultEndDatePicker}/>
+                            <DatePickerComponent initial_value ={this.state.endDate||new Date()}  result = {this.resultEndDatePicker}/>
                         </View>
                     </View>
 
@@ -254,4 +241,20 @@ const styles = StyleSheet.create({
     },
 });
 
-export default CultivActionFormPage;
+const mapStateToProps = (state,props) => {
+    let stateret;
+    stateret = {
+        cultivAction:props.route.params.id? CultivationSelector.find(state)(props.route.params.id):null,
+        selectors: CultivActionSelector,
+    };
+    return stateret;
+};
+
+const mapDispatchToProps = (dispatch) => {
+    return {
+        insert_cultivAction: INSERT_OPERATION_ACTION_REQ(dispatch),
+        update_cultivAction: UPDATE_OPERATION_ACTION_REQ(dispatch),
+    };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(CultivActionFormPage);

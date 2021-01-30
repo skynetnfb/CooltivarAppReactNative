@@ -10,7 +10,11 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import {STYLE} from '../styles/styles';
 import {connect} from 'react-redux';
 import {CultivActionSelector} from '../redux/selector/cultivAction';
-import {FIND_OPERATION_ACTION_REQ, INSERT_OPERATION_ACTION_REQ} from '../redux/action/dispatchers/operationDispatcher';
+import {
+    FIND_OPERATION_ACTION_REQ,
+    FIND_OPERATION_BY_CULTIVATION_ACTION_REQ,
+    INSERT_OPERATION_ACTION_REQ,
+} from '../redux/action/dispatchers/operationDispatcher';
 
 
 class  CultivActionsHistoryComponent extends Component{
@@ -70,21 +74,19 @@ class  CultivActionsHistoryComponent extends Component{
 }
 
 
-const mapStateToProps = (state) => {
+const mapStateToProps = (state,props) => {
     let stateret;
     stateret = {
-        cultivActions: CultivActionSelector.findAll(state)(),
-        selectors: CultivActionSelector,
+        cultivActions: [...CultivActionSelector.findAllByCultivationAndType(state)(props.route.params.route.params.id,"Remedy"),
+            ...CultivActionSelector.findAllByCultivationAndType(state)(props.route.params.route.params.id,"Threat")],
     };
-    console.log('---------------------------------------------CultivActionSelector.findAll(state)():',stateret.cultivActions);
     return stateret;
-
 };
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        find_cultivActions: FIND_OPERATION_ACTION_REQ(dispatch),
-        insert_cultivAction: INSERT_OPERATION_ACTION_REQ(dispatch),
+        find_cultivActions: FIND_OPERATION_BY_CULTIVATION_ACTION_REQ(dispatch),
+        //find_cultivActions: FIND_OPERATION_ACTION_REQ(dispatch),
     };
 };
 
