@@ -53,7 +53,8 @@ class  CultivationDetailComponent extends React.Component{
         this.resultModal = function (modalResult){
             if(modalResult){
                 this.props.delete_cultivation(this.props.cultivation);
-                this.props.navigation.navigate('home',{user:true})
+                //this.props.navigation.navigate('home',{user:true})
+                this.props.navigation.pop();
             }
 
 
@@ -245,7 +246,7 @@ const mapStateToProps = (state,props) => {
 
     let stateret;
     stateret = {
-        cultivation : CultivationSelector.find(state)(routeParams2.id),
+        cultivation : CultivationSelector.find(state)(routeParams2.id)||new Cultivation(),
         findSelector: CultivationSelector.find(state),
     };
     return stateret;
