@@ -13,14 +13,15 @@ export class AppState {
 }
 
 const initialState: AppState = {
-    fields: [
+    /*fields: [
         new Field('field_1', 'Agrigento', 'primo agr test', '[]'),
         new Field('field_2', 'Frosinone', 'fros desc test', '[]'),
         new Field('field_3', 'Termini', 'term desc test', '[]'),
         new Field('field_4', 'Terni', 'tern desc test', '[]'),
-    ],
+    ],*/
+    fields: [],
     cultivations: [
-        new Cultivation('MOCK', 'cultivar1', 'description of cultivation1', '1', new Date(), new Date(), 500, 'Grow', null),
+        //new Cultivation('MOCK', 'cultivar1', 'description of cultivation1', '1', new Date(), new Date(), 500, 'Grow', null),
     ],
     cultivActions:[],
     user:null,
@@ -28,7 +29,7 @@ const initialState: AppState = {
 };
 
 //TODO
-initialState.cultivations[0].id = '1611331189935';
+//initialState.cultivations[0].id = '1611331189935';
 const store = createStore(reducer);
 
 export {store, initialState};

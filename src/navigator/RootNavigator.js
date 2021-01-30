@@ -95,7 +95,7 @@ class RootNavigator extends Component {
                     />
                     <MaterialTopTabNavigator.Screen
                         name="Remedy"
-                        component={CultivActionsHistoryComponent}
+                        component={CultivActionsThreatRemedyComponent}
                         options={{
                             tabBarLabel: 'Threat & Remedy',
                         }}

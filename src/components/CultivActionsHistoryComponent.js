@@ -80,7 +80,7 @@ const mapStateToProps = (state,props) => {
 const mapDispatchToProps = (dispatch) => {
     return {
         find_cultivActions: FIND_OPERATION_BY_CULTIVATION_ACTION_REQ(dispatch),
-        //find_cultivActions: FIND_OPERATION_ACTION_REQ(dispatch),
+
     };
 };
 

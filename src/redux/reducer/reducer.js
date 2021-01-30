@@ -159,21 +159,11 @@ const reducer = (state = initialState, action) => {
             newState.cultivActions = response;
             break;
         case CultivActionEnum.FIND_BY_CULTIVATION_REQ:
-            // query | id | none of those (findall)
             if (action.query) {
                 response = CultivActionDB.findAllByCultivation(+action.query)||[];
-                //response = CultivActionDB.findAll() || [];
-                console.log('òòòòòòòò----------------------------REDUCER CultivActionEnum.FIND_BY_CULTIVATION_REQ DOPO FIND DB:',);
-                /*if (!response) return;
-                index = CultivActionSelector.queryIndex(newState)( (ca) => (ca.cultivation_id === action.query) );
-                if (index >= 0) newState.cultivations[index] = response;
-                else newState.cultivActions.push(response);*/
-                //newState.cultivActions.push(response);
                 //TODO forse è meglio sostituire le action della coltivazione corrente
                 newState.cultivActions=response;
-                console.log('òòòòòòòò----------------------------REDUCER CultivActionEnum.FIND_BY_CULTIVATION_REQ RESPONSE:',response);
                 break;
-                // newState.findResponses[action.key] = response;
             }
             break;
         case CultivActionEnum.INSERT_REQ:
