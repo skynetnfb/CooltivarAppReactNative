@@ -7,13 +7,13 @@ import {
     TextInput,
     ActivityIndicator,
     TouchableOpacity,
+    Alert,
+    BackHandler,
 } from 'react-native';
 import FirebaseAuth from '../utils/FirebaseAuth';
 import Icon from 'react-native-vector-icons/Ionicons';
 import firebase from 'firebase';
-import RootNavigator from '../navigator/RootNavigator';
-import {initRealm} from '../model/Repository';
-import {STYLE} from '../styles/styles';
+import {COLOR} from '../styles/styles';
 
 
 class LoginComponent extends Component {
@@ -27,17 +27,13 @@ class LoginComponent extends Component {
             loading: false,
         };
 
-
         this.loginSuccess = function() {
             this.setState({
                 status: 'Login completed',
                 loading: false,
                 user:true,
             });
-            let userDbPath;
-            if(firebase.auth().currentUser!=null){userDbPath = firebase.auth().currentUser.email;}
-            //initRealm(userDbPath);
-            this.props.navigation.navigate('home', {user:true});
+            this.props.navigation.replace('home', {user:true});
         }.bind(this);
 
         this.loginError = function(error) {
@@ -61,18 +57,10 @@ class LoginComponent extends Component {
         }.bind(this);
 
         this.register = function(text) {
-            console.log('----------------------MAIL:',this.state.email,);
-            firebase.auth().signOut().then(()=>{
-                console.log('----------------------SUCCESS SIGNOUT');
-                this.props.navigation.navigate('register',{user:false});
-            }).catch(()=>{
-                console.log('----------------------FAIL SIGNOUT');
-            });
+                this.props.navigation.replace('register',{user:false});
         }.bind(this);
 
         this.doLogin = function() {
-            console.log('----------------------MAIL:',this.state.email);
-            console.log('----------------------MAIL:',this.state.password);
             this.setState({loading: true});
             let email=null;
             //email=this.state.email;
@@ -90,46 +78,41 @@ class LoginComponent extends Component {
                     console.log('----------------------Fail:');
                     this.loginError(error);
                 });
-
+                BackHandler.removeEventListener("hardwareBackPress", this.backAction);
                 this.setState({loading: true});
 
         }.bind(this);
 
+    }
 
+    backAction = () => {
+        Alert.alert("Hold on!", "Are you sure you want to Quit Application?", [
+            {
+                text: "Cancel",
+                onPress: () => null,
+                style: "cancel"
+            },
+            { text: "YES", onPress: () => BackHandler.exitApp() }
+        ]);
+        return true;
+    };
+
+    componentDidMount() {
+        BackHandler.addEventListener("hardwareBackPress", this.backAction);
+    }
+
+    componentWillUnmount() {
+        BackHandler.removeEventListener("hardwareBackPress", this.backAction);
     }
 
     render() {
-       /* firebase.auth().signOut().then(()=>{
-            console.log('----------------------SUCCESS SIGNOUT');
-            this.props.navigation.navigate('register',{user:false});
-        }).catch(()=>{
-            console.log('----------------------FAIL SIGNOUT');
-        });
-/*
-        console.log('**----------------------INSIDE REGISTER PROPS UNDEFINED',this.props);
-        const firebaseConfig = {
-            apiKey: 'AIzaSyC_F98EhQTmgzbbalgnYqQFpCgOXcgcnxs',
-            authDomain: 'reactcooltivarapp.firebaseapp.com',
-            databaseURL: '',
-            projectId: 'reactcooltivarapp',
-            storageBucket: 'reactcooltivarapp.appspot.com',
-            messagingSenderId: '461253967081',
-            appId: '1:461253967081:web:6c21b324129a2319960478',
-            measurementId: '',
-        };
-        if (!firebase.apps.length) {
-            firebase.initializeApp(firebaseConfig);
-        }
-*/
-
-
         return (
             <SafeAreaView style={styles.main_container}>
                 <View style={styles.app_name_container}>
                     <Icon
                           name={'md-leaf-sharp'}
                           size={60}
-                          color={'green'}
+                          color={COLOR.MAIN}
                     />
                     <Text style={styles.app_name}>Cooltivar App</Text>
                 </View>
@@ -198,7 +181,7 @@ const styles = StyleSheet.create({
     },
 
     login_box: {
-        backgroundColor: 'green',
+        backgroundColor: COLOR.MAIN,
         paddingHorizontal: 15,
         paddingVertical: 20,
         borderRadius: 5,
@@ -233,7 +216,7 @@ const styles = StyleSheet.create({
         padding: 10,
     },
     login_button: {
-        backgroundColor: 'green',
+        backgroundColor: COLOR.MAIN,
         paddingVertical: 8,
         margin: 8,
         borderRadius: 5,
@@ -248,7 +231,7 @@ const styles = StyleSheet.create({
     },
     app_name: {
         fontSize: 32,
-        color: 'green',
+        color: COLOR.MAIN,
     },
     login_button_ai: {
         marginLeft: 10,

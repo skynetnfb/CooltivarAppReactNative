@@ -8,7 +8,7 @@ import {
     View
 } from 'react-native';
 import Cultivation from '../model/Cultivation';
-import {STYLE} from '../styles/styles';
+import {COLOR, STYLE} from '../styles/styles';
 import Icon from 'react-native-vector-icons/Ionicons';
 import {connect} from 'react-redux';
 import {CultivationSelector} from '../redux/selector/cultivation';
@@ -51,9 +51,7 @@ class  CultivationDetailComponent extends React.Component{
         }.bind(this);
 
         this.resultModal = function (modalResult){
-            console.log('****------------------------------RESULT DETAIL PROPS CULTIVATION:', this.props.cultivation);
             if(modalResult){
-                //deleteCultivAction(this.props.cultivation.id);
                 this.props.delete_cultivation(this.props.cultivation);
                 this.props.navigation.navigate('home',{user:true})
             }
@@ -71,14 +69,10 @@ class  CultivationDetailComponent extends React.Component{
         coord.longitude = 30;
 
         let fc = forecast(coord,3);
-        //let fc = getForecastToday(coord);
 
         console.log('###-------------------------------------------------forecast:',fc)
     }
     componentWillUnmount(): void {
-        //viene chiamata prima di essere distrutto il component
-        // se si deve fare qualcosa con qualche evento legato a questo component deve essere fatto qui
-        //suppongo anche per inviare dei risultati ad alatri componenti
     }
 
     render() {
@@ -139,14 +133,14 @@ class  CultivationDetailComponent extends React.Component{
                     onPress={this.deleteDialog}>
                     <ModalComponent
                         modalMessage = {"Cultivation will be deleted! Are You Sure? "}
-                        icon ={"settings-sharp"}
+                        icon ={"trash-sharp"}
                         result = {this.resultModal}
                     />
                 </TouchableOpacity>
                 <TouchableOpacity
                     onPress={()=>this.props.navigation.navigate('cultivation_form',{ id: this.props.cultivation.id })}>
                     <Icon
-                        name="settings-sharp"
+                        name="create"
                         size={40}
                         color="#FFF"
                     />
@@ -188,7 +182,7 @@ const styles = StyleSheet.create({
         margin: 4,
     },
     footer: {
-        backgroundColor: 'green',
+        backgroundColor: COLOR.MAIN,
         padding: 10,
         flexDirection:'row',
         borderWidth: StyleSheet.hairlineWidth,
@@ -223,7 +217,7 @@ const styles = StyleSheet.create({
     },
     card_title: {
         textAlign: 'left',
-        color: 'green',
+        color: COLOR.MAIN,
         fontSize: 18,
         fontWeight: 'bold',
     },

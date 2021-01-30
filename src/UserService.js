@@ -3,8 +3,8 @@ import {connect} from 'react-redux';
 import  firebase from 'firebase';
 import {initRealm} from './model/Repository';
 import{USER_LOGGED_REQ,USER_LOGGED_OUT_REQ} from './redux/action/dispatchers/UserAction';
-import {UserSelector} from './redux/selector/UserSelector';
 import RootNavigator from './navigator/RootNavigator';
+import {Alert, BackHandler} from 'react-native';
 
 const firebaseConfig = {
     apiKey: 'AIzaSyC_F98EhQTmgzbbalgnYqQFpCgOXcgcnxs',
@@ -24,14 +24,21 @@ class UserService extends Component {
         this.state={
             logged:null,
         };
-
-
         if (!firebase.apps.length) {
             firebase.initializeApp(firebaseConfig);
         }
-
-
     }
+    backAction = () => {
+        Alert.alert("Hold on!", "Are you sure you want to Quit Application?", [
+            {
+                text: "Cancel",
+                onPress: () => null,
+                style: "cancel"
+            },
+            { text: "YES", onPress: () => BackHandler.exitApp() }
+        ]);
+        return true;
+    };
 
     componentDidMount() {
         console.log('####!!!!****-----------------------------CURRENT USER USERSERVICE',firebase.auth().currentUser);
@@ -43,14 +50,12 @@ class UserService extends Component {
                 }
                 initRealm(userDbPath);
                 console.log('####-----------------------------DENTRO IF UTENTE LOGGATO',user);
-                console.log('####-----------------------------DENTRO IF UTENTE MAIL',userDbPath);
-                console.log('####-----------------------------DENTRO IF UTENTE MAIL',userDbPath);
                 //this.props.user(user);
                 this.props.userLoginAction(user);
                 this.setState({logged:true});
                 //this.props.route.navigation.navigate('home', {user:true});
             } else {
-                console.log('####-----------------------------DENTRO ELSE UTENTE SLOGGATO',_user);
+                console.log('####-----------------------------DENTRO ELSE UTENTE SLOGGATO');
                 this.setState({logged:false});
                 this.props.userLogoutAction();
             }

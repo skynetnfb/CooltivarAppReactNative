@@ -12,7 +12,7 @@ import {
         } from 'react-native';
 import {createCultivAction, updateCultivAction} from '../model/Repository';
 import CultivAction from '../model/CultivAction';
-import {DatePickerComponent} from '../components/DatePickerComponent';
+import {DatePickerComponent} from '../components/abstract/DatePickerComponent';
 import {STYLE} from '../styles/styles';
 import {CultivationSelector} from '../redux/selector/cultivation';
 import {connect} from 'react-redux';

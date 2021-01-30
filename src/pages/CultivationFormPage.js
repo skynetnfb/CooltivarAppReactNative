@@ -11,7 +11,7 @@ import {
     Picker,
 } from 'react-native';
 import Cultivation from '../model/Cultivation';
-import {DatePickerComponent} from '../components/DatePickerComponent';
+import {DatePickerComponent} from '../components/abstract/DatePickerComponent';
 import {
     createCultivation, updateCultivation,
 } from '../model/Repository';

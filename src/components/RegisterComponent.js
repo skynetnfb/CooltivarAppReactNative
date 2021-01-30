@@ -12,6 +12,7 @@ import FirebaseAuth from '../utils/FirebaseAuth';
 import Icon from 'react-native-vector-icons/Ionicons';
 import firebase from 'firebase';
 import RootNavigator from '../navigator/RootNavigator';
+import {COLOR} from '../styles/styles';
 
 
 
@@ -70,7 +71,7 @@ class RegisterComponent extends Component {
 
     this.login = function(text) {
         //console.log('----------------------INSIDE REGISTER PROPS',this.props);
-        this.props.navigation.navigate('login');
+        this.props.navigation.replace('login');
     }.bind(this);
 
 
@@ -98,7 +99,7 @@ class RegisterComponent extends Component {
                     <Icon
                           name={'md-leaf-sharp'}
                           size={60}
-                          color={'green'}
+                          color={COLOR.MAIN}
                     />
                     <Text style={styles.app_name}>Register to Cooltivar </Text>
                 </View>
@@ -167,7 +168,7 @@ const styles = StyleSheet.create({
     },
 
     login_box: {
-        backgroundColor: 'green',
+        backgroundColor: COLOR.MAIN,
         paddingHorizontal: 15,
         paddingVertical: 20,
         borderRadius: 5,
@@ -202,7 +203,7 @@ const styles = StyleSheet.create({
         padding: 10,
     },
     login_button: {
-        backgroundColor: 'green',
+        backgroundColor: COLOR.MAIN,
         paddingVertical: 8,
         margin: 8,
         borderRadius: 5,
@@ -217,7 +218,7 @@ const styles = StyleSheet.create({
     },
     app_name: {
         fontSize: 32,
-        color: 'green',
+        color: COLOR.MAIN,
     },
     login_button_ai: {
         marginLeft: 10,

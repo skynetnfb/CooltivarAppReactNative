@@ -17,7 +17,7 @@ import {
 } from '../redux/action/dispatchers/operationDispatcher';
 
 
-class  CultivActionsThreatRemedyComponent extends Component{
+class  CultivActionsIrrigationsComponent extends Component{
     constructor(props) {
         super(props);
 
@@ -77,8 +77,7 @@ class  CultivActionsThreatRemedyComponent extends Component{
 const mapStateToProps = (state,props) => {
     let stateret;
     stateret = {
-        cultivActions: [...CultivActionSelector.findAllByCultivationAndType(state)(props.route.params.route.params.id,"Remedy"),
-            ...CultivActionSelector.findAllByCultivationAndType(state)(props.route.params.route.params.id,"Threat")],
+        cultivActions: [...CultivActionSelector.findAllByCultivationAndType(state)(props.route.params.route.params.id,"Irrigation")],
     };
     return stateret;
 };
@@ -91,4 +90,4 @@ const mapDispatchToProps = (dispatch) => {
 };
 
 
-export default connect(mapStateToProps, mapDispatchToProps)(CultivActionsThreatRemedyComponent);
+export default connect(mapStateToProps, mapDispatchToProps)(CultivActionsIrrigationsComponent);

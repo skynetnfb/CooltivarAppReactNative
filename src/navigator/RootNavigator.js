@@ -15,6 +15,7 @@ import FieldForm from '../components/Field/FieldForm';
 import FieldFormComponent from '../components/Field/FieldFormComponent';
 import CameraComponent from '../components/CameraComponent';
 import CultivActionsThreatRemedyComponent from '../components/CultivActionsThreatRemedyComponent';
+import CultivActionsIrrigationsComponent from '../components/CultivActionsIrrigationsComponent';
 import RegisterComponent from '../components/RegisterComponent';
 import {UserSelector} from '../redux/selector/UserSelector';
 import {USER_LOGGED_OUT_REQ, USER_LOGGED_REQ} from '../redux/action/dispatchers/UserAction';
@@ -35,7 +36,7 @@ class RootNavigator extends Component {
            /*if(this.route!==undefined){
                this.logged=this.route.params.user;
            }else this.logged=false;*/
-        let logged=this.props.logged;//debug
+        let logged=this.props.logged;
         console.log("******-----------------------------------------------ROOT NAV PROPS",logged);
         //let user=this.props.userSelector(); //debug
         const createHomeTabNavigation = () =>(
@@ -104,7 +105,7 @@ class RootNavigator extends Component {
 
                     <MaterialTopTabNavigator.Screen
                         name="Irrigations"
-                        component={CultivActionsHistoryComponent}
+                        component={CultivActionsIrrigationsComponent}
                         options={{
                             tabBarLabel: 'Water',
                         }}
@@ -153,12 +154,9 @@ class RootNavigator extends Component {
         return (
             <NavigationContainer>
                 <RootStackNavigator.Navigator name="home">
-                    {!logged && (
-                        <RootStackNavigator.Screen name="login" component={LoginComponent} />
-                    )}
-                    {logged && (
-                        <RootStackNavigator.Screen name = {'Cultivations'} component = { createHomeTabNavigation }/>
-                    )}
+
+
+                    <RootStackNavigator.Screen name = {'Cultivations'} component = { createHomeTabNavigation }/>
                     <RootStackNavigator.Screen name = {'home'} component = { createHomeTabNavigation }/>
                     <RootStackNavigator.Screen name = {'cultivation list'} component = { CultivationListPage }/>
                     <RootStackNavigator.Screen name = {'field list'} component = { FieldListPage }/>
@@ -169,6 +167,7 @@ class RootNavigator extends Component {
                     <RootStackNavigator.Screen name = {'camera'} component = { CameraComponent }/>
                     <RootStackNavigator.Screen name = {'action form'} component = { CultivActionFormPage }/>
                     <RootStackNavigator.Screen name = {'field_form'} component = { FieldFormComponent }/>
+                    <RootStackNavigator.Screen name = {'login'} component = { LoginComponent }/>
                     <RootStackNavigator.Screen name = {'register'} component = { RegisterComponent }/>
                 </RootStackNavigator.Navigator>
             </NavigationContainer>

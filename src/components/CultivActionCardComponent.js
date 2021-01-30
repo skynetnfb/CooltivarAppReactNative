@@ -82,7 +82,7 @@ class  CultivActionCardComponent extends React.Component{
                                         <Icon
                                         name="ios-settings-sharp"
                                         size={24}
-                                        color="green"
+                                        color={COLOR.MAIN}
                                     />
                                     </View>
                                 </TouchableOpacity>
