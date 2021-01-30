@@ -23,6 +23,7 @@ import {
 } from '../redux/action/dispatchers/cultivation';
 import {connect} from 'react-redux';
 import Field from '../model/Field';
+import {FieldSelector} from '../redux/selector/field';
 
 
 class CultivationFormPage extends Component {
@@ -149,16 +150,10 @@ class CultivationFormPage extends Component {
     }
 
     componentDidMount() {
-
     }
 
     render() {
-        let fields = [
-            new Field('field_1', 'Agrigento', 'primo agr test'),
-            new Field('field_2', 'Frosinone', 'fros desc test'),
-            new Field('field_3', 'Termini', 'term desc test'),
-            new Field('field_4', 'Terni', 'tern desc test'),
-        ];
+        let fields = this.props.fields;
         return (
             <SafeAreaView style={{flex: 1}}>
                 <ScrollView style={styles.scrollView} showsVerticalScrollIndicator ={false}>
@@ -327,8 +322,9 @@ const styles = StyleSheet.create({
 const mapStateToProps = (state,props) => {
     let stateret;
     stateret = {
+        fields: FieldSelector.findAll(state)(),
         cultivation:props.route.params.id? CultivationSelector.find(state)(props.route.params.id):null,
-        selectors: CultivationSelector,
+        selectors: CultivationSelector,FieldSelector
     };
     return stateret;
 };
