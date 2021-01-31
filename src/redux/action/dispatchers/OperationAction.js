@@ -3,8 +3,8 @@ import {
     E_UPDATE_OPERATION_REQ, E_UPDATE_OPERATION_SUCCESS, E_UPDATE_OPERATION_FAIL,
     E_DELETE_OPERATION_REQ, E_DELETE_OPERATION_SUCCESS, E_DELETE_OPERATION_FAIL,
     E_FIND_OPERATION_REQ, E_FIND_OPERATION_SUCCESS, E_FIND_OPERATION_FAIL, E_FIND_OPERATION_BY_CULTIVATION_REQ,
-} from '../enum/Operation';
-import {makeFindAction} from './field';
+} from '../enum/OperationEnum';
+import {makeFindAction} from './FieldAction';
 
 // per prendere il "trigger": INSERT_OPERATION_ACTION(dispatch);
 // per eseguirla direttamente: INSERT_OPERATION_ACTION(dispatch)();

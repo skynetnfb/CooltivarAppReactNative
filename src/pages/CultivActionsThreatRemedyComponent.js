@@ -9,15 +9,15 @@ import CultivActionCardComponent from "./CultivActionCardComponent";
 import Icon from 'react-native-vector-icons/Ionicons';
 import {STYLE} from '../styles/styles';
 import {connect} from 'react-redux';
-import {CultivActionSelector} from '../redux/selector/cultivAction';
+import {CultivActionSelector} from '../redux/selector/CultivActionSelector';
 import {
     FIND_OPERATION_ACTION_REQ,
     FIND_OPERATION_BY_CULTIVATION_ACTION_REQ,
     INSERT_OPERATION_ACTION_REQ,
-} from '../redux/action/dispatchers/operationDispatcher';
+} from '../redux/action/dispatchers/OperationAction';
 
 
-class  CultivActionsHistoryComponent extends Component{
+class  CultivActionsThreatRemedyComponent extends Component{
     constructor(props) {
         super(props);
 
@@ -91,4 +91,4 @@ const mapDispatchToProps = (dispatch) => {
 };
 
 
-export default connect(mapStateToProps, mapDispatchToProps)(CultivActionsHistoryComponent);
+export default connect(mapStateToProps, mapDispatchToProps)(CultivActionsThreatRemedyComponent);

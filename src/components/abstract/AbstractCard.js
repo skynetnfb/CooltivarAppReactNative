@@ -1,13 +1,13 @@
 import React from 'react';
-import CultivationCardComponent from '../CultivationCardComponent';
+import CultivationCardComponent from '../../pages/CultivationCardComponent';
 import {Image, SafeAreaView, StatusBar, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import {STYLE} from '../../styles/styles';
 
 class AbstractCardComponent extends CultivationCardComponent {
     constructor(props){
         super(props);
-        console.log('AbstractCard Props ------------------------ props:', this.props);
-        console.log('Abstract Card props:', this.props, props);
+        //console.log('AbstractCard Props ------------------------ props:', this.props);
+        //console.log('Abstract Card props:', this.props, props);
 
         //costruttore chiamato prima che venga renderizzato il component
         this.goToDetail = function() {

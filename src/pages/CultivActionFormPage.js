@@ -12,15 +12,15 @@ import {
         } from 'react-native';
 import {createCultivAction, updateCultivAction} from '../model/Repository';
 import CultivAction from '../model/CultivAction';
-import {DatePickerComponent} from '../components/DatePickerComponent';
+import {DatePickerComponent} from '../components/abstract/DatePickerComponent';
 import {STYLE} from '../styles/styles';
-import {CultivationSelector} from '../redux/selector/cultivation';
+import {CultivationSelector} from '../redux/selector/CultivationSelector';
 import {connect} from 'react-redux';
 import {
     INSERT_OPERATION_ACTION_REQ,
     UPDATE_OPERATION_ACTION_REQ,
-} from '../redux/action/dispatchers/operationDispatcher';
-import {CultivActionSelector} from '../redux/selector/cultivAction';
+} from '../redux/action/dispatchers/OperationAction';
+import {CultivActionSelector} from '../redux/selector/CultivActionSelector';
 
 class CultivActionFormPage extends Component {
     constructor(props) {

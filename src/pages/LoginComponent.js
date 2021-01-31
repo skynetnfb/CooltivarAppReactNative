@@ -7,40 +7,40 @@ import {
     TextInput,
     ActivityIndicator,
     TouchableOpacity,
+    Alert,
+    BackHandler,
 } from 'react-native';
 import FirebaseAuth from '../utils/FirebaseAuth';
 import Icon from 'react-native-vector-icons/Ionicons';
 import firebase from 'firebase';
-import RootNavigator from '../navigator/RootNavigator';
+import {COLOR} from '../styles/styles';
 
 
-
-class RegisterComponent extends Component {
+class LoginComponent extends Component {
     constructor(props) {
         super(props);
         this.state = {
             email: '',
             password: '',
             status: '',
-            user: null,
+            user: false,
             loading: false,
         };
 
-
-        this.registerSuccess = function() {
+        this.loginSuccess = function() {
             this.setState({
-                status: 'Registration Complete',
+                status: 'Login completed',
                 loading: false,
                 user:true,
             });
-            this.props.navigation.navigate('home',{user:true});
+            this.props.navigation.replace('home', {user:true});
         }.bind(this);
 
-        this.registerError = function(error) {
-            console.log('ERROR REGISTER MESSAGE: ',error.message);
+        this.loginError = function(error) {
             this.setState({
                 status: error.message,
                 loading: false,
+                user:false,
             });
         }.bind(this);
 
@@ -56,51 +56,65 @@ class RegisterComponent extends Component {
             });
         }.bind(this);
 
-        this.doRegister = function() {
-            this.setState({loading: true});
-            FirebaseAuth.signUp(this.state.email, this.state.password)
-                .then(() => {
-                    this.registerSuccess();
-                })
-                .catch(error => {
-                    this.registerError(error);
-                });
+        this.register = function(text) {
+                this.props.navigation.replace('register',{user:false});
         }.bind(this);
 
+        this.doLogin = function() {
+            this.setState({loading: true});
+            let email=null;
+            //email=this.state.email;
+            email='b@b.it';
+            //email='a@a.it';
+            let password=null;
+            password=this.state.password;
+            password='123456';
+            FirebaseAuth.signIn(email,password )
+                .then(() => {
+                    console.log('----------------------Success:');
+                    this.loginSuccess();
+                })
+                .catch(error => {
+                    console.log('----------------------Fail:');
+                    this.loginError(error);
+                });
+                BackHandler.removeEventListener("hardwareBackPress", this.backAction);
+                this.setState({loading: true});
 
-    this.login = function(text) {
-        //console.log('----------------------INSIDE REGISTER PROPS',this.props);
-        this.props.navigation.navigate('login');
-    }.bind(this);
-
+        }.bind(this);
 
     }
 
+    backAction = () => {
+        Alert.alert("Hold on!", "Are you sure you want to Quit Application?", [
+            {
+                text: "Cancel",
+                onPress: () => null,
+                style: "cancel"
+            },
+            { text: "YES", onPress: () => BackHandler.exitApp() }
+        ]);
+        return true;
+    };
+
+    componentDidMount() {
+        BackHandler.addEventListener("hardwareBackPress", this.backAction);
+    }
+
+    componentWillUnmount() {
+        BackHandler.removeEventListener("hardwareBackPress", this.backAction);
+    }
+
     render() {
-
-        const firebaseConfig = {
-            apiKey: 'AIzaSyC_F98EhQTmgzbbalgnYqQFpCgOXcgcnxs',
-            authDomain: 'reactcooltivarapp.firebaseapp.com',
-            databaseURL: '',
-            projectId: 'reactcooltivarapp',
-            storageBucket: 'reactcooltivarapp.appspot.com',
-            messagingSenderId: '461253967081',
-            appId: '1:461253967081:web:6c21b324129a2319960478',
-            measurementId: '',
-        };
-        if (!firebase.apps.length) {
-            firebase.initializeApp(firebaseConfig);
-        }
-
         return (
             <SafeAreaView style={styles.main_container}>
                 <View style={styles.app_name_container}>
                     <Icon
                           name={'md-leaf-sharp'}
                           size={60}
-                          color={'green'}
+                          color={COLOR.MAIN}
                     />
-                    <Text style={styles.app_name}>Register to Cooltivar </Text>
+                    <Text style={styles.app_name}>Cooltivar App</Text>
                 </View>
                 <View style={styles.login_box}>
                     <View style={styles.login_email_container}>
@@ -123,9 +137,9 @@ class RegisterComponent extends Component {
                         />
                     </View>
                 </View>
-                <View style={styles.login_button_container}>
-                    <TouchableOpacity style={styles.login_button} onPress={this.doRegister}>
-                        <Text style={styles.login_button_text}>Register</Text>
+                <View style = {[styles.login_button_container]}>
+                    <TouchableOpacity style={styles.login_button} onPress={this.doLogin}>
+                        <Text style={styles.login_button_text}>Login</Text>
                         {this.state.loading && (
                             <ActivityIndicator
                                 size="small"
@@ -134,8 +148,8 @@ class RegisterComponent extends Component {
                             />
                         )}
                     </TouchableOpacity>
-                    <TouchableOpacity style={styles.login_button} onPress={this.login}>
-                        <Text style={styles.login_button_text}>Back</Text>
+                    <TouchableOpacity style={styles.login_button} onPress={this.register}>
+                        <Text style={styles.login_button_text}>Register</Text>
                         {this.state.loading && (
                             <ActivityIndicator
                                 size="small"
@@ -167,7 +181,7 @@ const styles = StyleSheet.create({
     },
 
     login_box: {
-        backgroundColor: 'green',
+        backgroundColor: COLOR.MAIN,
         paddingHorizontal: 15,
         paddingVertical: 20,
         borderRadius: 5,
@@ -202,7 +216,7 @@ const styles = StyleSheet.create({
         padding: 10,
     },
     login_button: {
-        backgroundColor: 'green',
+        backgroundColor: COLOR.MAIN,
         paddingVertical: 8,
         margin: 8,
         borderRadius: 5,
@@ -217,7 +231,7 @@ const styles = StyleSheet.create({
     },
     app_name: {
         fontSize: 32,
-        color: 'green',
+        color: COLOR.MAIN,
     },
     login_button_ai: {
         marginLeft: 10,
@@ -227,8 +241,8 @@ const styles = StyleSheet.create({
     },
     alert_message: {
         fontSize: 15,
-        color: '#ff1744',
+        color: COLOR.DARK_ORANGE,
     },
 });
 
-export default RegisterComponent;
+export default LoginComponent;

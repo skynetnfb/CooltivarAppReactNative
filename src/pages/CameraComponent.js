@@ -15,9 +15,9 @@ import Cultivation from '../model/Cultivation';
 import {createCultivation, updateCultivation} from '../model/Repository';
 var RNFS = require('react-native-fs');
 import RNFetchBlob from 'react-native-fetch-blob'
-import {STYLE} from '../styles/styles';
-import {CultivationSelector} from '../redux/selector/cultivation';
-import {INSERT_CULTIVATION_ACTION_REQ, UPDATE_CULTIVATION_ACTION_REQ} from '../redux/action/dispatchers/cultivation';
+import {COLOR, STYLE} from '../styles/styles';
+import {CultivationSelector} from '../redux/selector/CultivationSelector';
+import {INSERT_CULTIVATION_ACTION_REQ, UPDATE_CULTIVATION_ACTION_REQ} from '../redux/action/dispatchers/CultivationAction';
 import {connect} from 'react-redux';
 // create a path you want to write to
 // :warning: on iOS, you cannot write into `RNFS.MainBundlePath`,
@@ -196,7 +196,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
     },
     button_camera: {
-        backgroundColor: 'green',
+        backgroundColor: COLOR.MAIN,
         padding: 15,
         width:'50%',
         paddingHorizontal: 20,

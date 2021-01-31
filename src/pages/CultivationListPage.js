@@ -7,24 +7,37 @@ import {
 } from 'react-native';
 
 import AbstractCardComponent from "../components/abstract/AbstractCard";
-import {getAllCultivations} from '../model/Repository';
 import Icon from 'react-native-vector-icons/Ionicons';
 import {STYLE} from '../styles/styles';
-import {FieldSelector} from '../redux/selector/field';
-import {FIND_FIELD_ACTION_REQ, INSERT_FIELD_ACTION_REQ} from '../redux/action/dispatchers/field';
 import {connect} from 'react-redux';
-import {FIND_CULTIVATION_ACTION_REQ, INSERT_CULTIVATION_ACTION_REQ} from '../redux/action/dispatchers/cultivation';
-import {CultivationSelector} from '../redux/selector/cultivation';
+import {FIND_CULTIVATION_ACTION_REQ, INSERT_CULTIVATION_ACTION_REQ} from '../redux/action/dispatchers/CultivationAction';
+import {CultivationSelector} from '../redux/selector/CultivationSelector';
+import ModalComponent from '../components/abstract/ModalComponent';
+import firebase from 'firebase';
+import {USER_LOGGED_OUT_REQ} from '../redux/action/dispatchers/UserAction';
 
 
 class  CultivationListPage extends React.Component{
 
 constructor(props) {
     super(props);
+
+    this.resultModal = function (modalResult) {
+        if (modalResult) {/*
+            firebase.auth().signOut().then(()=>{
+
+                this.props.navigation.navigate('login');
+                console.log('######----------------------SUCCESS SIGNOUT');
+            }).catch(()=>{
+                console.log('#####----------------------FAIL SIGNOUT');
+            });
+            this.props.navigation.navigate('home')*/
+            this.props.userLogoutAction();
+            this.props.navigation.navigate('login')
+        }
+    }.bind(this);
 }
     componentDidMount(): void {
-    console.log('####--------------------------------------Cultivation LIST PROPS',this.props);
-        //this.setState({cultivations:getAllCultivations()});
         this.props.find_cultivations();
     }
 
@@ -52,8 +65,19 @@ constructor(props) {
                 onEndReachedThreshold={0.2}
                 showsVerticalScrollIndicator={false}
                 />
+                <View style={[STYLE.footer]}>
                 <TouchableOpacity
-                    style={[STYLE.footer]}
+                    onPress={this.deleteDialog}>
+                    <ModalComponent
+                        modalMessage = {"Do you want to Logout? "}
+                        icon ={"ios-log-out"}
+                        buttonLeft ={"Cancel"}
+                        buttonRight ={"Confirm"}
+                        result = {this.resultModal}
+                    />
+                </TouchableOpacity>
+                <TouchableOpacity
+
                     onPress={()=>this.props.navigation.navigate('cultivation_form',{id:null})}>
                     <Icon
                         name="md-add-circle-sharp"
@@ -61,6 +85,7 @@ constructor(props) {
                         color="#FFF"
                     />
                 </TouchableOpacity>
+                </View>
             </View>
         );
     }
@@ -87,6 +112,7 @@ const mapDispatchToProps = (dispatch) => {
     return {
         find_cultivations: FIND_CULTIVATION_ACTION_REQ(dispatch),
         insert_cultivation: INSERT_CULTIVATION_ACTION_REQ(dispatch),
+        userLogoutAction:USER_LOGGED_OUT_REQ(dispatch),
     };
 };
 

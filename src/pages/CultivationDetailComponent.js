@@ -11,9 +11,10 @@ import Cultivation from '../model/Cultivation';
 import {COLOR, STYLE} from '../styles/styles';
 import Icon from 'react-native-vector-icons/Ionicons';
 import {connect} from 'react-redux';
-import {CultivationSelector} from '../redux/selector/cultivation';
-import ModalComponent from './abstract/ModalComponent';
-import {DELETE_CULTIVATION_ACTION_REQ, UPDATE_CULTIVATION_ACTION_REQ} from '../redux/action/dispatchers/cultivation';
+import {CultivationSelector} from '../redux/selector/CultivationSelector';
+import {forecast, getForecastToday} from '../api/api';
+import ModalComponent from '../components/abstract/ModalComponent';
+import {DELETE_CULTIVATION_ACTION_REQ, UPDATE_CULTIVATION_ACTION_REQ} from '../redux/action/dispatchers/CultivationAction';
 import {deleteCultivAction} from '../model/Repository';
 import {METEO_FORECAST_REQUEST, METEO_TODAY_REQUEST} from '../redux/action/dispatchers/meteoAction';
 import {FieldSelector} from '../redux/selector/field';
@@ -54,17 +55,27 @@ class  CultivationDetailComponent extends React.Component{
         }.bind(this);
 
         this.resultModal = function (modalResult){
-            console.log('****------------------------------RESULT DETAIL PROPS CULTIVATION:', this.props.cultivation);
             if(modalResult){
-                //deleteCultivAction(this.props.cultivation.id);
                 this.props.delete_cultivation(this.props.cultivation);
-                this.props.navigation.navigate('home',{user:true})
+                //this.props.navigation.navigate('home',{user:true})
+                this.props.navigation.pop();
             }
 
 
         }.bind(this);
     }
     componentDidMount(){
+
+        let coord = {
+            latitude:null,
+            longitude:null,
+        };
+        coord.latitude = 10;
+        coord.longitude = 30;
+
+        let fc = forecast(coord,3);
+
+        console.log('###-------------------------------------------------forecast:',fc)
         const field = this.props.field;
         const coordinate = field && field.coordinate[0]; // || {longitude:-122.49343838542698, latitude:37.7889790728136}; // san francisco
         console.log('__meteo cd forecast start route', field, coordinate);
@@ -76,9 +87,6 @@ class  CultivationDetailComponent extends React.Component{
     }
 
     componentWillUnmount(): void {
-        //viene chiamata prima di essere distrutto il component
-        // se si deve fare qualcosa con qualche evento legato a questo component deve essere fatto qui
-        //suppongo anche per inviare dei risultati ad alatri componenti
     }
 
     render() {
@@ -193,7 +201,7 @@ const styles = StyleSheet.create({
         margin: 4,
     },
     footer: {
-        backgroundColor: 'green',
+        backgroundColor: COLOR.MAIN,
         padding: 10,
         flexDirection:'row',
         borderWidth: StyleSheet.hairlineWidth,
@@ -225,7 +233,7 @@ const styles = StyleSheet.create({
     },
     card_title: {
         textAlign: 'left',
-        color: 'green',
+        color: COLOR.MAIN,
         fontSize: 18,
         fontWeight: 'bold',
     },

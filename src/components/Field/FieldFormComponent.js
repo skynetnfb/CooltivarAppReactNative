@@ -23,9 +23,9 @@ import {
     FIND_FIELD_ACTION_REQ,
     INSERT_FIELD_ACTION_REQ,
     UPDATE_FIELD_ACTION_REQ,
-} from '../../redux/action/dispatchers/field';
+} from '../../redux/action/dispatchers/FieldAction';
 import Icon from 'react-native-vector-icons/Ionicons';
-import {FieldSelector} from '../../redux/selector/field';
+import {FieldSelector} from '../../redux/selector/FieldSelector';
 import Field from '../../model/Field';
 import MapView, {Polygon, Marker} from 'react-native-maps';
 import {BoundaryHelper} from '../../utils/CoordUtils';

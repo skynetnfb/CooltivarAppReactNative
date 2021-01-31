@@ -8,13 +8,13 @@ import CultivActionCardComponent from "./CultivActionCardComponent";
 import Icon from 'react-native-vector-icons/Ionicons';
 import {STYLE} from '../styles/styles';
 import {connect} from 'react-redux';
-import {CultivActionSelector} from '../redux/selector/cultivAction';
+import {CultivActionSelector} from '../redux/selector/CultivActionSelector';
 import {
     FIND_OPERATION_ACTION_REQ,
     FIND_OPERATION_BY_CULTIVATION_ACTION_REQ,
     INSERT_OPERATION_ACTION_REQ,
-} from '../redux/action/dispatchers/operationDispatcher';
-import {CultivActionEnum} from '../redux/action/enum/Operation';
+} from '../redux/action/dispatchers/OperationAction';
+import {CultivActionEnum} from '../redux/action/enum/OperationEnum';
 
 
 

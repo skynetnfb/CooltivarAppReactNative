@@ -4,18 +4,19 @@ import CultivationListPage from "../pages/CultivationListPage";
 import FieldListPage from "../pages/FieldListPage";
 import React, {Component} from "react";
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
-import LoginComponent from "../components/LoginComponent";
+import LoginComponent from "../pages/LoginComponent";
 import CultivationFormPage from "../pages/CultivationFormPage";
-import CultivationDetailComponent from "../components/CultivationDetailComponent";
-import CultivActionsHistoryComponent from "../components/CultivActionsHistoryComponent";
+import CultivationDetailComponent from "../pages/CultivationDetailComponent";
+import CultivActionsHistoryComponent from "../pages/CultivActionsHistoryComponent";
 import CultivActionFormPage from "../pages/CultivActionFormPage";
 import FieldDetailComponent from '../components/Field/FieldDetailComponent';
 import FieldCultivationHistoryComponent from '../components/Field/FieldCultivationHistoryComponent';
 import FieldForm from '../components/Field/FieldForm';
 import FieldFormComponent from '../components/Field/FieldFormComponent';
-import CameraComponent from '../components/CameraComponent';
-import CultivActionsThreatRemedyComponent from '../components/CultivActionsThreatRemedyComponent';
-import RegisterComponent from '../components/RegisterComponent';
+import CameraComponent from '../pages/CameraComponent';
+import CultivActionsThreatRemedyComponent from '../pages/CultivActionsThreatRemedyComponent';
+import CultivActionsIrrigationsComponent from '../pages/CultivActionsIrrigationsComponent';
+import RegisterComponent from '../pages/RegisterComponent';
 import {UserSelector} from '../redux/selector/UserSelector';
 import {USER_LOGGED_OUT_REQ, USER_LOGGED_REQ} from '../redux/action/dispatchers/UserAction';
 import {connect} from 'react-redux';
@@ -35,7 +36,7 @@ class RootNavigator extends Component {
            /*if(this.route!==undefined){
                this.logged=this.route.params.user;
            }else this.logged=false;*/
-        let logged=this.props.logged;//debug
+        let logged=this.props.logged;
         console.log("******-----------------------------------------------ROOT NAV PROPS",logged);
         //let user=this.props.userSelector(); //debug
         const createHomeTabNavigation = () =>(
@@ -104,7 +105,7 @@ class RootNavigator extends Component {
 
                     <MaterialTopTabNavigator.Screen
                         name="Irrigations"
-                        component={CultivActionsHistoryComponent}
+                        component={CultivActionsIrrigationsComponent}
                         options={{
                             tabBarLabel: 'Water',
                         }}
@@ -153,6 +154,10 @@ class RootNavigator extends Component {
                     {logged && (
                         <RootStackNavigator.Screen name = {'Cultivations'} component = { createHomeTabNavigation }/>
                     )}
+                <RootStackNavigator.Navigator name="home">
+
+
+                    <RootStackNavigator.Screen name = {'Cultivations'} component = { createHomeTabNavigation }/>
                     <RootStackNavigator.Screen name = {'home'} component = { createHomeTabNavigation }/>
                     <RootStackNavigator.Screen name = {'cultivation list'} component = { CultivationListPage }/>
                     <RootStackNavigator.Screen name = {'field list'} component = { FieldListPage }/>
@@ -164,6 +169,7 @@ class RootNavigator extends Component {
                     <RootStackNavigator.Screen name = {'camera'} component = { CameraComponent }/>
                     <RootStackNavigator.Screen name = {'action form'} component = { CultivActionFormPage }/>
                     <RootStackNavigator.Screen name = {'field_form'} component = { FieldFormComponent }/>
+                    <RootStackNavigator.Screen name = {'login'} component = { LoginComponent }/>
                     <RootStackNavigator.Screen name = {'register'} component = { RegisterComponent }/>
                 </RootStackNavigator.Navigator>
             </NavigationContainer>

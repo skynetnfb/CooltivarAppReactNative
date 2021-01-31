@@ -1,5 +1,5 @@
 import {initialState} from '../store/store';
-import { FieldEnum } from '../action/enum/field';
+import { FieldEnum } from '../action/enum/FieldEnum';
 import {
     createCultivAction,
     createCultivation,
@@ -10,17 +10,17 @@ import {
     FieldDB, updateCultivAction,
     updateCultivation,
 } from '../../model/Repository';
-import {FieldSelector} from '../selector/field';
-import {CultivationEnum} from '../action/enum/cultivation';
-import {CultivActionEnum} from '../action/enum/Operation';
+import {FieldSelector} from '../selector/FieldSelector';
+import {CultivationEnum} from '../action/enum/CultivationEnum';
+import {CultivActionEnum} from '../action/enum/OperationEnum';
 import {UserEnum} from '../action/enum/UserEnum';
-import {CultivationSelector} from '../selector/cultivation';
+import {CultivationSelector} from '../selector/CultivationSelector';
 import Field from '../../model/Field';
 import Cultivation from '../../model/Cultivation';
 import CultivAction from '../../model/CultivAction';
 import {METEO_TODAY_REQUEST} from '../action/dispatchers/meteoAction';
 import {E_OPENWEATHER_GET_FORECAST, E_OPENWEATHER_GET_TODAY, METEO_ENUM} from '../action/enum/MeteoActionEnum';
-import {CultivActionSelector} from '../selector/cultivAction';
+import {CultivActionSelector} from '../selector/CultivActionSelector';
 
 function debugStatusSize(state) {
     let ret = {};

@@ -3,8 +3,8 @@ import {
     E_UPDATE_CULTIVATION_REQ, E_UPDATE_CULTIVATION_SUCCESS, E_UPDATE_CULTIVATION_FAIL,
     E_DELETE_CULTIVATION_REQ, E_DELETE_CULTIVATION_SUCCESS, E_DELETE_CULTIVATION_FAIL,
     E_FIND_CULTIVATION_REQ, E_FIND_CULTIVATION_SUCCESS, E_FIND_CULTIVATION_FAIL,
-} from '../enum/cultivation';
-import {makeFindAction} from './field';
+} from '../enum/CultivationEnum';
+import {makeFindAction} from './FieldAction';
 
 // per prendere il "trigger": INSERT_CULTIVATION_ACTION(dispatch);
 // per eseguirla direttamente: INSERT_CULTIVATION_ACTION(dispatch)();
