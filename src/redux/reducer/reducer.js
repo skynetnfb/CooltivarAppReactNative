@@ -111,8 +111,8 @@ const reducer = (state = initialState, action) => {
             let cultivations = CultivationSelector.findByField(newState)(id);
             if (cultivations.length) { console.warn("cannot delete a field used in cultivations"); }
             index = FieldSelector.queryIndex(newState)((f) => f.id === id);
-            console.log('___redux field delete, index:', index);
-            field = newState.fields.splice(index,1);
+            field = newState.fields.splice(index,1)[0];
+            console.log('___redux field delete, index:', index, field);
             FieldDB.delete(field);
             break;
         // cultivation
@@ -159,9 +159,9 @@ const reducer = (state = initialState, action) => {
             break;
         case CultivationEnum.DELETE_REQ:
             id = action.id;
-            deleteCultivation(action.cultivation);
             index = newState.cultivations.findIndex((e)=> (e.id === action.cultivation));
-            newState.cultivations.splice(index,1);
+            cultivation = newState.cultivations.splice(index,1);
+            deleteCultivation(action.cultivation); // deleteCultivation(cultivation);
             break;
         case CultivActionEnum.FIND_REQ:
             // query | id | none of those (findall)

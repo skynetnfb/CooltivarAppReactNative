@@ -117,13 +117,14 @@ class CameraComponent extends PureComponent {
                         buttonNegative: 'Cancel',
                     }}
                     androidRecordAudioPermissionOptions={{
+                        // todo: ma ci serve sto permesso?
                         title: 'Permission to use audio recording',
                         message: 'We need your permission to use your audio',
                         buttonPositive: 'Ok',
                         buttonNegative: 'Cancel',
                     }}
                     onGoogleVisionBarcodesDetected={({ barcodes }) => {
-                        console.log(barcodes);
+                        console.log(barcodes); // todo: ricordati di farlo vedere al prof
                     }}
                 />
                 </View>

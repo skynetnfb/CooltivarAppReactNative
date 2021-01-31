@@ -49,7 +49,7 @@ class  CultivationDetailComponent extends React.Component{
 
         this.openCamera = function() {
             return (
-                this.props.navigation.navigate('camera',{ id: this.props.cultivation.id })
+                this.props.navigation.navigate('camera', { id: this.props.cultivation.id })
             )
         }.bind(this);
 

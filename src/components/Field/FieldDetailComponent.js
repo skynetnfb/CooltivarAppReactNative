@@ -90,7 +90,7 @@ class FieldDetailComponent extends FieldMap{
             <Icon
                 name="trash-sharp"
                 size={40}
-                color="#FFF"
+                color={this.props.cultivations.length === 0 ? "white" : COLOR.MUTED}
             />;
 
         let ret =
@@ -142,7 +142,7 @@ class FieldDetailComponent extends FieldMap{
                     <Icon style={[ ]}
                           name={'create'}
                           size={40}
-                          color={this.props.cultivations.length === 0 ? "white" : COLOR.MUTED}
+                          color={"white"}
                           onPress={this.editClicked}
                     />
                 </TouchableOpacity>

@@ -31,6 +31,7 @@ import MapView, {Polygon, Marker} from 'react-native-maps';
 import {BoundaryHelper} from '../../utils/CoordUtils';
 import FieldMap from './FieldMap';
 import {API_CALLS} from '../../api/api';
+import RNFetchBlob from 'react-native-fetch-blob';
 
 class FieldFormComponent extends FieldMap{
 
@@ -66,18 +67,19 @@ class FieldFormComponent extends FieldMap{
         // this.props.navigation.back(); // navigate('field', data);
     }.bind(this);
 
-    finalizeSubmit = function(thenExit = false){
-        const fieldRaw: Field = this.getUpdatedFieldData();
+    finalizeSubmit = function(useFirstSnapshot = true, thenExit = false){
+        const fieldRaw: Field = this.getUpdatedFieldData(useFirstSnapshot);
         const field = new Field();
         field.clone(fieldRaw);
         console.log('__fc submit field:', field, ' calling action:', this.props.isUpdate ? this.props.update_field : this.props.insert_field);
         this.props.isUpdate ? this.props.update_field(field) : this.props.insert_field(field);
         if (this.props.isUpdate && !thenExit) {
-            setTimeout( () => this.finalizeSubmit(true), 1);
+            setTimeout( () => this.finalizeSubmit(useFirstSnapshot, true), 1);
         } else {
             this.props.navigation.pop();
         }
     }.bind(this);
+
 
     markerOnDrag = function(syntethicEvent, index) {
         const nativeEvent = syntethicEvent.nativeEvent; /* coordinates: LatLng, position: Point*/

@@ -29,6 +29,7 @@ import {FieldSelector} from '../../redux/selector/field';
 import Field from '../../model/Field';
 import MapView, {Polygon, Marker} from 'react-native-maps';
 import {BoundaryHelper} from '../../utils/CoordUtils';
+import RNFetchBlob from 'react-native-fetch-blob';
 
 class FieldMap extends ValidationComponent2{
     markers = [];
@@ -82,13 +83,13 @@ class FieldMap extends ValidationComponent2{
         return this.props.fields;
     }.bind(this);
 
-    getUpdatedFieldData = function(): Field {
+    getUpdatedFieldData = function(useFirstSnapshot: boolean = true): Field {
         const field: Field = {...this.getField() };
         field.name = this.state.name;
         field.city = this.state.city;
         field.description = this.state.description;
         field.coordinate = JSON.stringify(this.getCoordinate());
-        field.image = this.state.mapSnapshot;
+        field.image = useFirstSnapshot ? this.state.mapSnapshot : this.state.screenfilepath || null;
         return field; }.bind(this);
 
     takeSnapshot = function() {
@@ -100,12 +101,28 @@ class FieldMap extends ValidationComponent2{
             result: 'file'   // result types: 'file', 'base64' (default: 'file')
         });
         snapshot.then((uri) => {
+            console.log('gotSnapshot(', uri, ')');
             this.setState({ mapSnapshot: uri });
-            this.finalizeSubmit();
+            this.finalizeSubmit(true, false);
         });
 
     }.bind(this);
-
+/*
+    savePicture = function (base64Data: string) {
+        const field = this.getField();
+        const path = RNFetchBlob.fs.dirs.DocumentDir + "_field_ " + field.id + new Date().getTime();
+        RNFetchBlob.fs.writeFile(path, base64Data, 'base64')
+            .then(() => {
+                console.log('FILE WRITTEN!');
+                console.log('##--------------------------------------------------------FILE WRITTEN on PATH!', path );
+                this.setState({screenfilepath: 'file://'+path});
+            }).catch((err) => {
+            console.log('##--------------------------------------------------------Catch ERROR!!!!!',err);
+            console.log(err.message);
+            this.finalizeSubmit(false, false);
+        });
+    }.bind(this);
+*/
     markerOnDrag = function(syntethicEvent, index) {
         // overriden
     }.bind(this);

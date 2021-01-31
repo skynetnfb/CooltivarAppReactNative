@@ -39,7 +39,7 @@ class  FieldListPage extends React.Component{
         return (
             <View style={styles.container}>
 
-                <TouchableOpacity  onPress={this.addMockFields} style={[styles.card]}>
+                <TouchableOpacity onPress={this.addMockFields} style={[styles.card, {display:'none'}]}>
                     <Text>fields: {this.props.fields.length}</Text>
                 </TouchableOpacity>
                 <FlatList
@@ -50,7 +50,7 @@ class  FieldListPage extends React.Component{
                             style={[]}
                             navigation={navigation}
                             navigate_to={"field"}
-                            image={item.image}
+                            image={!!item.image && item.image.length && {uri: item.image}}
                             imageph={require('../../imgs/no_content.png')}
                             title={item.name}
                             subtitle={item.city}
