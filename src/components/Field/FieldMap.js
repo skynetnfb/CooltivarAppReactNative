@@ -52,8 +52,9 @@ class FieldMap extends ValidationComponent2{
         console.log('__fm constructor end');
     }
 
-    requestLocationPermission = async function(callFollow) {
-        if (!this.state.permissionGranted) return;
+    requestLocationPermission = async function(callFollow = false) {
+        console.log('__fm permission requestLocationPermission?', this.state.permissionGranted);
+        if (this.state.permissionGranted) return;
         try {
             const granted = await PermissionsAndroid.request(
                 PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
@@ -61,7 +62,7 @@ class FieldMap extends ValidationComponent2{
                     'title': 'Location Permission',
                     'message': 'This App needs access to your location.'
                 }
-            )
+            );
             if (granted === PermissionsAndroid.RESULTS.GRANTED) {
                 console.log("__fm permission granted");
                 this.setState({permissionGranted: true});
@@ -232,16 +233,16 @@ class FieldMap extends ValidationComponent2{
 
     onMapAndLayoutReady = function() {
         console.log('__fm onMapAndLayoutReady 0');
-        if (this.state.onMapAndLayoutReadyCalled) return
+        if (this.state.onMapAndLayoutReadyCalled) return;
         this.setState({onMapAndLayoutReadyCalled: true});
-        this.requestLocationPermission(true);
+        this.requestLocationPermission(false);
         const delay = 100;
 
         console.log('__fm onMapAndLayoutReady 1');
         LogBox.ignoreLogs(['Warning: ' + 'Called stopObserving']);// ignora tutti i warning che iniziano con "Called stopObserving"...
         setTimeout( () => { this.followUser(); }, 1*delay);
         setTimeout( () => { this.unfollowUser(); }, 2*delay);
-        //setTimeout( () => { this.setState({geolocalization: false, gotFirstLocationUpdate: false}); }, 2*delay);
+        //nope setTimeout( () => { this.setState({geolocalization: false, gotFirstLocationUpdate: false}); }, 2*delay);
         setTimeout( () => { this.followUser(); }, 3*delay);
 
         console.log('__fm onMapAndLayoutReady end');

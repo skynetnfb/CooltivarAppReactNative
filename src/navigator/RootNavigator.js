@@ -134,12 +134,6 @@ class RootNavigator extends Component {
                     options = {{ tabBarLabel: 'Cultivation History' }}
                     initialParams={props}
                 />
-                <MaterialTopTabNavigator.Screen
-                    name ="Sandbox"
-                    component = {FieldForm}
-                    options = {{ tabBarLabel: 'Sandbox' }}
-                    initialParams={props}
-                />
             </MaterialTopTabNavigator.Navigator>
         );
 

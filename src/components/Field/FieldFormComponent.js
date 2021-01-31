@@ -5,7 +5,7 @@ import {
     SafeAreaView, TouchableHighlight, TouchableOpacity
 } from 'react-native';
 import {Text, TextInput} from 'react-native';
-import {STYLE, MAIN_COLOR, MAP_LABEL_STYLE, COLOR} from '../../styles/styles';
+import {STYLE, MAP_LABEL_STYLE, COLOR} from '../../styles/styles';
 import MapComponent from '../common/MapComponent';
 import EditButton from '../common/EditButton';
 import ValidationFailMessage from '../common/ValidationFailMessage';
@@ -151,12 +151,11 @@ class FieldFormComponent extends FieldMap{
                                value={this.state.city}  placeholder={"City"} />
                     {this.isFieldInError('city') && <ValidationFailMessage>{this.getErrorsInField('city')[0]}</ValidationFailMessage>}
 
-                    <View style={[STYLE.fill, STYLE.columnContainer, styles.input, styles.body]}>
-                        <TextInput ref="description" multiline={true} onChangeText={(description) => this.onChange({description})}
+                        <TextInput ref="description" multiline={true} numberOfLines={3}
+                                   onChangeText={(description) => this.onChange({description})}
                                    style={[STYLE.centerColumn, styles.input]}
                                    value={this.state.description} placeholder={"Description"} />
                         {this.isFieldInError('description') && <ValidationFailMessage>{this.getErrorsInField('description')[0]}</ValidationFailMessage>}
-                    </View>
                 </View>
                 <TouchableHighlight onPress={this.submit} style={ [ STYLE.submit, ( !this.state.pristine && this.isFormValid() ? STYLE.submitValid : STYLE.submitInvalid), styles.submit, styles.border ]}>
                     <Text style={[STYLE.centerColumn, STYLE.centerRow]}>{"Submit"}</Text>
@@ -196,7 +195,6 @@ const styles = StyleSheet.create({
     },
     name: {
         fontSize: 20,
-        color: MAIN_COLOR,
     },
     city: {
     },

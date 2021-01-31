@@ -107,12 +107,13 @@ const reducer = (state = initialState, action) => {
             newState.fields[index] = field;
             break;
         case FieldEnum.DELETE_REQ:
-            id = action.id || action.field.id;
-            let cultivations = CultivationSelector.findByField(newState)(action.field.id);
+            id = action.id;
+            let cultivations = CultivationSelector.findByField(newState)(id);
             if (cultivations.length) { console.warn("cannot delete a field used in cultivations"); }
             index = FieldSelector.queryIndex(newState)((f) => f.id === id);
-            FieldDB.delete(field);
+            console.log('___redux field delete, index:', index);
             field = newState.fields.splice(index,1);
+            FieldDB.delete(field);
             break;
         // cultivation
         case CultivationEnum.FIND_REQ:
@@ -144,20 +145,17 @@ const reducer = (state = initialState, action) => {
             newState.cultivations = response;
             break;
         case CultivationEnum.UPDATE_REQ:
-            let _cultivation = action.cultivation;
+            cultivation = action.cultivation;
             //console.log('!!!---------------------REDUCER CULTIVATION UPDATE---------------------------!!! CULTIVATION',_cultivation);
-            updateCultivation(_cultivation);
-            index = newState.cultivations.findIndex((e)=> (e.id === _cultivation.id));
-            //console.log('!!!---------------------REDUCER CULTIVATION UPDATE---------------------------!!! POSITION', index,"CULTIVATION",_cultivation, "STATE cultivation:",  newState.cultivations[index]);
-            // todo: manca la call al db, uniscile.
-            console.log('!!!---------------------UPDATE---------------------------!!! POSITION', position,"CULTIVATION",_cultivation, "STATE cultivation:",  newState.cultivations[position]);
-            newState.cultivations[index] = _cultivation;
+            updateCultivation(cultivation);
+            index = newState.cultivations.findIndex((e)=> (e.id === cultivation.id));
+            newState.cultivations[index] = cultivation;
             break;
         case CultivationEnum.INSERT_REQ:
-            _cultivation = action.cultivation;
-            createCultivation(_cultivation);
-            console.log("!!!--------------------- REDUCER INSERT---------------------------!!!CULTIVATION",_cultivation, );
-            newState.cultivations.push(_cultivation);
+            cultivation = action.cultivation;
+            createCultivation(cultivation);
+            console.log("!!!--------------------- REDUCER INSERT---------------------------!!!CULTIVATION", cultivation, );
+            newState.cultivations.push(cultivation);
             break;
         case CultivationEnum.DELETE_REQ:
             id = action.id;
@@ -200,17 +198,17 @@ const reducer = (state = initialState, action) => {
             }
             break;
         case CultivActionEnum.INSERT_REQ:
-            let _cultiv_Action = action.cultivAction;
-            createCultivAction(_cultiv_Action);
+            cultivAction = action.cultivAction;
+            createCultivAction(cultivAction);
             //console.log("!!!--------------------- REDUCER INSERT CULTIV_ACTION---------------------------!!!CULTIVATION",_cultiv_Action, );
-            newState.cultivActions.push(_cultiv_Action);
+            newState.cultivActions.push(cultivAction);
             break;
         case CultivActionEnum.UPDATE_REQ:
-            _cultiv_Action = action.cultivAction;
+            cultivAction = action.cultivAction;
             //console.log('!!!---------------------REDUCER CULTIV_ACTION UPDATE---------------------------!!! CULTIVATION',_cultiv_Action);
-            updateCultivAction(_cultiv_Action);
-            index = newState.cultivations.findIndex((e)=> (e.id === _cultiv_Action.id));
-            newState.cultivActions[index] = _cultiv_Action;
+            updateCultivAction(cultivAction);
+            index = newState.cultivations.findIndex((e)=> (e.id === cultivAction.id));
+            newState.cultivActions[index] = cultivAction;
             //console.log('!!!---------------------REDUCER CULTIV_ACTION UPDATE FINISH---------------------------!!! ');
             break;
         case FieldEnum.FIND_SUCCESS:

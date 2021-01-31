@@ -54,7 +54,7 @@ export const createCultivation = (cultivation: Cultivation) => {
         });
         return cultivation.id;
     } catch(e) {
-        throw 'Error Creating Cultivation: ${e.message}';
+        throw 'Error Creating Cultivation: ' + e;
     } finally {}
 };
 

@@ -34,7 +34,7 @@ export default class Cultivation {
         this.field_id = cultivationOriginalObj.field_id;
         this.sowingDate = cultivationOriginalObj.sowingDate;
         this.harvestDate = cultivationOriginalObj.harvestDate;
-        this.harvestWeight = cultivationOriginalObj.harvestWeight;
+        this.harvestWeight = +cultivationOriginalObj.harvestWeight;
         this.status = cultivationOriginalObj.status;
         this.preview = cultivationOriginalObj.preview;
     }
@@ -48,7 +48,7 @@ export default class Cultivation {
             field_id:this.field_id,
             sowingDate:this.sowingDate,
             harvestDate:this.harvestDate,
-            harvestWeight:this.harvestWeight,
+            harvestWeight:+this.harvestWeight,
             status:this.status,
             preview:this.preview,
         };

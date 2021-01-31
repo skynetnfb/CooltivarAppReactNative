@@ -17,9 +17,9 @@ export const UPDATE_FIELD_ACTION_SUCCESS = (dispatch) => { return (field) => dis
 export const UPDATE_FIELD_ACTION_FAIL = (dispatch) => { return (field) => dispatch({type: E_UPDATE_FIELD_FAIL, field: field}); };
 
 
-export const DELETE_FIELD_ACTION_REQ = (dispatch) => { return (field, id) => dispatch({type: E_DELETE_FIELD_REQ, field: field, id: id}); };
-export const DELETE_FIELD_ACTION_SUCCESS = (dispatch) => { return (field, id) => dispatch({type: E_DELETE_FIELD_SUCCESS, field: field, id: id}); };
-export const DELETE_FIELD_ACTION_FAIL = (dispatch) => { return (field, id) => dispatch({type: E_DELETE_FIELD_FAIL, field: field, id: id}); };
+export const DELETE_FIELD_ACTION_REQ = (dispatch) => { return (id) => dispatch({type: E_DELETE_FIELD_REQ, id: id}); };
+export const DELETE_FIELD_ACTION_SUCCESS = (dispatch) => { return (id) => dispatch({type: E_DELETE_FIELD_SUCCESS, id: id}); };
+export const DELETE_FIELD_ACTION_FAIL = (dispatch) => { return (id) => dispatch({type: E_DELETE_FIELD_FAIL, id: id}); };
 
 
 export const makeFindAction = (eaction, param, key) => {

@@ -1,6 +1,5 @@
 import React, {Component} from 'react';
 import {
-    SafeAreaView,
     View,
     Text,
     StyleSheet,
@@ -24,13 +23,17 @@ import {
 import {connect} from 'react-redux';
 import Field from '../model/Field';
 import {FieldSelector} from '../redux/selector/field';
+import ValidationComponent2 from '../components/Field/ValidationComponent2';
+import ValidationFailMessage from '../components/common/ValidationFailMessage';
 
 
-class CultivationFormPage extends Component {
+class CultivationFormPage extends ValidationComponent2 {
     constructor(props) {
         super(props);
         this.state = {
             cultivation: Cultivation,
+            pristine: !this.props.isUpdate,
+            /*
             name: '',
             cultivar: '',
             description: '',
@@ -38,32 +41,36 @@ class CultivationFormPage extends Component {
             sowingDate:'',
             harvestDate:'',
             harvestweight:'',
-            field_id:999,
+            field_id:999,*/
             validation:'validation message test',
             loading: false,
             formStatus: '',
             realm: null,
             fields: null,
         };
+        console.log('__fc constructor 2');
+        const cultivation = this.props.cultivation || {};
+        const validationRules = {
+            name: {required:true, minlength:3, maxlength:20, initialValue: cultivation.name || '', errors:[]},
+            cultivar: {required: true, minlength:2, maxlength:20, initialValue: cultivation.cultivar || '', errors:[]},
+            description: {maxlength: 200, initialValue: cultivation.description || '', errors:[]},
+            sowingDate: {required: true, initialValue: cultivation.sowingDate || new Date(), errors:[]},
+            harvestDate: {required: true, initialValue: cultivation.harvestDate || new Date(new Date().getTime() + 2 * 30 * 24 * 60 * 60 * 1000), errors:[]},
+            harvestWeight: {initialValue: cultivation.harvestWeight || 0, errors:[]},
+            'dates cannot overlap': {required: true, initialValue: "1", errors:[]},
+            status: {required: true, initialValue: cultivation.status || 'Seed', errors:[]},
+            field_id: {required: true, initialValue: cultivation.field_id || this.props.fieldID || this.props.fields[0] && this.props.fields[0].id || '', errors:[]},
+        };
 
-        if(this.props.cultivation!=null){
-            console.log('###------------------------------ DENTRO IF cultivation',this.props.cultivation);
-            this.state.name = this.props.cultivation.name;
-            this.state.cultivar = this.props.cultivation.cultivar;
-            this.state.description = this.props.cultivation.description;
-            this.state.sowingDate = this.props.cultivation.sowingDate.toString();
-            this.state.harvestDate = this.props.cultivation.harvestDate.toString();
-            this.state.harvestWeight = this.props.cultivation.harvestWeight.toString();
-            this.state.status = this.props.cultivation.status;
-            this.state.field_id = this.props.cultivation.field_id;
-        }
+        console.log('__cf constructor 3');
+        this.setInitialValues(validationRules);
 
         this.formSuccess = function() {
             this.setState({
                 formStatus: 'Cultivation Saved',
                 loading: false,
             });
-            this.props.navigation.goBack();
+            this.props.navigation.pop();
         }.bind(this);
 
         this.handleChangeName = function(text) {
@@ -99,19 +106,29 @@ class CultivationFormPage extends Component {
             this.setState({
                 field_id:text,
             });
+            this.onChange(null);
         }.bind(this);
 
         this.resultStartDatePicker = function (date){
-            this.setState({startDate:date});
+            console.log('------------------------------resultStartDatePicker:',date)
+            this.setState({dchange:"11", startDate:date, sowingDate: date, 'dates cannot overlap': this.checkDatesOverlap(date, null) ? "" : "1"});
+            this.onChange({sowingDate: date});
             console.log('------------------------------STATE:',this.state.startDate)
         }.bind(this);
 
         this.resultEndDatePicker = function (date){
-
-            this.setState({
-                endDate:date
-            });
+            this.setState({endDate:date, harvestDate: date, 'dates cannot overlap': this.checkDatesOverlap(null, date) ? "" : "1"});
+            this.onChange({harvestDate: date});
             console.log('------------------------------End Date STATE:',this.state.endDate)
+        }.bind(this);
+
+        this.checkDatesOverlap = function(sowingDate: Date, harvestDate: Date): boolean {
+            sowingDate = sowingDate || this.state.sowingDate;
+            harvestDate = harvestDate || this.state.harvestDate;
+            // se una data è non inizializzata considero non overlap = true per non sovrapporlo al messaggio "required"
+            const ret = harvestDate && sowingDate && new Date(sowingDate).getTime() > new Date(harvestDate).getTime();
+            console.log('-------------- check dates Overlap:', sowingDate, harvestDate, ret);
+            return ret;
         }.bind(this);
 
         this.handleChangeHarvestWeight = function(text) {
@@ -122,30 +139,25 @@ class CultivationFormPage extends Component {
         }.bind(this);
 
         this.confirm = function() {
-            if(this.props.cultivation==null){
-                console.log('###------------------------------  DENTRO IF  :');
-                this.setState({loading: true});
-                let cultivation = new Cultivation(this.state.name, this.state.cultivar, this.state.description, '1',this.state.startDate,this.state.endDate,1,this.state.status, '');
-                this.props.insert_cultivation(cultivation);
-                //TODO COLLEGAMENTO DINAMICO DEI FIELD NELLA SELECT
-                this.formSuccess();
-            }else{
-                let _cultivation = new Cultivation();
-                _cultivation.id = this.props.cultivation.id;
-                _cultivation.name = this.state.name;
-                _cultivation.cultivar = this.state.cultivar;
-                _cultivation.description = this.state.description;
-                _cultivation.sowingDate = new Date(this.state.sowingDate);
-                _cultivation.harvestDate = new Date(this.state.harvestDate);
-                _cultivation.harvestWeight = this.state.harvestWeight;
-                _cultivation.status = this.state.status;
-                _cultivation.preview = this.props.cultivation.preview;
-                _cultivation.field_id = this.state.field_id;
-                console.log('###------------------------------  DENTRO ELSE _CULTIVATION :',_cultivation);
-                //updateCultivation(_cultivation);
-                this.props.update_cultivation(_cultivation);
-                this.formSuccess();
-            }
+            this.doValidation();
+            console.log('###------------------------------  SUBMIT PRESSED');
+            if (!this.isFormValid()) return;
+
+            let cultivation = this.props.cultivation || new Cultivation();
+            this.setState({loading: true});
+            cultivation.name = this.state.name;
+            cultivation.cultivar = this.state.cultivar;
+            cultivation.description = this.state.description;
+            cultivation.sowingDate = new Date(this.state.sowingDate);
+            cultivation.harvestDate = new Date(this.state.harvestDate);
+            cultivation.harvestWeight = +this.state.harvestWeight || 0;
+            cultivation.status = this.state.status;
+            cultivation.preview = cultivation.preview || '';
+            cultivation.field_id = this.state.field_id;
+            console.log('###------------------------------  SUBMIT CULTIVATION :', cultivation);
+            if (this.props.cultivation) this.props.update_cultivation(cultivation); else this.props.insert_cultivation(cultivation);
+            this.formSuccess();
+
         }.bind(this);
     }
 
@@ -154,93 +166,119 @@ class CultivationFormPage extends Component {
 
     render() {
         let fields = this.props.fields;
+
         return (
-            <SafeAreaView style={{flex: 1}}>
-                <ScrollView style={styles.scrollView} showsVerticalScrollIndicator ={false}>
-                <View style={styles.form_container}>
-                    <View style={styles.input_text_container}>
-                        <TextInput
-                            style={styles.input_text}
-                            placeholder={'Name'}
-                            autoCapitalize={'none'}
-                            onChangeText={this.handleChangeName}
-                            value={this.state.name}
-                        />
-                    </View>
-
-                    <View style={styles.input_text_container}>
-                        <TextInput
-                            style={styles.input_text}
-                            placeholder={'Cultivar'}
-                            autoCapitalize={'none'}
-                            onChangeText={this.handleChangeCultivar}
-                            value={this.state.cultivar}
-                        />
-                    </View>
-
-                    <View style={styles.input_text_container}>
-                        <TextInput
-                            style={styles.input_text_area}
-                            placeholder={'Description'}
-                            autoCapitalize={'none'}
-                            multiline={true}
-                            numberOfLines={4}
-                            onChangeText={this.handleChangeDescription}
-                            value={this.state.description}
-                        />
-                    </View>
-
-                    <View style={styles.input_text_container}>
-                        <TextInput
-                            style={styles.input_text}
-                            placeholder={'Harvest Weight'}
-                            autoCapitalize={'none'}
-                            onChangeText={this.handleChangeHarvestWeight}
-                            value={this.state.harvestWeight}
-                        />
-                    </View>
-
-                    <View style={styles.input_text_container}>
-                    <Picker selectedValue = {this.state.status} onValueChange = {this.handleChangeStatus}>
-                        <Picker.Item label = "Seed" value = "seed" />
-                        <Picker.Item label = "Grow" value = "grow" />
-                        <Picker.Item label = "Flowering" value = "flowering" />
-                        <Picker.Item label = "Completed" value = "completed" />
-                    </Picker>
-                    </View>
-
-                    <View style={styles.input_text_container}>
-                        <Picker selectedValue = {this.state.field} onValueChange = {this.handleChangeField}>
-                            {fields.map( (element, index) => <Picker.Item key= {index} label = {element.name} value = {element.id} />)}
-                        </Picker>
-                    </View>
-
-                    <View style = {[STYLE.columnContainer, {width: '100%'}]}>
-                        <Text style={[STYLE.center]}>From</Text>
-                        <DatePickerComponent initial_value ={this.state.sowingDate||new Date()}  result = {this.resultStartDatePicker}/>
-                        <Text style={[STYLE.center]}>to</Text>
-                        <DatePickerComponent  initial_value ={this.state.harvestDate||new Date()}  result = {this.resultEndDatePicker}/>
-                    </View>
-                </View>
-
-                <View style={styles.button_container}>
-                    <TouchableOpacity style={styles.confirm_button} onPress={this.confirm}>
-                        <Text style={styles.confirm_button_text}>Confirm</Text>
-                        {this.state.loading && (
-                            <ActivityIndicator
-                                size="small"
-                                color="#fff"
-                                style={styles.login_button_ai}
+            <View style={{flex: 1}}>
+                <ScrollView style={[STYLE.fill, STYLE.rowContainer, {display: 'flex'}]} showsVerticalScrollIndicator ={false}
+                            contentContainerStyle={{
+                                flexGrow: 1,
+                                justifyContent: 'space-between'
+                            }}>
+                 <View style={[STYLE.fill, {minHeight: '100%'}]}>
+                    <View style={[styles.form_container, STYLE.rowContainer, STYLE.fill]}>
+                        <View style={styles.input_text_container}>
+                            <TextInput
+                                ref="name" multiline={false}
+                                style={styles.input_text}
+                                placeholder={'Name'}
+                                autoCapitalize={'none'}
+                                onChangeText={(name) => this.onChange({name})}
+                                value={this.state.name}
                             />
-                        )}
-                    </TouchableOpacity>
-                </View>
+                        </View>
+                        {this.isFieldInError('name') && <ValidationFailMessage>{this.getErrorsInField('name')[0]}</ValidationFailMessage>}
 
-                <View style={styles.alert_box}>
-                    <Text style={styles.alert_message}>{this.state.validation}</Text>
+                        <View style={styles.input_text_container}>
+                            <TextInput ref="cultivar" multiline={false}
+                                style={styles.input_text}
+                                placeholder={'Cultivar'}
+                                autoCapitalize={'none'}
+                                onChangeText={(cultivar) => this.onChange({cultivar})}
+                                value={this.state.cultivar}
+                            />
+                        </View>
+                        {this.isFieldInError('cultivar') && <ValidationFailMessage>{this.getErrorsInField('cultivar')[0]}</ValidationFailMessage>}
+
+                        <View style={styles.input_text_container}>
+                            <TextInput ref="description"
+                                multiline={true}
+                                numberOfLines={4}
+                                style={styles.input_text_area}
+                                placeholder={'Description'}
+                                autoCapitalize={'none'}
+                                onChangeText={(description) => this.onChange({description})}
+                                value={this.state.description}
+                            />
+                        </View>
+                        {this.isFieldInError('description') && <ValidationFailMessage>{this.getErrorsInField('description')[0]}</ValidationFailMessage>}
+
+                        <View style={styles.input_text_container}>
+                            <TextInput ref="harvestWeight"
+                                style={styles.input_text}
+                                placeholder={'Harvest Weight'}
+                                keyboardType={"numeric"}
+                                onChangeText={(harvestWeight) => this.onChange({harvestWeight})}
+                                value={this.state.harvestWeight}
+                            />
+                            {this.isFieldInError('harvestWeight') && <ValidationFailMessage>{this.getErrorsInField('harvestWeight')[0]}</ValidationFailMessage>}
+
+                        </View>
+
+                        <View style={styles.input_text_container}>
+                            <Picker ref="status" selectedValue = {this.state.status} onValueChange = {(status) => this.onChange({status})}>
+                                <Picker.Item label = "Seed" value = "seed" />
+                                <Picker.Item label = "Grow" value = "grow" />
+                                <Picker.Item label = "Flowering" value = "flowering" />
+                                <Picker.Item label = "Completed" value = "completed" />
+                            </Picker>
+                            {this.isFieldInError('status') && <ValidationFailMessage>{this.getErrorsInField('status')[0]}</ValidationFailMessage>}
+                        </View>
+
+                        <View style={styles.input_text_container}>
+                            <Picker ref="field_id" selectedValue = {this.state.field_id} onValueChange = {this.handleChangeField}>
+                                {fields.map( (element, index) => <Picker.Item key={element.id} label = {element.name} value = {element.id} />)}
+                            </Picker>
+                            {this.isFieldInError('field_id') && <ValidationFailMessage>{this.getErrorsInField('field_id')[0]}</ValidationFailMessage>}
+                            <Text style={styles.debug_display}>{ "fieldid:" + this.state.field_id}</Text>
+                        </View>
+
+                        <View style = {[STYLE.columnContainer, {width: '100%'}]}>
+                            <Text style={[STYLE.center]}>From</Text>
+                            <DatePickerComponent ref="sowingDate" initial_value ={this.state.sowingDate}  result = {this.resultStartDatePicker}/>
+
+                            <Text style={[STYLE.center]}>to</Text>
+                            <DatePickerComponent ref="harvestDate" initial_value ={this.state.harvestDate}  result = {this.resultEndDatePicker}/>
+                        </View>
+                        {this.isFieldInError('sowingDate') && <ValidationFailMessage>{this.getErrorsInField('sowingDate')[0]}</ValidationFailMessage>}
+                        {this.isFieldInError('harvestDate') && <ValidationFailMessage>{this.getErrorsInField('harvestDate')[0]}</ValidationFailMessage>}
+                        <TextInput ref="dates cannot overlap"
+                                   style={{display: 'none'}}
+                                   placeholder={'DateOverlapValidation'}
+                                   keyboardType={"numeric"}
+                                   onChangeText={(dateOverlap) => this.onChange({"dates cannot overlap": dateOverlap})}
+                                   value={this.state['dates cannot overlap']}
+                        />
+                        {this.isFieldInError('dates cannot overlap') && <ValidationFailMessage>{this.getErrorsInField('dates cannot overlap')[0]}</ValidationFailMessage>}
+
+                        <Text style={styles.debug_display}>{ JSON.stringify({sow: new Date(this.state.sowingDate), har: new Date(this.state.harvestDate), overlap: this.state['dates cannot overlap'], })}</Text>
+                    </View>
+
+                    <View style={[styles.button_container]}>
+                        <TouchableOpacity style={ [ STYLE.submit, (!this.state.pristine && this.isFormValid() ? STYLE.submitValid : STYLE.submitInvalid), styles.confirm_button]}
+                                          onPress={this.confirm}>
+                            <Text style={styles.confirm_button_text}>Confirm</Text>
+                            {this.state.loading && (
+                                <ActivityIndicator
+                                    size="small"
+                                    color="#fff"
+                                    style={styles.login_button_ai}
+                                />
+                            )}
+                        </TouchableOpacity>
+                    </View>
                 </View>
                 </ScrollView>
-            </SafeAreaView>
+            </View>
         );
     }
 }
@@ -253,15 +291,17 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
     },
-
+    debug_display:{
+        display: 'none',
+    },
     form_container: {
         paddingHorizontal: 15,
-        paddingVertical: 10,
+        paddingVertical: 20,
         borderRadius: 5,
         width: '100%',
-        alignItems: 'center',
-        justifyContent: 'center',
-        marginVertical: 10,
+        alignItems: 'flex-start',
+        justifyContent: 'space-between',
+        margin: 'auto',
     },
     input_text_container: {
         backgroundColor: '#fff',
@@ -295,7 +335,6 @@ const styles = StyleSheet.create({
 
     },
     confirm_button: {
-        backgroundColor: 'green',
         paddingVertical: 12,
         paddingHorizontal: 20,
         borderRadius: 5,
@@ -320,12 +359,11 @@ const styles = StyleSheet.create({
 });
 
 const mapStateToProps = (state,props) => {
-    let stateret;
-    stateret = {
-        fields: FieldSelector.findAll(state)(),
-        cultivation:props.route.params.id? CultivationSelector.find(state)(props.route.params.id):null,
-        selectors: CultivationSelector,FieldSelector
-    };
+    const stateret = {};
+    console.log('MapStateToProps, route:', props.route, 'route.params', props.route && props.route.params, 'route.params.id',  props.route && props.route.params && props.route.params.id);
+    const cultivationID = props.route.params.id;
+    stateret.cultivation = cultivationID ? CultivationSelector.find(state)(cultivationID):null;
+    stateret.fields = cultivationID ? [FieldSelector.find(state)(stateret.cultivation.field_id)] : FieldSelector.findAll(state)();
     return stateret;
 };
 

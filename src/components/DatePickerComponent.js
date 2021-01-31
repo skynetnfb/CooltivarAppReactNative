@@ -1,6 +1,7 @@
 import React, {useState} from 'react';
-import {View, Button, Platform, StyleSheet} from 'react-native';
+import {View, Button, Platform, StyleSheet, TouchableOpacity, TouchableHighlight, Text} from 'react-native';
 import DateTimePicker from '@react-native-community/datetimepicker';
+import {COLOR} from '../styles/styles';
 
 export const DatePickerComponent = (props) => {
     const [date, setDate] = useState(new Date(props.initial_value.toString()));
@@ -10,6 +11,7 @@ export const DatePickerComponent = (props) => {
     const onChange = function(event, selectedDate) {
         const currentDate = selectedDate || date;
         setShow(Platform.OS === 'ios');
+        console.log("date picked date changed:", "selectedDate:", selectedDate, "currentDate:", currentDate)
         setDate(currentDate);
         props.result(currentDate);
     };
@@ -27,7 +29,9 @@ export const DatePickerComponent = (props) => {
     return (
         <View style={props.style}>
             <View style={styles.date_container}>
-                <Button color="green" onPress={showDatepicker} title={date.toDateString()||"Select Date"} />
+                <TouchableOpacity style={styles.date_button} onPress={showDatepicker}>
+                    <Text style={styles.button_text}>{date.toDateString() || 'Select Date'}</Text>
+                </TouchableOpacity>
             </View>
             {show && (
                 <DateTimePicker
@@ -46,20 +50,26 @@ export const DatePickerComponent = (props) => {
 const styles = StyleSheet.create({
 
     date_container: {
-        backgroundColor: 'green',
         width: '100%',
-        padding: 2,
+    },
+    date_button: {
+        backgroundColor: COLOR.MAIN,
+        padding: 10,
+        borderColor: "green",
+        borderWidth: 1.5,
         borderRadius: 8,
+    },
+    button_text:{
     },
     button_container: {
         paddingVertical: 2,
         paddingHorizontal: 100,
     },
     confirm_button: {
-        backgroundColor: 'green',
+        backgroundColor: COLOR.MAIN,
         paddingVertical: 12,
         paddingHorizontal: 20,
-        borderRadius: 5,
+        borderRadius: 8,
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'center',

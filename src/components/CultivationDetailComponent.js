@@ -133,14 +133,20 @@ class  CultivationDetailComponent extends React.Component{
                     onPress={this.deleteDialog}>
                     <ModalComponent
                         modalMessage = {"Cultivation will be deleted! Are You Sure? "}
-                        icon ={"settings-sharp"}
                         result = {this.resultModal}
-                    />
+                        buttonLeft={"Undo"}
+                        buttonRight={"Confirm"}
+                    ><Icon
+                            name="trash-sharp"
+                            size={40}
+                            color="#FFF"
+                        />
+                    </ModalComponent>
                 </TouchableOpacity>
                 <TouchableOpacity
-                    onPress={()=>this.props.navigation.navigate('cultivation_form',{ id: this.props.cultivation.id })}>
+                    onPress={()=>this.props.navigation.navigate('cultivation_form', {id: this.props.cultivation.id })}>
                     <Icon
-                        name="settings-sharp"
+                        name="create"
                         size={40}
                         color="#FFF"
                     />
@@ -245,10 +251,10 @@ const mapStateToProps = (state,props) => {
 
     let stateret;
     stateret = {
-        cultivation : CultivationSelector.find(state)(routeParams2.id),
+        cultivation : CultivationSelector.find(state)(routeParams2.id) || new Cultivation(),
         field: null,
     };
-    stateret.field = FieldSelector.find(state)(stateret.cultivation.field_id);
+    stateret.field = stateret.cultivation ? FieldSelector.find(state)(stateret.cultivation.field_id) : [];
     return stateret;
 };
 

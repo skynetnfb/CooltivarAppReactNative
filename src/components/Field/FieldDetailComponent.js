@@ -9,6 +9,7 @@ import {CultivationSelector} from '../../redux/selector/cultivation';
 import {FIND_CULTIVATION_ACTION_REQ, INSERT_CULTIVATION_ACTION_REQ} from '../../redux/action/dispatchers/cultivation';
 import {connect} from 'react-redux';
 import {
+    DELETE_FIELD_ACTION_REQ,
     FIND_FIELD_ACTION_REQ,
     INSERT_FIELD_ACTION_REQ,
     UPDATE_FIELD_ACTION_REQ,
@@ -27,21 +28,19 @@ class FieldDetailComponent extends FieldMap{
     }
 
     editClicked = function(){
-        console.log('editClicked');
+        console.log('__fd edit clicked');
         const field_id = this.getField().id;
         this.props.navigation.navigate('field_form', {id: field_id});
     }.bind(this);
 
-    resultDeleteModalCallback = function(result: boolean){
-        console.log('deleteClicked');
-        if (this.props.cultivations.length === 0) {
-
-        }
-        //todo: chiama popup conferma se cultiations == 0
-    }.bind(this);
-
-    deleteConfirmed = function() {
+    resultDeleteModalCallback = function(result: boolean): void{
+        console.log('__fd delete dialog clicked', result);
+        if (!result) return;
+        console.log('__fd delete dialog confirmed', this.getField().id);
+        // this.props.navigation.goBack(null);
         this.props.navigation.pop();
+        // setTimeout(() => this.props.delete_field_action(this.getField().id), 1);
+        this.props.delete_field_action(this.getField().id);
     }.bind(this);
 
     componentDidMount(): void {
@@ -121,21 +120,21 @@ class FieldDetailComponent extends FieldMap{
                 <TouchableOpacity
                     style={[STYLE.footer, STYLE.debug]}
                     onPress={()=>this.props.navigation.navigate('field_form')}>
-                    {modalChildren}
                     {
                         this.props.cultivations.length ?
                         <ModalComponent
                             style = {[/*ignored*/]}
                             modalMessage = {"Cannot delete a field used in cultivations."}
-                            icon = {"trash-sharp"}
-                            result = {this.resultDeleteModalCallback}
+                            buttonLeft={"ok"}
+                            buttonRight={null}
                             todo = { "modal body che cambia: se hai 0 coltivazioni fa solo un warn (you cannot...) altrimenti richiede confirm-undo"}
                         >{modalChildren}</ModalComponent>
                         :
                         <ModalComponent
                             style = {[/*ignored*/]}
                             modalMessage = {"Field will be deleted! Are You Sure?"}
-                            icon = {"trash-sharp"}
+                            buttonLeft={"Undo"}
+                            buttonRight={"Confirm"}
                             result = {this.resultDeleteModalCallback}
                             todo = { "modal body che cambia: se hai 0 coltivazioni fa solo un warn (you cannot...) altrimenti richiede confirm-undo"}
                         >{modalChildren}</ModalComponent>
@@ -175,7 +174,8 @@ const styles = StyleSheet.create({
         color: MAIN_COLOR,
     },
     meteo_image: {
-        backgroundColor: 'gray',
+        backgroundColor: COLOR.MUTED,
+        borderRadius: 30,
         height: 60,
         width: 60,
     },
@@ -200,13 +200,12 @@ const mapStateToProps = (state, props) => {
     console.log("xxxxx routeParams Lv2:", routeParamsLv2);
     const emptyField = new Field("namee", "cityy", "descc", "[]", null);
     emptyField.coordinate = [{latitude: 42.18530921673116, longitude: 14.420321434736252}, {latitude: 42.1852602756412, longitude: 14.42043274641037}, {latitude: 42.185234190273235, longitude: 14.420227222144606}];
-    addProps.field = fieldID ? FieldSelector.find(state)(fieldID) : emptyField;
-
+    addProps.field = FieldSelector.find(state)(fieldID);
     console.log("xxxxx addProps.field:", addProps.field );
     addProps.isUpdate = !!fieldID;
     addProps.fields = FieldSelector.findAll(state)();
     addProps.cultivations = CultivationSelector.findByField(state)(fieldID);
-    addProps.fields = addProps.fields.filter( field => field.id !== addProps.field.id) || [];
+    addProps.fields = addProps.fields.filter( field => addProps.field && (field.id !== addProps.field.id)) || [];
     addProps.allowEditPolygon = false;
     console.log("xxxxx addProps:", addProps, "state:", state, 'FieldID', fieldID);
     // addProps.field.coordinate = JSON.parse(addProps.field.coordinate);
@@ -218,6 +217,7 @@ const mapStateToProps = (state, props) => {
     // addProps.fields = JSON.parse(JSON.stringify(addProps.fields));
     console.log('state map return:', addProps);
     console.log('state map fieldID:', fieldID);
+    addProps.field = addProps.field || new Field();
     return addProps;
 };
 
@@ -225,6 +225,7 @@ const mapDispatchToProps = (dispatch) => {
     return {
         find_field_action: FIND_FIELD_ACTION_REQ(dispatch),
         get_meteo_today_action: METEO_TODAY_REQUEST(dispatch),
+        delete_field_action: DELETE_FIELD_ACTION_REQ(dispatch),
     };
 };
 

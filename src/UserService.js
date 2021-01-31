@@ -50,7 +50,7 @@ class UserService extends Component {
                 this.setState({logged:true});
                 //this.props.route.navigation.navigate('home', {user:true});
             } else {
-                console.log('####-----------------------------DENTRO ELSE UTENTE SLOGGATO',_user);
+                console.log('####-----------------------------DENTRO ELSE UTENTE SLOGGATO',user);
                 this.setState({logged:false});
                 this.props.userLogoutAction();
             }
