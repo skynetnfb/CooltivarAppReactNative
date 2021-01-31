@@ -18,7 +18,6 @@ import {CultivationSelector} from '../selector/CultivationSelector';
 import Field from '../../model/Field';
 import Cultivation from '../../model/Cultivation';
 import CultivAction from '../../model/CultivAction';
-import {METEO_TODAY_REQUEST} from '../action/dispatchers/meteoAction';
 import {E_OPENWEATHER_GET_FORECAST, E_OPENWEATHER_GET_TODAY, METEO_ENUM} from '../action/enum/MeteoActionEnum';
 import {CultivActionSelector} from '../selector/CultivActionSelector';
 

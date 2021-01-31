@@ -1,6 +1,4 @@
-import axios, {AxiosResponse} from 'axios';
-import {FieldSelector} from '../../selector/field';
-import {E_DELETE_FIELD_REQ} from '../enum/field';
+import {AxiosResponse} from 'axios';
 import {API_CALLS, AxiosResponseType, weatherToday2} from '../../../api/api';
 import {E_OPENWEATHER_GET_FORECAST, E_OPENWEATHER_GET_TODAY, METEO_ENUM} from '../enum/MeteoActionEnum';
 

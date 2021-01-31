@@ -11,9 +11,7 @@ import {STYLE} from '../styles/styles';
 import {connect} from 'react-redux';
 import {CultivActionSelector} from '../redux/selector/CultivActionSelector';
 import {
-    FIND_OPERATION_ACTION_REQ,
     FIND_OPERATION_BY_CULTIVATION_ACTION_REQ,
-    INSERT_OPERATION_ACTION_REQ,
 } from '../redux/action/dispatchers/OperationAction';
 
 

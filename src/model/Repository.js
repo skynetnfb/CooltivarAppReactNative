@@ -1,31 +1,8 @@
 import Cultivation, {CULTIVATION_SCHEMA} from './Cultivation';
 import CultivAction from './CultivAction';
 import Field from './Field';
-import FirebaseAuth from '../utils/FirebaseAuth';
-import firebase from 'firebase';
 
     let Realm = require('realm');
-    let userDbPath = null;
-/*
-    export const firebaseConfig = {
-        apiKey: 'AIzaSyC_F98EhQTmgzbbalgnYqQFpCgOXcgcnxs',
-        authDomain: 'reactcooltivarapp.firebaseapp.com',
-        databaseURL: '',
-        projectId: 'reactcooltivarapp',
-        storageBucket: 'reactcooltivarapp.appspot.com',
-        messagingSenderId: '461253967081',
-        appId: '1:461253967081:web:6c21b324129a2319960478',
-        measurementId: '',
-    };
-    if (!firebase.apps.length) {
-        firebase.initializeApp(firebaseConfig);
-    }
-
-
-    if(firebase.auth().currentUser!=null){userDbPath = firebase.auth().currentUser.email;
-    console.log('!!!!!-----------------LOGGED USER : ',firebase.auth().currentUser.email);
-    console.log('!!!!!-----------------DB USER : ',userDbPath);}
-    */
     let realm = null;
     export const initRealm =function(userDbPath){
        realm = new Realm({ path: userDbPath+'db.realm', schema: [Cultivation.schema,CultivAction.schema,Field.schema] });
@@ -38,10 +15,7 @@ export const createCultivation = (cultivation: Cultivation) => {
     if (!cultivation) {
         throw 'Empty cultivation cant be saved'
     }
-    // check if already existed?
-    //if (checkIfCultivationExists(cultivation.id)) {
-    //   throw 'Duplicated ID';
-    //}
+
     while (checkIfCultivationExists(cultivation.id))
     {
         //creco un nuovo elemento con id diverso CULTIVATION constructor(name, cultivar, description, field_id, sowingDate, harvestDate, harvestWeight, status, preview)
@@ -61,11 +35,7 @@ export const createCultivation = (cultivation: Cultivation) => {
 // result: realm objects
 export const getAllCultivations = () => {
     try {
-        //console.log('----------------------------------------------------SCHEMA: ',realm.schema);
-        let result = realm.objects(CULTIVATION_SCHEMA);
-        //console.log('----------------------------------------------------get all result: ',result);
-        //if(result.length == 0) return {};
-        return result
+        return realm.objects(CULTIVATION_SCHEMA);
     } catch(e) {
         return [];
     } finally {}
@@ -92,8 +62,7 @@ export const updateCultivation = (cultivation: Cultivation) => {
         throw 'No Cultivation Found';
     }
     try {
-        console.log('###------------------------------updateCultivation Prima del WRITE :REALM CULT ',findCultivation);
-        console.log('###------------------------------updateCultivation Prima del WRITE cultivation:',cultivation);
+        console.log('###------------------------------updateCultivation Prima del WRITE :REALM CULT ',findCultivation,cultivation);
         realm.write(() => {
             cultivation.updateObjectInfo(findCultivation);
         });
@@ -244,11 +213,6 @@ const checkIfCultivActionExists = (id: number) => {
 
 export const createField = (field: Field) => {
     if (!field) { throw 'Empty field cant be saved'; }
-        //check if Field already existed?
-        /*while (checkIfFieldExists(field.id))
-        {
-           // field = new Field(field.name, field.description)
-        }*/
     try {
         realm.write(() => {
             realm.create('Field', field.getRealmObject());
@@ -261,7 +225,6 @@ export const createField = (field: Field) => {
 
 export const getAllFields = () => {
     try {
-        //console.log('Field Realm schema:',realm.schema);
         console.log('-------------------------------------------realm.objects LENGTH ',realm.objects('Field').length);
         let fields = realm.objects('Field');
         return fields

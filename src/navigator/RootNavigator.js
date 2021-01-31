@@ -148,23 +148,13 @@ class RootNavigator extends Component {
         return (
             <NavigationContainer>
                 <RootStackNavigator.Navigator name="home" screenOptions={{headerShown: false}}>
-                    {!logged && (
-                        <RootStackNavigator.Screen name="login" component={LoginComponent} />
-                    )}
-                    {logged && (
-                        <RootStackNavigator.Screen name = {'Cultivations'} component = { createHomeTabNavigation }/>
-                    )}
-                <RootStackNavigator.Navigator name="home">
-
-
                     <RootStackNavigator.Screen name = {'Cultivations'} component = { createHomeTabNavigation }/>
                     <RootStackNavigator.Screen name = {'home'} component = { createHomeTabNavigation }/>
                     <RootStackNavigator.Screen name = {'cultivation list'} component = { CultivationListPage }/>
                     <RootStackNavigator.Screen name = {'field list'} component = { FieldListPage }/>
                     <RootStackNavigator.Screen name = {'cultivation'} component = { createCultivationTabNavigation }/>
                     <RootStackNavigator.Screen name = {'field'} component = { createFieldTabNavigation }
-                                               screenOptions={{headerShown: false}}
-                                               initialParams={{ parameterPassedFromRootNavigator: 'zzzzz' }} />
+                                               screenOptions={{headerShown: false}} />
                     <RootStackNavigator.Screen name = {'cultivation_form'} component = { CultivationFormPage }/>
                     <RootStackNavigator.Screen name = {'camera'} component = { CameraComponent }/>
                     <RootStackNavigator.Screen name = {'action form'} component = { CultivActionFormPage }/>

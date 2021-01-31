@@ -1,10 +1,10 @@
 import React, {Component} from 'react';
-import {FlatList, StyleSheet, TouchableOpacity, View, Text} from 'react-native';
+import {FlatList, TouchableOpacity, View, Text} from 'react-native';
 import {STYLE} from '../../styles/styles';
 import AbstractCardComponent from '../abstract/AbstractCard';
 import Icon from 'react-native-vector-icons/Ionicons';
 import {connect} from 'react-redux';
-import {CultivationSelector} from '../../redux/selector/cultivation';
+import {CultivationSelector} from '../../redux/selector/CultivationSelector';
 
 class FieldCultivationHistoryComponent extends Component{
     /*constructor({route, navigation}) { funziona, ma meglio prenderli direttamente da prop.
@@ -16,10 +16,10 @@ class FieldCultivationHistoryComponent extends Component{
     render() {
         const navigation = this.props.navigation;
         return (
-            <View style={[STYLE.rowContainer, STYLE.fill, STYLE.debug]}>
+            <View style={[STYLE.rowContainer, STYLE.fill]}>
                 <FlatList
                     data={this.props.cultivations}
-                    style={[STYLE.fill, STYLE.debug]}
+                    style={[STYLE.fill]}
                     renderItem={({item}) => (
                         <AbstractCardComponent
                             navigation={navigation}

@@ -1,7 +1,7 @@
 import React from 'react';
 
 import {
-    FlatList, StatusBar,
+    FlatList,
     StyleSheet,
     Text, TouchableOpacity,
     View,
@@ -11,15 +11,14 @@ import AbstractCardComponent from '../components/abstract/AbstractCard';
 import {
     FIND_FIELD_ACTION_REQ,
     INSERT_FIELD_ACTION_REQ,
-    UPDATE_FIELD_ACTION_REQ,
 } from '../redux/action/dispatchers/FieldAction';
 import {connect} from 'react-redux';
 import {COLOR, STYLE} from '../styles/styles';
-import {FIND_CULTIVATION_ACTION_REQ} from '../redux/action/dispatchers/CultivationAction';
-import {getAllCultivations} from '../model/Repository';
 import Field from '../model/Field';
 import {FieldSelector} from '../redux/selector/FieldSelector';
 import Icon from 'react-native-vector-icons/Ionicons';
+
+
 class  FieldListPage extends React.Component{
     componentDidMount(): void {
         this.props.find_fields();

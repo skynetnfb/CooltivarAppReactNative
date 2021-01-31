@@ -1,10 +1,7 @@
-import React, {Component} from 'react';
+import React from 'react';
 import {StyleSheet, View, Image, Button, TouchableOpacity} from 'react-native';
 import {Text} from 'react-native';
-import {STYLE, MAIN_COLOR, MAP_LABEL_STYLE, COLOR} from '../../styles/styles';
-import MapComponent from '../common/MapComponent';
-import EditButton from '../common/EditButton';
-import MapView from 'react-native-maps';
+import {STYLE, COLOR} from '../../styles/styles';
 import {CultivationSelector} from '../../redux/selector/CultivationSelector';
 import {FIND_CULTIVATION_ACTION_REQ, INSERT_CULTIVATION_ACTION_REQ} from '../../redux/action/dispatchers/CultivationAction';
 import {connect} from 'react-redux';
@@ -90,19 +87,13 @@ class FieldDetailComponent extends FieldMap{
             <Icon
                 name="trash-sharp"
                 size={40}
-                color={this.props.cultivations.length === 0 ? "white" : COLOR.MUTED}
+                color={this.props.cultivations.length === 0 ? "white" : COLOR.DARK_ORANGE}
             />;
 
         let ret =
             <View style={[STYLE.rowContainer, STYLE.fill, styles.root]}>
                 <View style={[STYLE.title_background, styles.title_background]}>
                     <Text style={[STYLE.title_text]}>{"Field: " + field.name}</Text>
-                    <Icon style={[styles.edit_button ]}
-                          name={'create'}
-                          size={60}
-                          color="white"
-                          onPress={this.editClicked}
-                    />
                 </View>
                 {mapComponent}
                 <View style={[STYLE.rowContainer, STYLE.card, STYLE.fill, styles.card]}>
@@ -118,7 +109,7 @@ class FieldDetailComponent extends FieldMap{
                     </View>
                 </View>
                 <TouchableOpacity
-                    style={[STYLE.footer, STYLE.debug]}
+                    style={[STYLE.footer]}
                     onPress={()=>this.props.navigation.navigate('field_form')}>
                     {
                         this.props.cultivations.length ?
@@ -171,7 +162,7 @@ const styles = StyleSheet.create({
     },
     city: {
         fontSize: 20,
-        color: MAIN_COLOR,
+        color: COLOR.MAIN,
     },
     body: {
         // backgroundColor: 'red',

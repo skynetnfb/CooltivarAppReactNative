@@ -11,7 +11,8 @@ import {
 import FirebaseAuth from '../utils/FirebaseAuth';
 import Icon from 'react-native-vector-icons/Ionicons';
 import firebase from 'firebase';
-import {COLOR} from '../styles/styles';
+import {COLOR, STYLE} from '../styles/styles';
+import ValidationFailMessage from '../components/common/ValidationFailMessage';
 
 
 
@@ -123,30 +124,26 @@ class RegisterComponent extends Component {
                         />
                     </View>
                 </View>
-                <View style={styles.login_button_container}>
-                    <TouchableOpacity style={styles.login_button} onPress={this.doRegister}>
-                        <Text style={styles.login_button_text}>Register</Text>
-                        {this.state.loading && (
-                            <ActivityIndicator
-                                size="small"
-                                color="#fff"
-                                style={styles.login_button_ai}
-                            />
-                        )}
+                <View style = {[styles.login_button_container]}>
+                    <TouchableOpacity style={[STYLE.rowContainer, styles.login_button]} onPress={this.doRegister}>
+                        <Text style={[styles.login_button_text, STYLE.centerRow]}>Register</Text>
+
                     </TouchableOpacity>
-                    <TouchableOpacity style={styles.login_button} onPress={this.login}>
-                        <Text style={styles.login_button_text}>Back</Text>
-                        {this.state.loading && (
-                            <ActivityIndicator
-                                size="small"
-                                color="#fff"
-                                style={styles.login_button_ai}
-                            />
-                        )}
+                    <TouchableOpacity style={[STYLE.rowContainer, styles.login_button]} onPress={this.login}>
+                        <Text style={[styles.login_button_text, STYLE.centerRow]}>Back</Text>
                     </TouchableOpacity>
                 </View>
+                <View style={[STYLE.rowContainer]}>
+                    {this.state.loading && (
+                        <ActivityIndicator
+                            size="large"
+                            color={COLOR.MUTED}
+                            style={[STYLE.centerRow]}
+                        />
+                    )}
+                </View>
                 <View style={styles.alert_box}>
-                    <Text style={styles.alert_message}>{this.state.status}</Text>
+                    {!!this.state.status && <ValidationFailMessage style={styles.alert_message}>{this.state.status}</ValidationFailMessage>}
                 </View>
             </SafeAreaView>
         );

@@ -1,4 +1,4 @@
-import React, {Component, useState} from 'react';
+import React, {Component} from 'react';
 import {
     SafeAreaView,
     View,
@@ -10,7 +10,6 @@ import {
     ScrollView,
     Picker,
         } from 'react-native';
-import {createCultivAction, updateCultivAction} from '../model/Repository';
 import CultivAction from '../model/CultivAction';
 import {DatePickerComponent} from '../components/abstract/DatePickerComponent';
 import {STYLE} from '../styles/styles';

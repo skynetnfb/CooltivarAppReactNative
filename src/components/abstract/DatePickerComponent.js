@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
-import {View, Button, Platform, StyleSheet, TouchableOpacity, TouchableHighlight, Text} from 'react-native';
+import {View, Platform, StyleSheet, TouchableOpacity, TouchableHighlight, Text} from 'react-native';
 import DateTimePicker from '@react-native-community/datetimepicker';
-import {COLOR} from '../styles/styles';
+import {COLOR} from '../../styles/styles';
 
 export const DatePickerComponent = (props) => {
     const [date, setDate] = useState(new Date(props.initial_value.toString()));

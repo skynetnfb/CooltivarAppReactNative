@@ -1,7 +1,6 @@
-import React, {Component}  from 'react';
-import {View, Text, TextInput, TouchableHighlight} from 'react-native';
+import React  from 'react';
+import {Text} from 'react-native';
 import ValidationComponent from 'react-native-form-validator';
-import ValidationFailMessage from '../common/ValidationFailMessage';
 
 class ValidationComponent2 extends ValidationComponent {
     validationRules = {};

@@ -1,7 +1,6 @@
 'use strict';
 import React, { PureComponent } from 'react';
 import {
-    AppRegistry,
     StyleSheet,
     Text,
     TouchableOpacity,
@@ -12,12 +11,10 @@ import {
 } from 'react-native';
 import { RNCamera } from 'react-native-camera';
 import Cultivation from '../model/Cultivation';
-import {createCultivation, updateCultivation} from '../model/Repository';
-var RNFS = require('react-native-fs');
 import RNFetchBlob from 'react-native-fetch-blob'
 import {COLOR, STYLE} from '../styles/styles';
 import {CultivationSelector} from '../redux/selector/CultivationSelector';
-import {INSERT_CULTIVATION_ACTION_REQ, UPDATE_CULTIVATION_ACTION_REQ} from '../redux/action/dispatchers/CultivationAction';
+import {UPDATE_CULTIVATION_ACTION_REQ} from '../redux/action/dispatchers/CultivationAction';
 import {connect} from 'react-redux';
 // create a path you want to write to
 // :warning: on iOS, you cannot write into `RNFS.MainBundlePath`,

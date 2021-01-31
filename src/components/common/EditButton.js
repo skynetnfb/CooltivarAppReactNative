@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
-import {StyleSheet, View, Image, Button, Text, TouchableOpacity} from 'react-native';
-import {STYLE, MAIN_COLOR} from '../../styles/styles';
+import {Image, Text, TouchableOpacity} from 'react-native';
+import {STYLE} from '../../styles/styles';
 import Icon from 'react-native-vector-icons/Ionicons';
 
 class EditButton extends Component{

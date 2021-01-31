@@ -7,7 +7,7 @@ import {
     View
 } from 'react-native';
 import {COLOR, STYLE} from '../styles/styles';
-class  CultivActionCardComponent extends React.Component{
+class CultivActionCardComponent extends React.Component{
     constructor(props){
         super(props);
         //costruttore chiamato prima che venga renderizzato il component

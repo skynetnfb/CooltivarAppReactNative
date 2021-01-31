@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React from 'react';
 import {
     View,
     Text,
@@ -11,9 +11,6 @@ import {
 } from 'react-native';
 import Cultivation from '../model/Cultivation';
 import {DatePickerComponent} from '../components/abstract/DatePickerComponent';
-import {
-    createCultivation, updateCultivation,
-} from '../model/Repository';
 import {STYLE} from '../styles/styles';
 import {CultivationSelector} from '../redux/selector/CultivationSelector';
 import {
@@ -21,7 +18,6 @@ import {
     UPDATE_CULTIVATION_ACTION_REQ,
 } from '../redux/action/dispatchers/CultivationAction';
 import {connect} from 'react-redux';
-import Field from '../model/Field';
 import {FieldSelector} from '../redux/selector/FieldSelector';
 import ValidationComponent2 from '../components/Field/ValidationComponent2';
 import ValidationFailMessage from '../components/common/ValidationFailMessage';

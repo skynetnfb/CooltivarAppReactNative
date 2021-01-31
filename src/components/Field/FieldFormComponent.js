@@ -1,22 +1,13 @@
-import React, {Component} from 'react';
+import React from 'react';
 import {connect} from 'react-redux';
 import {
-    StyleSheet, View, Image, Button, LogBox,
-    SafeAreaView, TouchableHighlight, TouchableOpacity
+    StyleSheet, View,
+    TouchableHighlight
 } from 'react-native';
 import {Text, TextInput} from 'react-native';
-import {STYLE, MAP_LABEL_STYLE, COLOR} from '../../styles/styles';
-import MapComponent from '../common/MapComponent';
-import EditButton from '../common/EditButton';
-import ValidationFailMessage from '../common/ValidationFailMessage';
-import ValidationComponent2 from './ValidationComponent2';
-import Geolocation, {
-    GeolocationError,
-    GeolocationOptions,
-    GeolocationResponse,
-} from '@react-native-community/geolocation';
-import { PermissionsAndroid } from 'react-native';
+import {STYLE, COLOR} from '../../styles/styles';
 
+import ValidationFailMessage from '../common/ValidationFailMessage';
 
 
 import {

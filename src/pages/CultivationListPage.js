@@ -13,7 +13,6 @@ import {connect} from 'react-redux';
 import {FIND_CULTIVATION_ACTION_REQ, INSERT_CULTIVATION_ACTION_REQ} from '../redux/action/dispatchers/CultivationAction';
 import {CultivationSelector} from '../redux/selector/CultivationSelector';
 import ModalComponent from '../components/abstract/ModalComponent';
-import firebase from 'firebase';
 import {USER_LOGGED_OUT_REQ} from '../redux/action/dispatchers/UserAction';
 
 
@@ -23,15 +22,7 @@ constructor(props) {
     super(props);
 
     this.resultModal = function (modalResult) {
-        if (modalResult) {/*
-            firebase.auth().signOut().then(()=>{
-
-                this.props.navigation.navigate('login');
-                console.log('######----------------------SUCCESS SIGNOUT');
-            }).catch(()=>{
-                console.log('#####----------------------FAIL SIGNOUT');
-            });
-            this.props.navigation.navigate('home')*/
+        if (modalResult) {
             this.props.userLogoutAction();
             this.props.navigation.navigate('login')
         }
@@ -74,7 +65,13 @@ constructor(props) {
                         buttonLeft ={"Cancel"}
                         buttonRight ={"Confirm"}
                         result = {this.resultModal}
-                    />
+                    >
+                        <Icon
+                            name="ios-log-out"
+                            size={40}
+                            color="#FFF"
+                        />
+                    </ModalComponent>
                 </TouchableOpacity>
                 <TouchableOpacity
 

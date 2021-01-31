@@ -1,14 +1,10 @@
 import React, {Component} from 'react';
-import {connect} from 'react-redux';
 import {
-    StyleSheet, View, Image, Button, LogBox,
-    SafeAreaView, TouchableHighlight, TouchableOpacity
+    StyleSheet, View, Image, LogBox,
+    TouchableOpacity
 } from 'react-native';
-import {Text, TextInput} from 'react-native';
-import {STYLE, MAIN_COLOR, MAP_LABEL_STYLE, COLOR} from '../../styles/styles';
-import MapComponent from '../common/MapComponent';
-import EditButton from '../common/EditButton';
-import ValidationFailMessage from '../common/ValidationFailMessage';
+import {Text,} from 'react-native';
+import {STYLE, MAP_LABEL_STYLE, COLOR} from '../../styles/styles';
 import ValidationComponent2 from './ValidationComponent2';
 import Geolocation, {
     GeolocationError,
@@ -212,6 +208,14 @@ class FieldMap extends ValidationComponent2{
         return this.refs.map;
     }.bind(this);
 
+    waitForGPS = function(){
+        const delay = 100;
+        setTimeout( () => { this.followUser(); }, 1*delay);
+        setTimeout( () => { this.unfollowUser(); }, 2*delay);
+        //nope setTimeout( () => { this.setState({geolocalization: false, gotFirstLocationUpdate: false}); }, 2*delay);
+        setTimeout( () => { this.followUser(); }, 3*delay);
+    }.bind(this);
+
     animateCamera2 = function(forceExceludeUser: boolean = false) {
         //If called in ComponentDidMount in android, it will cause an exception. It is recommended to call it from the MapView onLayout event.
         const userLocation = !forceExceludeUser && this.state.geolocalization && this.state.userLocation;
@@ -253,15 +257,10 @@ class FieldMap extends ValidationComponent2{
         if (this.state.onMapAndLayoutReadyCalled) return;
         this.setState({onMapAndLayoutReadyCalled: true});
         this.requestLocationPermission(false);
-        const delay = 100;
 
         console.log('__fm onMapAndLayoutReady 1');
         LogBox.ignoreLogs(['Warning: ' + 'Called stopObserving']);// ignora tutti i warning che iniziano con "Called stopObserving"...
-        setTimeout( () => { this.followUser(); }, 1*delay);
-        setTimeout( () => { this.unfollowUser(); }, 2*delay);
-        //nope setTimeout( () => { this.setState({geolocalization: false, gotFirstLocationUpdate: false}); }, 2*delay);
-        setTimeout( () => { this.followUser(); }, 3*delay);
-
+        this.waitForGPS(); // debug
         console.log('__fm onMapAndLayoutReady end');
         // setTimeout( () => {this.animateCamera2(); }, 4000);
         // this.animateCamera2();
@@ -435,7 +434,7 @@ const styles = StyleSheet.create({
     },
     name: {
         fontSize: 20,
-        color: MAIN_COLOR,
+        color: COLOR.MAIN,
     },
     city: {
     },

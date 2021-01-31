@@ -12,14 +12,12 @@ import {COLOR, STYLE} from '../styles/styles';
 import Icon from 'react-native-vector-icons/Ionicons';
 import {connect} from 'react-redux';
 import {CultivationSelector} from '../redux/selector/CultivationSelector';
-import {forecast, getForecastToday} from '../api/api';
 import ModalComponent from '../components/abstract/ModalComponent';
-import {DELETE_CULTIVATION_ACTION_REQ, UPDATE_CULTIVATION_ACTION_REQ} from '../redux/action/dispatchers/CultivationAction';
-import {deleteCultivAction} from '../model/Repository';
-import {METEO_FORECAST_REQUEST, METEO_TODAY_REQUEST} from '../redux/action/dispatchers/meteoAction';
-import {FieldSelector} from '../redux/selector/field';
+import {DELETE_CULTIVATION_ACTION_REQ} from '../redux/action/dispatchers/CultivationAction';
+import {METEO_FORECAST_REQUEST} from '../redux/action/dispatchers/meteoAction';
+import {FieldSelector} from '../redux/selector/FieldSelector';
 import {WEATHER_ICON} from '../utils/WeatherIcons';
-import {FIND_FIELD_ACTION_REQ} from '../redux/action/dispatchers/field';
+import {FIND_FIELD_ACTION_REQ} from '../redux/action/dispatchers/FieldAction';
 
 
 class  CultivationDetailComponent extends React.Component{
@@ -65,17 +63,6 @@ class  CultivationDetailComponent extends React.Component{
         }.bind(this);
     }
     componentDidMount(){
-
-        let coord = {
-            latitude:null,
-            longitude:null,
-        };
-        coord.latitude = 10;
-        coord.longitude = 30;
-
-        let fc = forecast(coord,3);
-
-        console.log('###-------------------------------------------------forecast:',fc)
         const field = this.props.field;
         const coordinate = field && field.coordinate[0]; // || {longitude:-122.49343838542698, latitude:37.7889790728136}; // san francisco
         console.log('__meteo cd forecast start route', field, coordinate);
@@ -83,7 +70,7 @@ class  CultivationDetailComponent extends React.Component{
         const hours = 1000 * 60 * 60;
         if (field.forecast && (field.forecastTime >= new Date().getTime() - 1 * hours)) return;
         console.log('__meteo cd forecast start route passed', this.props.forecast_action);
-        this.props.forecast_action(coordinate, field.id, 2);// todo: decommenta quando hai il terreno ben linkato
+        this.props.forecast_action(coordinate, field.id, 2);
     }
 
     componentWillUnmount(): void {
