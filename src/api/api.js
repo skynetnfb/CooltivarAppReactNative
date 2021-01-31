@@ -4,7 +4,6 @@ import {E_OPENWEATHER_GET_FORECAST, E_OPENWEATHER_GET_TODAY} from '../redux/acti
 
 // ------------------------------------------------------------------ private declarations
 export class AxiosResponseType{
-
 }
 
 const corsPrefix = '';

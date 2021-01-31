@@ -12,7 +12,6 @@ export default class Cultivation {
     status:'';
     preview:'';
 
-
     constructor(name, cultivar, description, field_id, sowingDate, harvestDate, harvestWeight, status, preview) {
         this.id = new Date().getTime().toString();
         this.name = name;

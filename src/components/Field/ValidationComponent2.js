@@ -43,7 +43,9 @@ class ValidationComponent2 extends ValidationComponent {
             entry.errors.push(...err.messages);
         }
     }
+
     getErrors(){ return Object.values(this.validationRules).map( e => e.errors); }
+
     getErrorMessagesFor(inputname, caseSensitive = false) {
         return this.validationRules[inputname].errors;
         /*if (!caseSensitive) inputname = inputname.toLowerCase();
@@ -54,8 +56,7 @@ class ValidationComponent2 extends ValidationComponent {
         }
         return ret;*/
     }
-
     render() { return ( <Text>ValidationComponent2: You have to override the render method</Text> ); }
-
 }
+
 export default ValidationComponent2;

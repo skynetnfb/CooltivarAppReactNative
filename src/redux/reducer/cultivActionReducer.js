@@ -6,7 +6,6 @@ import {CultivationEnum} from '../action/enum/CultivationEnum';
 import {CultivationSelector} from '../selector/CultivationSelector';
 import {CultivActionEnum} from '../action/enum/OperationEnum';
 
-
 const cultivActionReducer = (state = initialState, action) => {
     if (!action) return state;
     const newState = JSON.parse(JSON.stringify(state)); // lo stato deve essere immutabile, quindi lo clono.
@@ -19,6 +18,7 @@ const cultivActionReducer = (state = initialState, action) => {
     console.log("REDUCER EXECUTING ACTION: " + (action.type), action);
     let response, index;
     switch (action.type) {
+
         default:
             console.error("invalid reducer action:", action.type, action);
             break;
@@ -54,11 +54,13 @@ const cultivActionReducer = (state = initialState, action) => {
         // NB: adesso l'accesso al db è sincrono, se diventa asincrono nella _REQ si dovrebbe fare una cosa tipo:
         // .then( dispatch({ type: E_FIND_FIELD_SUCCESS, ...})).catch( dispatch({ type: E_FIND_FIELD_FAIL, ...});
             break;
+
         case CultivActionEnum.INSERT_REQ:
             if (!newState.cultivActions) newState.cultivActions = [];
             CultivActionDB.insert(action.cultivation);
             newState.cultivActions.push(action.cultivation);
             break;
+
         case CultivationEnum.UPDATE_REQ:
             //TODO
             console.log('!!!---------------------TODO---------------------------!!!');

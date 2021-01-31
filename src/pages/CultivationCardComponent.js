@@ -21,7 +21,7 @@ class  CultivationCardComponent extends React.Component{
             name:"coltivazione mock1",
             cultivar:"cultivar mock1",
             description: "descrizione coltivaione mock1",
-            },
+        },
             {
                 id:2,
                 name:"coltivazione mock2",

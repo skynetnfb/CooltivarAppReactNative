@@ -6,10 +6,7 @@ import {
 } from 'react-native';
 import {Text, TextInput} from 'react-native';
 import {STYLE, COLOR} from '../../styles/styles';
-
 import ValidationFailMessage from '../common/ValidationFailMessage';
-
-
 import {
     FIND_FIELD_ACTION_REQ,
     INSERT_FIELD_ACTION_REQ,
@@ -33,7 +30,7 @@ class FieldFormComponent extends FieldMap{
             ...this.state,
             pristine: !this.props.isUpdate,
             // coordinateStr: '', settato da setInitialValues
-        }
+        };
         console.log('setCoordinate init:', [...this.state.coordinate]);
 
         console.log('__fc constructor 2');
@@ -120,41 +117,41 @@ class FieldFormComponent extends FieldMap{
         console.log('## field:', field, "## coordinate:", coordinate, ' tpyeof coordinate: ', typeof (coordinate));
         const mapComponent = super.render();
         return (
-        <View style={[]}>
-            <View style={[STYLE.title_background, styles.title_background]}>
-                <Text style={[STYLE.title_text]}>{this.props.isUpdate ? "Field update" : "Field create"}</Text>
-            </View>
-            <View style={[STYLE.rowContainer, STYLE.fill, styles.root, {position: 'relative'}]}>
-                <View style={[ STYLE.fill, styles.map]}>
-                    {/*  <View coordinates={field.coordinates} />  */}
-                    {mapComponent}
-                    {/*<TextInput ref="coordinateStr" multiline={false} style={[]} value={this.state.coordinateStr}  /> */}
-                    {/*this.isFieldInError('coordinateStr') && this.getErrorsInField('coordinateStr').map(errorMessage => <ValidationFailMessage>{errorMessage}</ValidationFailMessage>)*/}
-                    {this.isFieldInError('coordinateStr') && <ValidationFailMessage>{this.getErrorsInField('coordinateStr')[0]}</ValidationFailMessage>}
+            <View style={[]}>
+                <View style={[STYLE.title_background, styles.title_background]}>
+                    <Text style={[STYLE.title_text]}>{this.props.isUpdate ? "Field update" : "Field create"}</Text>
                 </View>
+                <View style={[STYLE.rowContainer, STYLE.fill, styles.root, {position: 'relative'}]}>
+                    <View style={[ STYLE.fill, styles.map]}>
+                        {/*  <View coordinates={field.coordinates} />  */}
+                        {mapComponent}
+                        {/*<TextInput ref="coordinateStr" multiline={false} style={[]} value={this.state.coordinateStr}  /> */}
+                        {/*this.isFieldInError('coordinateStr') && this.getErrorsInField('coordinateStr').map(errorMessage => <ValidationFailMessage>{errorMessage}</ValidationFailMessage>)*/}
+                        {this.isFieldInError('coordinateStr') && <ValidationFailMessage>{this.getErrorsInField('coordinateStr')[0]}</ValidationFailMessage>}
+                    </View>
 
-                <View style={[STYLE.rowContainer, STYLE.card, STYLE.fill, styles.card]}>
-                    <TextInput ref="name" multiline={false} onChangeText={(name) => this.onChange({name})}
-                               style={[styles.input, styles.name]}
-                               value={this.state.name} placeholder={"Field name"} />
-                    {this.isFieldInError('name') && <ValidationFailMessage>{this.getErrorsInField('name')[0]}</ValidationFailMessage>}
+                    <View style={[STYLE.rowContainer, STYLE.card, STYLE.fill, styles.card]}>
+                        <TextInput ref="name" multiline={false} onChangeText={(name) => this.onChange({name})}
+                                   style={[styles.input, styles.name]}
+                                   value={this.state.name} placeholder={"Field name"} />
+                        {this.isFieldInError('name') && <ValidationFailMessage>{this.getErrorsInField('name')[0]}</ValidationFailMessage>}
 
-                    <TextInput ref="city" multiline={false} onChangeText={(city) => this.onChange({city})}
-                               style={[styles.input, styles.city]}
-                               value={this.state.city}  placeholder={"City"} />
-                    {this.isFieldInError('city') && <ValidationFailMessage>{this.getErrorsInField('city')[0]}</ValidationFailMessage>}
+                        <TextInput ref="city" multiline={false} onChangeText={(city) => this.onChange({city})}
+                                   style={[styles.input, styles.city]}
+                                   value={this.state.city}  placeholder={"City"} />
+                        {this.isFieldInError('city') && <ValidationFailMessage>{this.getErrorsInField('city')[0]}</ValidationFailMessage>}
 
                         <TextInput ref="description" multiline={true} numberOfLines={3}
                                    onChangeText={(description) => this.onChange({description})}
                                    style={[STYLE.centerColumn, styles.input]}
                                    value={this.state.description} placeholder={"Description"} />
                         {this.isFieldInError('description') && <ValidationFailMessage>{this.getErrorsInField('description')[0]}</ValidationFailMessage>}
+                    </View>
+                    <TouchableHighlight onPress={this.submit} style={ [ STYLE.submit, ( !this.state.pristine && this.isFormValid() ? STYLE.submitValid : STYLE.submitInvalid), styles.submit, styles.border ]}>
+                        <Text style={[STYLE.centerColumn, STYLE.centerRow]}>{"Submit"}</Text>
+                    </TouchableHighlight>
                 </View>
-                <TouchableHighlight onPress={this.submit} style={ [ STYLE.submit, ( !this.state.pristine && this.isFormValid() ? STYLE.submitValid : STYLE.submitInvalid), styles.submit, styles.border ]}>
-                    <Text style={[STYLE.centerColumn, STYLE.centerRow]}>{"Submit"}</Text>
-                </TouchableHighlight>
-            </View>
-        </View>);
+            </View>);
     }
 }
 
@@ -206,7 +203,6 @@ const styles = StyleSheet.create({
         height: 60,
         width: 60,
     },
-
 });
 
 

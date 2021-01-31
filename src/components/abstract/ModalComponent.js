@@ -31,29 +31,29 @@ const ModalComponent = (props) => {
                     <View style={styles.modalView}>
                         <Text style={styles.modalText}>{modalMessage}</Text>
                         <View style={[STYLE.rowContainer, styles.button_container]}>
-                        {!!buttonLeft && <TouchableHighlight
-                            style={[STYLE.centerRow, { ...styles.openButton, backgroundColor: "#66bb6a" }]}
-                            onPress={() => {
-                                setModalVisible(!modalVisible);
-                                setModalVisible(false);
-                                props.result && props.result(false);
-                            }}
-                        >
-                            <Text style={styles.textStyle}>{buttonLeft}</Text>
-                        </TouchableHighlight>}
-                        {!!buttonRight &&
-                        <TouchableHighlight
-                            style={[STYLE.centerRow, { ...styles.openButton, backgroundColor: "#FF7043FF" }]}
-                            onPress={() => {
-                                setModalVisible(!modalVisible);
-                                setModalVisible(false);
-                                props.result && props.result(true);
-                            }}
-                            value={modalResult}
-                        >
-                            <Text style={styles.textStyle}>{buttonRight}</Text>
-                        </TouchableHighlight>}
-                    </View>
+                            {!!buttonLeft && <TouchableHighlight
+                                style={[STYLE.centerRow, { ...styles.openButton, backgroundColor: "#66bb6a" }]}
+                                onPress={() => {
+                                    setModalVisible(!modalVisible);
+                                    setModalVisible(false);
+                                    props.result && props.result(false);
+                                }}
+                            >
+                                <Text style={styles.textStyle}>{buttonLeft}</Text>
+                            </TouchableHighlight>}
+                            {!!buttonRight &&
+                            <TouchableHighlight
+                                style={[STYLE.centerRow, { ...styles.openButton, backgroundColor: "#FF7043FF" }]}
+                                onPress={() => {
+                                    setModalVisible(!modalVisible);
+                                    setModalVisible(false);
+                                    props.result && props.result(true);
+                                }}
+                                value={modalResult}
+                            >
+                                <Text style={styles.textStyle}>{buttonRight}</Text>
+                            </TouchableHighlight>}
+                        </View>
                     </View>
                 </View>
             </Modal>
@@ -108,8 +108,8 @@ const styles = StyleSheet.create({
     },
     button_container:{
         width: '100%',
-       flexDirection:'row',
-       justifyContent: 'space-around'
+        flexDirection:'row',
+        justifyContent: 'space-around'
     }
 });
 

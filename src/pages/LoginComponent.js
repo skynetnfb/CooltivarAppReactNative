@@ -57,7 +57,7 @@ class LoginComponent extends Component {
         }.bind(this);
 
         this.register = function(text) {
-                this.props.navigation.replace('register',{user:false});
+            this.props.navigation.replace('register',{user:false});
         }.bind(this);
 
         this.doLogin = function() {
@@ -78,8 +78,8 @@ class LoginComponent extends Component {
                     console.log('----------------------Fail:');
                     this.loginError(error);
                 });
-                BackHandler.removeEventListener("hardwareBackPress", this.backAction);
-                this.setState({loading: true});
+            BackHandler.removeEventListener("hardwareBackPress", this.backAction);
+            this.setState({loading: true});
 
         }.bind(this);
 
@@ -110,9 +110,9 @@ class LoginComponent extends Component {
             <SafeAreaView style={styles.main_container}>
                 <View style={styles.app_name_container}>
                     <Icon
-                          name={'md-leaf-sharp'}
-                          size={60}
-                          color={COLOR.MAIN}
+                        name={'md-leaf-sharp'}
+                        size={60}
+                        color={COLOR.MAIN}
                     />
                     <Text style={styles.app_name}>Cooltivar App</Text>
                 </View>

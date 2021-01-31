@@ -28,6 +28,7 @@ class UserService extends Component {
             firebase.initializeApp(firebaseConfig);
         }
     }
+
     backAction = () => {
         Alert.alert("Hold on!", "Are you sure you want to Quit Application?", [
             {
@@ -67,17 +68,7 @@ class UserService extends Component {
         return (<RootNavigator logged={this.state.logged}/>)
     }
 }
-/*
-const mapStateToProps = (state) => {
-    let stateret;
-    stateret = {
-        userSelector:UserSelector.user(state),
-        isLoggedSelector:UserSelector.isLogged(state),
-    };
-    return stateret;
 
-};
-*/
 function mapDispatchToProps(dispatch) {
     return {
         userLoginAction:USER_LOGGED_REQ(dispatch),

@@ -6,76 +6,43 @@ import {STYLE} from '../../styles/styles';
 class AbstractCardComponent extends CultivationCardComponent {
     constructor(props){
         super(props);
-        //console.log('AbstractCard Props ------------------------ props:', this.props);
-        //console.log('Abstract Card props:', this.props, props);
-
-        //costruttore chiamato prima che venga renderizzato il component
         this.goToDetail = function() {
             const args = {
-              id:this.props.item_id,
+                id:this.props.item_id,
             };
-            //this.props.navigation.navigate(this.props.navigate_to, props);
             this.props.navigation.navigate(this.props.navigate_to, args);
         }.bind(this);
     }
 
-
-
     render() {
         return (
-        <View style={[styles.container, this.props.style]}>
+            <View style={[styles.container, this.props.style]}>
                 <StatusBar barStyle="light-content" backgroundColor="#009387" />
                 <TouchableOpacity onPress={this.goToDetail} style={[styles.card]}>
-                        <Image
-                            style={styles.card_image}
-                            source={this.props.image || this.props.imageph}  />
-                        <View style={styles.card_text_container}>
-                            <Text numberOfLines={1} style={styles.card_title}>
-                                {this.props.title}
-                            </Text>
-                            <Text numberOfLines={1} style={styles.card_text}>
-                                {this.props.subtitle}
-                            </Text>
-                            <Text numberOfLines={3} style={styles.card_text}>
-                                {this.props.body}
-                            </Text>
-                        </View>
+                    <Image
+                        style={styles.card_image}
+                        source={this.props.image || this.props.imageph}  />
+                    <View style={styles.card_text_container}>
+                        <Text numberOfLines={1} style={styles.card_title}>
+                            {this.props.title}
+                        </Text>
+                        <Text numberOfLines={1} style={styles.card_text}>
+                            {this.props.subtitle}
+                        </Text>
+                        <Text numberOfLines={3} style={styles.card_text}>
+                            {this.props.body}
+                        </Text>
+                    </View>
                 </TouchableOpacity>
             </View>
-
         );
     }
-
-    /*
-    render() {
-        const {children} = this.props;
-        //viene chiamata per renderizzare il component
-        return (
-            <View
-                style={{
-                    flex: 1
-                }}
-            >
-                <Text>{children}</Text>
-            </View>
-        );
-    }*/
-
-
 }
+
 const styles = StyleSheet.create({
     container: {
         backgroundColor: '#fff',
     },
-
-    /*
-    card_container: {
-        backgroundColor: '#aaa',
-        flex:1,
-        padding: 4,
-        margin: 4,
-        borderRadius: 10,
-    },*/
     card: {
         overflow: 'hidden',
         maxWidth: '100%',
@@ -95,7 +62,6 @@ const styles = StyleSheet.create({
         borderRadius: 5,
     },
     card_text_container: {
-        /*backgroundColor: '#ddd',*/
         flexBasis: 0,
         flexGrow: 2,
         padding: 3,

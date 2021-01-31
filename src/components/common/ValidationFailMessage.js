@@ -3,8 +3,6 @@ import {View, Text, StyleSheet} from 'react-native';
 import {COLOR, STYLE} from '../../styles/styles';
 import Icon from 'react-native-vector-icons/Ionicons';
 
-
-
 class ValidationFailMessage extends Component {
     constructor(props) {
         super(props);
@@ -15,11 +13,11 @@ class ValidationFailMessage extends Component {
         return (
             <View style={[STYLE.columnContainer,STYLE.center,styles.validation_container]}>
                 <Icon style={[STYLE.columnContainer,STYLE.center]}
-                    name="ios-warning-outline"
-                    size={16}
-                    color={COLOR.DARK_ORANGE}
+                      name="ios-warning-outline"
+                      size={16}
+                      color={COLOR.DARK_ORANGE}
                 />
-            <Text style={styles.validation_text}>{ this.props.children ? this.props.children: propErrors }</Text>
+                <Text style={styles.validation_text}>{ this.props.children ? this.props.children: propErrors }</Text>
             </View>
         );
     }

@@ -113,22 +113,22 @@ class FieldDetailComponent extends FieldMap{
                     onPress={()=>this.props.navigation.navigate('field_form')}>
                     {
                         this.props.cultivations.length ?
-                        <ModalComponent
-                            style = {[/*ignored*/]}
-                            modalMessage = {"Cannot delete a field used in cultivations."}
-                            buttonLeft={"ok"}
-                            buttonRight={null}
-                            todo = { "modal body che cambia: se hai 0 coltivazioni fa solo un warn (you cannot...) altrimenti richiede confirm-undo"}
-                        >{modalChildren}</ModalComponent>
-                        :
-                        <ModalComponent
-                            style = {[/*ignored*/]}
-                            modalMessage = {"Field will be deleted! Are You Sure?"}
-                            buttonLeft={"Undo"}
-                            buttonRight={"Confirm"}
-                            result = {this.resultDeleteModalCallback}
-                            todo = { "modal body che cambia: se hai 0 coltivazioni fa solo un warn (you cannot...) altrimenti richiede confirm-undo"}
-                        >{modalChildren}</ModalComponent>
+                            <ModalComponent
+                                style = {[/*ignored*/]}
+                                modalMessage = {"Cannot delete a field used in cultivations."}
+                                buttonLeft={"ok"}
+                                buttonRight={null}
+                                todo = { "modal body che cambia: se hai 0 coltivazioni fa solo un warn (you cannot...) altrimenti richiede confirm-undo"}
+                            >{modalChildren}</ModalComponent>
+                            :
+                            <ModalComponent
+                                style = {[/*ignored*/]}
+                                modalMessage = {"Field will be deleted! Are You Sure?"}
+                                buttonLeft={"Undo"}
+                                buttonRight={"Confirm"}
+                                result = {this.resultDeleteModalCallback}
+                                todo = { "modal body che cambia: se hai 0 coltivazioni fa solo un warn (you cannot...) altrimenti richiede confirm-undo"}
+                            >{modalChildren}</ModalComponent>
                     }
                     <Icon style={[ ]}
                           name={'create'}

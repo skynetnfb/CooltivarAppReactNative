@@ -9,7 +9,7 @@ import {
     TouchableOpacity,
     ScrollView,
     Picker,
-        } from 'react-native';
+} from 'react-native';
 import CultivAction from '../model/CultivAction';
 import {DatePickerComponent} from '../components/abstract/DatePickerComponent';
 import {STYLE} from '../styles/styles';
@@ -43,7 +43,6 @@ class CultivActionFormPage extends Component {
             this.state.startDate = new Date(this.props.route.params.cultivAction.startDate).toDateString();
             this.state.endDate = new Date(this.props.route.params.cultivAction.endDate).toDateString();
         }
-
 
         this.handleChangeDescription = function(text) {
             this.setState({
@@ -84,8 +83,6 @@ class CultivActionFormPage extends Component {
                 _cultivAction.status=this.state.status;
                 _cultivAction.type=this.state.type;
                 _cultivAction.cultivation_id=cultivActionRealm.cultivation_id;
-                console.log('***---------------------------------------------------TYPE',this.state.type);
-                //updateCultivAction(_cultivAction);
                 this.props.update_cultivAction(this.state.cultivAction)
             }
             this.props.navigation.goBack();
@@ -100,13 +97,10 @@ class CultivActionFormPage extends Component {
         }.bind(this);
     }
 
-
     componentDidMount(){
     }
     componentWillUnmount(): void {
     };
-
-
 
     render() {
         return (
@@ -133,6 +127,7 @@ class CultivActionFormPage extends Component {
                                 <Picker.Item label = "Irrigation" value = "Irrigation" />
                             </Picker>
                         </View>
+
                         <View style={styles.input_text_container}>
                             <Picker selectedValue = {this.state.status} onValueChange = {this.handleChangeStatus}>
                                 <Picker.Item label = "Todo" value = "Todo" />
@@ -148,6 +143,7 @@ class CultivActionFormPage extends Component {
                             <Text style={[STYLE.center]}>to</Text>
                             <DatePickerComponent initial_value ={this.state.endDate||new Date()}  result = {this.resultEndDatePicker}/>
                         </View>
+
                     </View>
 
                     <View style={styles.button_container}>

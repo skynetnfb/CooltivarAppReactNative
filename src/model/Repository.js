@@ -2,12 +2,12 @@ import Cultivation, {CULTIVATION_SCHEMA} from './Cultivation';
 import CultivAction from './CultivAction';
 import Field from './Field';
 
-    let Realm = require('realm');
-    let realm = null;
-    export const initRealm =function(userDbPath){
-       realm = new Realm({ path: userDbPath+'db.realm', schema: [Cultivation.schema,CultivAction.schema,Field.schema] });
-       return realm;
-    };
+let Realm = require('realm');
+let realm = null;
+export const initRealm =function(userDbPath){
+    realm = new Realm({ path: userDbPath+'db.realm', schema: [Cultivation.schema,CultivAction.schema,Field.schema] });
+    return realm;
+};
 
 
 
@@ -18,12 +18,10 @@ export const createCultivation = (cultivation: Cultivation) => {
 
     while (checkIfCultivationExists(cultivation.id))
     {
-        //creco un nuovo elemento con id diverso CULTIVATION constructor(name, cultivar, description, field_id, sowingDate, harvestDate, harvestWeight, status, preview)
         cultivation = new CultivAction(cultivation.name,cultivation.cultivar,cultivation.field_id,cultivation.sowingDate,cultivation.harvestDate,cultivation.harvestDate,cultivation.status,cultivation.preview)
     }
     try {
         realm.write(() => {
-            console.log('-----------------------realmOBJ',cultivation.getRealmObject());
             realm.create(CULTIVATION_SCHEMA, cultivation.getRealmObject());
         });
         return cultivation.id;
@@ -43,14 +41,12 @@ export const getAllCultivations = () => {
 
 export const getCultivationById = (id: string) => {
     let cultivations = getAllCultivations();
-    console.log('----------------------------------------------------cultivations: ',cultivations);
     try{
         let findCultivation = cultivations.filtered(`id="${id}"`); // return collections
         return findCultivation[0];
     }catch(e){
         return null;
     }
-
 };
 
 export const updateCultivation = (cultivation: Cultivation) => {
@@ -62,11 +58,9 @@ export const updateCultivation = (cultivation: Cultivation) => {
         throw 'No Cultivation Found';
     }
     try {
-        console.log('###------------------------------updateCultivation Prima del WRITE :REALM CULT ',findCultivation,cultivation);
         realm.write(() => {
             cultivation.updateObjectInfo(findCultivation);
         });
-        console.log('###------------------------------ UPDATED WRITE :');
         return true;
     } catch(e) {
         return false
@@ -110,7 +104,6 @@ export const createCultivAction = (cultivAction: CultivAction) => {
     // check if hero already existed?
     while (checkIfCultivActionExists(cultivAction.id))
     {
-        //creco un nuovo elemento con id diverso constructor( description,startDate,endDate, status, type,cultivation_id)
         cultivAction = new CultivAction(cultivAction.description, cultivAction.startDate,cultivAction.endDate,cultivAction.status,cultivAction.type,cultivAction.cultivation_id)
     }
     try {
@@ -135,18 +128,15 @@ export const getAllCultivActions = () => {
 
 export const getAllCultivActionsByCultivationId = (cultivation_id: string) => {
     let cultivActions = getAllCultivActions();
-    console.log('òòòòòòòò----------------------------REPOSITORY getAllCultivActionsByCultivationId:',cultivActions,'cult_id:',cultivation_id);
     try {
         let findCultivAction = cultivActions.filtered(`cultivation_id="${cultivation_id}"`); // return collections
-        console.log('òòòòòòòò----------------------------REPOSITORY getAllCultivActionsByCultivationId: query result',findCultivAction);
         return findCultivAction;
 
     }catch(e){
-        console.log('òòòòòòòò----------------------------REPOSITORY ERROR ------------------------ query result',);
+        console.log('--------------REPOSITORY ERROR------------- ',);
         return null;
     }
 };
-
 
 export const getCultivActionById = (id: string) => {
     let cultivActions = getAllCultivActions();
@@ -210,7 +200,6 @@ const checkIfCultivActionExists = (id: number) => {
 
 //------------------------------------------FIELD START----------------------------------------------------------------//
 
-
 export const createField = (field: Field) => {
     if (!field) { throw 'Empty field cant be saved'; }
     try {
@@ -225,7 +214,6 @@ export const createField = (field: Field) => {
 
 export const getAllFields = () => {
     try {
-        console.log('-------------------------------------------realm.objects LENGTH ',realm.objects('Field').length);
         let fields = realm.objects('Field');
         return fields
     } catch(e) {
@@ -235,8 +223,6 @@ export const getAllFields = () => {
 
 export const getFieldById = (id: string) => {
     let fields = getAllFields();
-    //let stringID = id.toString();
-    //let numbID =+ id;
     try{
         let findField = fields.filtered(`id="${id}"`);
         return findField[0]
@@ -288,9 +274,7 @@ const checkIfFieldExists = (id: string) => {
     return field != null;
 };
 
-
 //------------------------------------------- FIELD END --------------------------------------------------------------//
-
 
 //----------------------------------------- EXPORT BUNDLES -----------------------------------------------------------//
 export const CultivationDB = {

@@ -4,14 +4,14 @@ import {STYLE} from '../../styles/styles';
 import Icon from 'react-native-vector-icons/Ionicons';
 
 class EditButton extends Component{
-/*
-    props: * = mandatory, ° = optional.
-      * onPress
-      ° text || children
-      ° style
-      ° imagestyle
-      ° textstyle
-*/
+    /*
+        props: * = mandatory, ° = optional.
+          * onPress
+          ° text || children
+          ° style
+          ° imagestyle
+          ° textstyle
+    */
     constructor(props) {
         super(props);
         let pstyle = this.props.style || [];
@@ -26,7 +26,6 @@ class EditButton extends Component{
         this.textstyle = [STYLE.button_text, ...textstyle];
         this.imagestyle = [STYLE.button_image, ...imagestyle];
         this.content = this.props.text || this.props.children;
-
     }
 
     render() {

@@ -18,7 +18,6 @@ import {
 class  CultivActionsThreatRemedyComponent extends Component{
     constructor(props) {
         super(props);
-
         this.goToActionForm = function() {
             console.log("-----------------------------PROPS NAV Action CARD:",this.props)
         }.bind(this);

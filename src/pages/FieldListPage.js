@@ -32,12 +32,10 @@ class  FieldListPage extends React.Component{
     }.bind(this);
 
     render() {
-        //const {title = "cultivation list"} = this.props;
-        const {children} = this.props;
+        //const {children} = this.props;
         const navigation = this.props.navigation;
         return (
             <View style={styles.container}>
-
                 <TouchableOpacity onPress={this.addMockFields} style={[styles.card, {display:'none'}]}>
                     <Text>fields: {this.props.fields.length}</Text>
                 </TouchableOpacity>
@@ -56,10 +54,10 @@ class  FieldListPage extends React.Component{
                             body={item.description}
                             item_id = {item.id}
                         />
-                )}
-                keyExtractor={item => "" + item.id}
-                onEndReachedThreshold={0.2}
-                showsVerticalScrollIndicator={false}
+                    )}
+                    keyExtractor={item => "" + item.id}
+                    onEndReachedThreshold={0.2}
+                    showsVerticalScrollIndicator={false}
                 />
                 <TouchableOpacity
                     style={[STYLE.footer]}

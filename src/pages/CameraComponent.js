@@ -21,9 +21,6 @@ import {connect} from 'react-redux';
 // but `RNFS.DocumentDirectoryPath` exists on both platforms and is writable
 //var PATH = RNFS.DocumentDirectoryPath + '/cultivation_id.txt';
 
-
-
-
 class CameraComponent extends PureComponent {
     constructor(props) {
         super(props);
@@ -34,8 +31,8 @@ class CameraComponent extends PureComponent {
         };
         let PATH = RNFetchBlob.fs.dirs.DocumentDir;
         if(this.props.cultivation!=null){
-        PATH = RNFetchBlob.fs.dirs.DocumentDir + this.props.cultivation.id;
-        this.state.path=this.props.cultivation.preview;
+            PATH = RNFetchBlob.fs.dirs.DocumentDir + this.props.cultivation.id;
+            this.state.path=this.props.cultivation.preview;
         }
 
         this.requestStoragePermission = async () => {
@@ -65,27 +62,17 @@ class CameraComponent extends PureComponent {
             RNFetchBlob.fs.writeFile(PATH+filetimestamp, this.state.data.base64, 'base64')
                 .then(() => {
                     console.log('FILE WRITTEN!');
-                    console.log('##--------------------------------------------------------FILE WRITTEN on PATH!',PATH+filetimestamp );
                     this.setState({path:'file://'+PATH+filetimestamp});
-                    //this.updateCultivationpreview('file://'+PATH+"-"+new Date().toDateString());
                     this.updateCultivationpreview(this.state.path);
-                    /*if (true) {
-                        RNFetchBlob.android.actionViewIntent(this.props.cultivation.id, 'application/pdf').then(r => {console.log('THEN')});
-                    } else {
-                        RNFetchBlob.ios.previewDocument(this.state.path);
-                    }*/
                 }).catch((err) => {
-                console.log('##--------------------------------------------------------Catch ERROR!!!!!',err);
-                    console.log(err.message);
-                });
+                console.log(err.message);
+            });
         }.bind(this);
 
         this.updateCultivationpreview = function (path) {
-                let _cultivation = new Cultivation();
-                    _cultivation.clone(this.props.cultivation);
-                    _cultivation.preview = this.state.path;
-                    console.log("###-------------------------------------------------Clone:",_cultivation)
-            //updateCultivation(_cultivation);
+            let _cultivation = new Cultivation();
+            _cultivation.clone(this.props.cultivation);
+            _cultivation.preview = this.state.path;
             ToastAndroid.showWithGravity(
                 "Preview Updated!",
                 ToastAndroid.SHORT,
@@ -93,37 +80,36 @@ class CameraComponent extends PureComponent {
             );
             this.props.update_cultivation(_cultivation);
         }.bind(this);
-
     }
 
     render() {
         return (
             <View style={STYLE.container}>
                 <View style={styles.preview_container}>
-                <RNCamera
-                    ref={ref => {
-                        this.camera = ref;
-                    }}
-                    style={styles.preview}
-                    type={RNCamera.Constants.Type.back}
-                    flashMode={RNCamera.Constants.FlashMode.on}
-                    androidCameraPermissionOptions={{
-                        title: 'Permission to use camera',
-                        message: 'We need your permission to use your camera',
-                        buttonPositive: 'Ok',
-                        buttonNegative: 'Cancel',
-                    }}
-                    androidRecordAudioPermissionOptions={{
-                        // todo: ma ci serve sto permesso?
-                        title: 'Permission to use audio recording',
-                        message: 'We need your permission to use your audio',
-                        buttonPositive: 'Ok',
-                        buttonNegative: 'Cancel',
-                    }}
-                    onGoogleVisionBarcodesDetected={({ barcodes }) => {
-                        console.log(barcodes); // todo: ricordati di farlo vedere al prof
-                    }}
-                />
+                    <RNCamera
+                        ref={ref => {
+                            this.camera = ref;
+                        }}
+                        style={styles.preview}
+                        type={RNCamera.Constants.Type.back}
+                        flashMode={RNCamera.Constants.FlashMode.on}
+                        androidCameraPermissionOptions={{
+                            title: 'Permission to use camera',
+                            message: 'We need your permission to use your camera',
+                            buttonPositive: 'Ok',
+                            buttonNegative: 'Cancel',
+                        }}
+                        androidRecordAudioPermissionOptions={{
+                            // todo: ma ci serve sto permesso?
+                            title: 'Permission to use audio recording',
+                            message: 'We need your permission to use your audio',
+                            buttonPositive: 'Ok',
+                            buttonNegative: 'Cancel',
+                        }}
+                        onGoogleVisionBarcodesDetected={({ barcodes }) => {
+                            console.log(barcodes); // todo: ricordati di farlo vedere al prof
+                        }}
+                    />
                 </View>
 
                 <View style={styles.preview_container}>
@@ -132,12 +118,12 @@ class CameraComponent extends PureComponent {
                         source={{uri: this.state.path}}
                     />
                     <View style={styles.buttons_container}>
-                    <TouchableOpacity onPress={this.takePicture.bind(this)} style={styles.button_camera}>
-                        <Text style={styles.buttons_text}> SNAP </Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity onPress={this.savePicture} style={styles.button_camera}>
-                        <Text style={styles.buttons_text}> SAVE </Text>
-                    </TouchableOpacity>
+                        <TouchableOpacity onPress={this.takePicture.bind(this)} style={styles.button_camera}>
+                            <Text style={styles.buttons_text}> SNAP </Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity onPress={this.savePicture} style={styles.button_camera}>
+                            <Text style={styles.buttons_text}> SAVE </Text>
+                        </TouchableOpacity>
                     </View>
                 </View>
             </View>
@@ -149,19 +135,9 @@ class CameraComponent extends PureComponent {
             const options = { quality: 0.5, base64: true };
             this.state.data = await this.camera.takePictureAsync(options);
             this.setState({ path: this.state.data.uri });
-            console.log('#####------------------------------------------------------SNAP PATH',this.state.data.uri);
             this.requestStoragePermission();
         }
     };
-    /*
-    renderImage() {
-        return (
-            <Image
-                source={{ uri: this.path }}
-                style={styles.preview}
-            />
-        );
-    }*/
 }
 
 const styles = StyleSheet.create({

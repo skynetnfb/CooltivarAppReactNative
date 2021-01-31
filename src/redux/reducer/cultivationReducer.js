@@ -5,7 +5,6 @@ import {FieldSelector} from '../selector/FieldSelector';
 import {CultivationEnum} from '../action/enum/CultivationEnum';
 import {CultivationSelector} from '../selector/CultivationSelector';
 
-
 const cultivationReducer = (state: AppState = initialState, action): AppState => {
     if (!action) return state;
     const newState: AppState = JSON.parse(JSON.stringify(state)); // lo stato deve essere immutabile, quindi lo clono.
@@ -46,15 +45,9 @@ const cultivationReducer = (state: AppState = initialState, action): AppState =>
                 break;
             }
             response = CultivationDB.findAll() || [];
-            console.log('----------------------------RESPONSE REDUCER CultivationDB.findAll():',response);
-            //newState.cultivations = response;
             break;
         case CultivationEnum.UPDATE_REQ:
-            //TODO
-            console.log('!!!---------------------TODO---------------------------!!!');
         case CultivationEnum.DELETE_REQ:
-            //TODO
-            console.log('!!!---------------------TODO---------------------------!!!');
         // NB: adesso l'accesso al db è sincrono, se diventa asincrono nella _REQ si dovrebbe fare una cosa tipo:
         // .then( dispatch({ type: E_FIND_FIELD_SUCCESS, ...})).catch( dispatch({ type: E_FIND_FIELD_FAIL, ...});
             break;

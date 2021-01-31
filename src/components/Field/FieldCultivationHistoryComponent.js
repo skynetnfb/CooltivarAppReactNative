@@ -7,12 +7,6 @@ import {connect} from 'react-redux';
 import {CultivationSelector} from '../../redux/selector/CultivationSelector';
 
 class FieldCultivationHistoryComponent extends Component{
-    /*constructor({route, navigation}) { funziona, ma meglio prenderli direttamente da prop.
-        super();
-        this.route = route;
-        this.navigation = navigation;
-    }*/
-
     render() {
         const navigation = this.props.navigation;
         return (
@@ -48,10 +42,8 @@ class FieldCultivationHistoryComponent extends Component{
                 </TouchableOpacity>
             </View>
         );
-        // return (<Text>hello!</Text>);
     }
 }
-
 
 const mapStateToProps = (state, props) => {
     const route1 = props.route;
@@ -65,6 +57,5 @@ const mapStateToProps = (state, props) => {
     console.log("__fch mapstatetoprops:", addProps, "state:", state, 'FieldID', fieldID);
     return addProps;
 };
-
 
 export default connect(mapStateToProps, null)(FieldCultivationHistoryComponent);

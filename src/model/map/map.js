@@ -74,6 +74,6 @@ type IndoorLevel = {
 
 type IndoorBuilding = {
     underground: boolean,
-        activeLevelIndex: number,
-        levels: Array<IndoorLevel>,
+    activeLevelIndex: number,
+    levels: Array<IndoorLevel>,
 };

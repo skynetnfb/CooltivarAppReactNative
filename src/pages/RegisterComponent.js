@@ -69,10 +69,10 @@ class RegisterComponent extends Component {
         }.bind(this);
 
 
-    this.login = function(text) {
-        //console.log('----------------------INSIDE REGISTER PROPS',this.props);
-        this.props.navigation.replace('login');
-    }.bind(this);
+        this.login = function(text) {
+            //console.log('----------------------INSIDE REGISTER PROPS',this.props);
+            this.props.navigation.replace('login');
+        }.bind(this);
 
 
     }
@@ -97,9 +97,9 @@ class RegisterComponent extends Component {
             <SafeAreaView style={styles.main_container}>
                 <View style={styles.app_name_container}>
                     <Icon
-                          name={'md-leaf-sharp'}
-                          size={60}
-                          color={COLOR.MAIN}
+                        name={'md-leaf-sharp'}
+                        size={60}
+                        color={COLOR.MAIN}
                     />
                     <Text style={styles.app_name}>Register to Cooltivar </Text>
                 </View>

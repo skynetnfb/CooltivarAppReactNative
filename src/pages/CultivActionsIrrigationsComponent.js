@@ -14,7 +14,6 @@ import {
     FIND_OPERATION_BY_CULTIVATION_ACTION_REQ,
 } from '../redux/action/dispatchers/OperationAction';
 
-
 class  CultivActionsIrrigationsComponent extends Component{
     constructor(props) {
         super(props);
@@ -71,7 +70,6 @@ class  CultivActionsIrrigationsComponent extends Component{
     }
 }
 
-
 const mapStateToProps = (state,props) => {
     let stateret;
     stateret = {
@@ -86,6 +84,5 @@ const mapDispatchToProps = (dispatch) => {
         //find_cultivActions: FIND_OPERATION_ACTION_REQ(dispatch),
     };
 };
-
 
 export default connect(mapStateToProps, mapDispatchToProps)(CultivActionsIrrigationsComponent);

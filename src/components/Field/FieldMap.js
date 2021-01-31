@@ -1,6 +1,9 @@
 import React, {Component} from 'react';
 import {
-    StyleSheet, View, Image, LogBox,
+    StyleSheet,
+    View,
+    Image,
+    LogBox,
     TouchableOpacity
 } from 'react-native';
 import {Text,} from 'react-native';
@@ -12,9 +15,6 @@ import Geolocation, {
     GeolocationResponse,
 } from '@react-native-community/geolocation';
 import { PermissionsAndroid } from 'react-native';
-
-
-
 import {
     FIND_FIELD_ACTION_REQ,
     INSERT_FIELD_ACTION_REQ,
@@ -45,7 +45,7 @@ class FieldMap extends ValidationComponent2{
             permissionGranted: false,
             mapSnapshot: null,
             coordinate: this.getField().coordinate,
-        }
+        };
         console.log('__fm constructor end');
     }
 
@@ -103,22 +103,22 @@ class FieldMap extends ValidationComponent2{
         });
 
     }.bind(this);
-/*
-    savePicture = function (base64Data: string) {
-        const field = this.getField();
-        const path = RNFetchBlob.fs.dirs.DocumentDir + "_field_ " + field.id + new Date().getTime();
-        RNFetchBlob.fs.writeFile(path, base64Data, 'base64')
-            .then(() => {
-                console.log('FILE WRITTEN!');
-                console.log('##--------------------------------------------------------FILE WRITTEN on PATH!', path );
-                this.setState({screenfilepath: 'file://'+path});
-            }).catch((err) => {
-            console.log('##--------------------------------------------------------Catch ERROR!!!!!',err);
-            console.log(err.message);
-            this.finalizeSubmit(false, false);
-        });
-    }.bind(this);
-*/
+    /*
+        savePicture = function (base64Data: string) {
+            const field = this.getField();
+            const path = RNFetchBlob.fs.dirs.DocumentDir + "_field_ " + field.id + new Date().getTime();
+            RNFetchBlob.fs.writeFile(path, base64Data, 'base64')
+                .then(() => {
+                    console.log('FILE WRITTEN!');
+                    console.log('##--------------------------------------------------------FILE WRITTEN on PATH!', path );
+                    this.setState({screenfilepath: 'file://'+path});
+                }).catch((err) => {
+                console.log('##--------------------------------------------------------Catch ERROR!!!!!',err);
+                console.log(err.message);
+                this.finalizeSubmit(false, false);
+            });
+        }.bind(this);
+    */
     markerOnDrag = function(syntethicEvent, index) {
         // overriden
     }.bind(this);
@@ -368,40 +368,40 @@ class FieldMap extends ValidationComponent2{
         return (
             <View style={[styles.map, {position: 'relative'}, mapPropStyle]}>
                 <MapView ref={'map'} style={[styles.map]}
-                                 onLayout={this.onLayout}
-                                 onMapReady={this.onMapReady}
-                                 mapType={this.state.mapType}
-                                 userLocationPriority={'high' || (comment && 'è per la precisione del rilevamento')}
-                                 userLocationUpdateInterval={10 * 1000}
-                                 userLocationAnnotationTitle={"Your position (userLocationAnnotationTitle?)"}
-                                 showsMyLocationButton={true}
-                                 showsScale={true}
-                                 showsTraffic={false}
-                                 showsIndoors={false}
-                                 toolbarEnabled={true || comment && '"Navigate" and "Open in Maps" buttons on marker press' }
-                                 customMapStyle={MAP_LABEL_STYLE}
-                                 loadingEnabled={true}
-                                 loadingIndicatorColor={COLOR.MAIN}
-                                 loadingBackgroundColor={COLOR.MUTED}
-                                 tintColor={COLOR.RED || comment && 'colore del marker di posizione'}
-                                 onUserLocationChange = { this.onUserLocationChange }
-                                 onPress = { this.onPress }
-                                 onDoublePress = { this.onDoublePress }
-                                 onMarkerPress = { this.onMarkerPress }
-                                 initialRegion={{
-                                     latitude: 37.78825,
-                                     longitude: -122.4324,
-                                     latitudeDelta: 0.0922,
-                                     longitudeDelta: 0.0421,
-                                 }}
-                        >{mapDrawings}</MapView>
-            <TouchableOpacity onPress={ this.toggleGPS } style={[ {position: 'absolute', width: 60, height: 60, right: 0}]}>
-                <Image style={[{height: '100%', width:'100%'}]}
-                       source = { this.state.geolocalization ? require('../../../imgs/marker-color-off.png') : require('../../../imgs/marker-color-on.png')}
-                />
-            </TouchableOpacity>
-        </View>);
-}
+                         onLayout={this.onLayout}
+                         onMapReady={this.onMapReady}
+                         mapType={this.state.mapType}
+                         userLocationPriority={'high' || (comment && 'è per la precisione del rilevamento')}
+                         userLocationUpdateInterval={10 * 1000}
+                         userLocationAnnotationTitle={"Your position (userLocationAnnotationTitle?)"}
+                         showsMyLocationButton={true}
+                         showsScale={true}
+                         showsTraffic={false}
+                         showsIndoors={false}
+                         toolbarEnabled={true || comment && '"Navigate" and "Open in Maps" buttons on marker press' }
+                         customMapStyle={MAP_LABEL_STYLE}
+                         loadingEnabled={true}
+                         loadingIndicatorColor={COLOR.MAIN}
+                         loadingBackgroundColor={COLOR.MUTED}
+                         tintColor={COLOR.RED || comment && 'colore del marker di posizione'}
+                         onUserLocationChange = { this.onUserLocationChange }
+                         onPress = { this.onPress }
+                         onDoublePress = { this.onDoublePress }
+                         onMarkerPress = { this.onMarkerPress }
+                         initialRegion={{
+                             latitude: 37.78825,
+                             longitude: -122.4324,
+                             latitudeDelta: 0.0922,
+                             longitudeDelta: 0.0421,
+                         }}
+                >{mapDrawings}</MapView>
+                <TouchableOpacity onPress={ this.toggleGPS } style={[ {position: 'absolute', width: 60, height: 60, right: 0}]}>
+                    <Image style={[{height: '100%', width:'100%'}]}
+                           source = { this.state.geolocalization ? require('../../../imgs/marker-color-off.png') : require('../../../imgs/marker-color-on.png')}
+                    />
+                </TouchableOpacity>
+            </View>);
+    }
 }
 
 const styles = StyleSheet.create({

@@ -114,12 +114,12 @@ class  CultivationDetailComponent extends React.Component{
                                 </Text>
                             </View>
                             <View style={[STYLE.rowContainer,STYLE.columnContainer,STYLE.centerColumn,styles.card_title_container,STYLE.separator_horizontal_bottom]}>
-                            <Text numberOfLines={1} style={styles.card_date_text}>
-                                {'From: '+new Date(this.props.cultivation.sowingDate).toDateString()||'Loading...'}
-                            </Text>
-                            <Text numberOfLines={1} style={styles.card_date_text}>
-                                {'To: '+ new Date (this.props.cultivation.harvestDate).toDateString()||'Loading...'}
-                            </Text>
+                                <Text numberOfLines={1} style={styles.card_date_text}>
+                                    {'From: '+new Date(this.props.cultivation.sowingDate).toDateString()||'Loading...'}
+                                </Text>
+                                <Text numberOfLines={1} style={styles.card_date_text}>
+                                    {'To: '+ new Date (this.props.cultivation.harvestDate).toDateString()||'Loading...'}
+                                </Text>
                             </View>
                             <Text numberOfLines={5} style={styles.card_text}>
                                 {'Description : '+this.props.cultivation.description||'Loading...'}
@@ -132,28 +132,28 @@ class  CultivationDetailComponent extends React.Component{
                 </ScrollView>
                 <View
                     style={[STYLE.footer]}>
-                <TouchableOpacity
-                    onPress={this.deleteDialog}>
-                    <ModalComponent
-                        modalMessage = {"Cultivation will be deleted! Are You Sure? "}
-                        result = {this.resultModal}
-                        buttonLeft={"Undo"}
-                        buttonRight={"Confirm"}
-                    ><Icon
+                    <TouchableOpacity
+                        onPress={this.deleteDialog}>
+                        <ModalComponent
+                            modalMessage = {"Cultivation will be deleted! Are You Sure? "}
+                            result = {this.resultModal}
+                            buttonLeft={"Undo"}
+                            buttonRight={"Confirm"}
+                        ><Icon
                             name="trash-sharp"
                             size={40}
                             color="#FFF"
                         />
-                    </ModalComponent>
-                </TouchableOpacity>
-                <TouchableOpacity
-                    onPress={()=>this.props.navigation.navigate('cultivation_form', {id: this.props.cultivation.id })}>
-                    <Icon
-                        name="create"
-                        size={40}
-                        color="#FFF"
-                    />
-                </TouchableOpacity>
+                        </ModalComponent>
+                    </TouchableOpacity>
+                    <TouchableOpacity
+                        onPress={()=>this.props.navigation.navigate('cultivation_form', {id: this.props.cultivation.id })}>
+                        <Icon
+                            name="create"
+                            size={40}
+                            color="#FFF"
+                        />
+                    </TouchableOpacity>
                 </View>
             </View>
         );

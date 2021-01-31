@@ -31,7 +31,6 @@ export default class CultivAction {
         return temp;
     }
 
-
     getRealmObject() {
         return {
             id: this.id,

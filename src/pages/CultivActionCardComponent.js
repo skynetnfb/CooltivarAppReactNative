@@ -7,14 +7,12 @@ import {
     View
 } from 'react-native';
 import {COLOR, STYLE} from '../styles/styles';
+
 class CultivActionCardComponent extends React.Component{
     constructor(props){
         super(props);
-        //costruttore chiamato prima che venga renderizzato il component
         this.goToActionForm = function() {
-            //this.props.navigation.navigate('action form');
         }.bind(this);
-
         this.getIcon= function (){
             switch (this.props.type){
                 case "Threat":
@@ -63,46 +61,43 @@ class CultivActionCardComponent extends React.Component{
         let iconColor = this.getIconColor();
         return (
             <View style={styles.card_container}>
-                    <View style={styles.card}>
-                        <View style={styles.card_text_container}>
-                            <View style={[STYLE.rowContainer,STYLE.columnContainer,STYLE.centerColumn,styles.card_title_container]}>
-                                    <Icon style={[styles.card_image]}
-                                            name={type}
-                                            size={60}
-                                            color={iconColor}
-                                />
+                <View style={styles.card}>
+                    <View style={styles.card_text_container}>
+                        <View style={[STYLE.rowContainer,STYLE.columnContainer,STYLE.centerColumn,styles.card_title_container]}>
+                            <Icon style={[styles.card_image]}
+                                  name={type}
+                                  size={60}
+                                  color={iconColor}
+                            />
                             <Text numberOfLines={1} style={[styles.card_title]}>
                                 {this.props.cultivAction.type}
                             </Text>
                             <Text numberOfLines={1} style={styles.card_title}>
                                 {this.props.cultivAction.status}
                             </Text>
-                                <TouchableOpacity onPress={()=>this.props.navigation.navigate('action form',{cultivAction:this.props.cultivAction})}>
-                                    <View style={[STYLE.centerColumn]} >
-                                        <Icon
+                            <TouchableOpacity onPress={()=>this.props.navigation.navigate('action form',{cultivAction:this.props.cultivAction})}>
+                                <View style={[STYLE.centerColumn]} >
+                                    <Icon
                                         name="ios-settings-sharp"
                                         size={24}
                                         color={COLOR.MAIN}
                                     />
-                                    </View>
-                                </TouchableOpacity>
                                 </View>
-                            <View style={[STYLE.rowContainer,STYLE.separator_horizontal_bottom,styles.card_title_container]}>
-                                <Text numberOfLines={1} style={styles.card_date}>
-                                    From: "{new Date (this.props.cultivAction.startDate).toDateString()}
-                                </Text>
-                                <Text numberOfLines={1} style={styles.card_date}>
-                                    to: {new Date (this.props.cultivAction.endDate).toDateString()}
-                                </Text>
-                            </View>
-                            <Text numberOfLines={3} style={styles.card_text}>
-                                Description: {this.props.cultivAction.description}
+                            </TouchableOpacity>
+                        </View>
+                        <View style={[STYLE.rowContainer,STYLE.separator_horizontal_bottom,styles.card_title_container]}>
+                            <Text numberOfLines={1} style={styles.card_date}>
+                                From: "{new Date (this.props.cultivAction.startDate).toDateString()}
+                            </Text>
+                            <Text numberOfLines={1} style={styles.card_date}>
+                                to: {new Date (this.props.cultivAction.endDate).toDateString()}
                             </Text>
                         </View>
-
+                        <Text numberOfLines={3} style={styles.card_text}>
+                            Description: {this.props.cultivAction.description}
+                        </Text>
                     </View>
-
-
+                </View>
             </View>
         );
     }

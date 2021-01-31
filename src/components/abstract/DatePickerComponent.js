@@ -25,7 +25,6 @@ export const DatePickerComponent = (props) => {
         showMode('date');
     };
 
-
     return (
         <View style={props.style}>
             <View style={styles.date_container}>
@@ -48,18 +47,18 @@ export const DatePickerComponent = (props) => {
 };
 
 const styles = StyleSheet.create({
-
     date_container: {
         width: '100%',
     },
     date_button: {
         backgroundColor: COLOR.MAIN,
         padding: 10,
-        borderColor: "green",
+        borderColor: COLOR.MAIN,
         borderWidth: 1.5,
         borderRadius: 8,
     },
     button_text:{
+        color: '#fff',
     },
     button_container: {
         paddingVertical: 2,

@@ -11,15 +11,11 @@ import CultivActionsHistoryComponent from "../pages/CultivActionsHistoryComponen
 import CultivActionFormPage from "../pages/CultivActionFormPage";
 import FieldDetailComponent from '../components/Field/FieldDetailComponent';
 import FieldCultivationHistoryComponent from '../components/Field/FieldCultivationHistoryComponent';
-import FieldForm from '../components/Field/FieldForm';
 import FieldFormComponent from '../components/Field/FieldFormComponent';
 import CameraComponent from '../pages/CameraComponent';
 import CultivActionsThreatRemedyComponent from '../pages/CultivActionsThreatRemedyComponent';
 import CultivActionsIrrigationsComponent from '../pages/CultivActionsIrrigationsComponent';
 import RegisterComponent from '../pages/RegisterComponent';
-import {UserSelector} from '../redux/selector/UserSelector';
-import {USER_LOGGED_OUT_REQ, USER_LOGGED_REQ} from '../redux/action/dispatchers/UserAction';
-import {connect} from 'react-redux';
 
 const RootStackNavigator = createStackNavigator();
 const MaterialTopTabNavigator = createMaterialTopTabNavigator();
@@ -27,17 +23,10 @@ const MaterialTopTabNavigator = createMaterialTopTabNavigator();
 class RootNavigator extends Component {
     constructor(props) {
         super(props);
-        //TODO DEBUG
-        //costruttore chiamato prima che venga renderizzato il component
     }
 
     render(){
-        console.log("###-----------------------------------------------ROOT NAV PROPS",this.props);
-           /*if(this.route!==undefined){
-               this.logged=this.route.params.user;
-           }else this.logged=false;*/
         let logged=this.props.logged;
-        console.log("******-----------------------------------------------ROOT NAV PROPS",logged);
         //let user=this.props.userSelector(); //debug
         const createHomeTabNavigation = () =>(
             <MaterialTopTabNavigator.Navigator
@@ -153,8 +142,7 @@ class RootNavigator extends Component {
                     <RootStackNavigator.Screen name = {'cultivation list'} component = { CultivationListPage }/>
                     <RootStackNavigator.Screen name = {'field list'} component = { FieldListPage }/>
                     <RootStackNavigator.Screen name = {'cultivation'} component = { createCultivationTabNavigation }/>
-                    <RootStackNavigator.Screen name = {'field'} component = { createFieldTabNavigation }
-                                               screenOptions={{headerShown: false}} />
+                    <RootStackNavigator.Screen name = {'field'} component = { createFieldTabNavigation } screenOptions={{headerShown: false}} />
                     <RootStackNavigator.Screen name = {'cultivation_form'} component = { CultivationFormPage }/>
                     <RootStackNavigator.Screen name = {'camera'} component = { CameraComponent }/>
                     <RootStackNavigator.Screen name = {'action form'} component = { CultivActionFormPage }/>
@@ -166,5 +154,6 @@ class RootNavigator extends Component {
         )
     }
 }
+
 export default RootNavigator;
 

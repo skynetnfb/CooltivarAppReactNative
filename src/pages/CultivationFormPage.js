@@ -167,109 +167,109 @@ class CultivationFormPage extends ValidationComponent2 {
             <View style={{flex: 1}}>
                 <ScrollView style={[STYLE.fill, STYLE.rowContainer, {display: 'flex'}]} showsVerticalScrollIndicator ={false}
                             contentContainerStyle={{flexGrow: 1, justifyContent: 'space-between'}} >
-                 <View style={[STYLE.fill, {minHeight: '100%'}]}>
-                    <View style={[styles.form_container, STYLE.rowContainer, STYLE.fill]}>
-                        <View style={styles.input_text_container}>
-                            <TextInput
-                                ref="name" multiline={false}
-                                style={styles.input_text}
-                                placeholder={'Name'}
-                                autoCapitalize={'none'}
-                                onChangeText={(name) => this.onChange({name})}
-                                value={this.state.name}
-                            />
-                        </View>
-                        {this.isFieldInError('name') && <ValidationFailMessage>{this.getErrorsInField('name')[0]}</ValidationFailMessage>}
-
-                        <View style={styles.input_text_container}>
-                            <TextInput ref="cultivar" multiline={false}
-                                style={styles.input_text}
-                                placeholder={'Cultivar'}
-                                autoCapitalize={'none'}
-                                onChangeText={(cultivar) => this.onChange({cultivar})}
-                                value={this.state.cultivar}
-                            />
-                        </View>
-                        {this.isFieldInError('cultivar') && <ValidationFailMessage>{this.getErrorsInField('cultivar')[0]}</ValidationFailMessage>}
-
-                        <View style={styles.input_text_container}>
-                            <TextInput ref="description"
-                                multiline={true}
-                                numberOfLines={4}
-                                style={styles.input_text_area}
-                                placeholder={'Description'}
-                                autoCapitalize={'none'}
-                                onChangeText={(description) => this.onChange({description})}
-                                value={this.state.description}
-                            />
-                        </View>
-                        {this.isFieldInError('description') && <ValidationFailMessage>{this.getErrorsInField('description')[0]}</ValidationFailMessage>}
-
-                        <View style={styles.input_text_container}>
-                            <TextInput ref="harvestWeight"
-                                style={styles.input_text}
-                                placeholder={'Harvest Weight'}
-                                keyboardType={"numeric"}
-                                onChangeText={(harvestWeight) => this.onChange({harvestWeight})}
-                                value={this.state.harvestWeight}
-                            />
-                            {this.isFieldInError('harvestWeight') && <ValidationFailMessage>{this.getErrorsInField('harvestWeight')[0]}</ValidationFailMessage>}
-
-                        </View>
-
-                        <View style={styles.input_text_container}>
-                            <Picker ref="status" selectedValue = {this.state.status} onValueChange = {(status) => this.onChange({status})}>
-                                <Picker.Item label = "Seed" value = "seed" />
-                                <Picker.Item label = "Grow" value = "grow" />
-                                <Picker.Item label = "Flowering" value = "flowering" />
-                                <Picker.Item label = "Completed" value = "completed" />
-                            </Picker>
-                            {this.isFieldInError('status') && <ValidationFailMessage>{this.getErrorsInField('status')[0]}</ValidationFailMessage>}
-                        </View>
-
-                        <View style={styles.input_text_container}>
-                            <Picker ref="field_id" selectedValue = {this.state.field_id} onValueChange = {this.handleChangeField}>
-                                {fields.map( (element, index) => <Picker.Item key={element.id} label = {element.name} value = {element.id} />)}
-                            </Picker>
-                            {this.isFieldInError('field_id') && <ValidationFailMessage>{this.getErrorsInField('field_id')[0]}</ValidationFailMessage>}
-                            <Text style={styles.debug_display}>{ "fieldid:" + this.state.field_id}</Text>
-                        </View>
-
-                        <View style = {[STYLE.columnContainer, {width: '100%'}]}>
-                            <Text style={[STYLE.center]}>From</Text>
-                            <DatePickerComponent ref="sowingDate" initial_value ={this.state.sowingDate}  result = {this.resultStartDatePicker}/>
-
-                            <Text style={[STYLE.center]}>to</Text>
-                            <DatePickerComponent ref="harvestDate" initial_value ={this.state.harvestDate}  result = {this.resultEndDatePicker}/>
-                        </View>
-                        {this.isFieldInError('sowingDate') && <ValidationFailMessage>{this.getErrorsInField('sowingDate')[0]}</ValidationFailMessage>}
-                        {this.isFieldInError('harvestDate') && <ValidationFailMessage>{this.getErrorsInField('harvestDate')[0]}</ValidationFailMessage>}
-                        <TextInput ref="dates cannot overlap"
-                                   style={{display: 'none'}}
-                                   placeholder={'DateOverlapValidation'}
-                                   keyboardType={"numeric"}
-                                   onChangeText={(dateOverlap) => this.onChange({"dates cannot overlap": dateOverlap})}
-                                   value={this.state['dates cannot overlap']}
-                        />
-                        {this.isFieldInError('dates cannot overlap') && <ValidationFailMessage>{this.getErrorsInField('dates cannot overlap')[0]}</ValidationFailMessage>}
-
-                        <Text style={styles.debug_display}>{ JSON.stringify({sow: new Date(this.state.sowingDate), har: new Date(this.state.harvestDate), overlap: this.state['dates cannot overlap'], })}</Text>
-                    </View>
-
-                    <View style={[styles.button_container]}>
-                        <TouchableOpacity style={ [ STYLE.submit, (!this.state.pristine && this.isFormValid() ? STYLE.submitValid : STYLE.submitInvalid), styles.confirm_button]}
-                                          onPress={this.confirm}>
-                            <Text style={styles.confirm_button_text}>Confirm</Text>
-                            {this.state.loading && (
-                                <ActivityIndicator
-                                    size="small"
-                                    color="#fff"
-                                    style={styles.login_button_ai}
+                    <View style={[STYLE.fill, {minHeight: '100%'}]}>
+                        <View style={[styles.form_container, STYLE.rowContainer, STYLE.fill]}>
+                            <View style={styles.input_text_container}>
+                                <TextInput
+                                    ref="name" multiline={false}
+                                    style={styles.input_text}
+                                    placeholder={'Name'}
+                                    autoCapitalize={'none'}
+                                    onChangeText={(name) => this.onChange({name})}
+                                    value={this.state.name}
                                 />
-                            )}
-                        </TouchableOpacity>
+                            </View>
+                            {this.isFieldInError('name') && <ValidationFailMessage>{this.getErrorsInField('name')[0]}</ValidationFailMessage>}
+
+                            <View style={styles.input_text_container}>
+                                <TextInput ref="cultivar" multiline={false}
+                                           style={styles.input_text}
+                                           placeholder={'Cultivar'}
+                                           autoCapitalize={'none'}
+                                           onChangeText={(cultivar) => this.onChange({cultivar})}
+                                           value={this.state.cultivar}
+                                />
+                            </View>
+                            {this.isFieldInError('cultivar') && <ValidationFailMessage>{this.getErrorsInField('cultivar')[0]}</ValidationFailMessage>}
+
+                            <View style={styles.input_text_container}>
+                                <TextInput ref="description"
+                                           multiline={true}
+                                           numberOfLines={4}
+                                           style={styles.input_text_area}
+                                           placeholder={'Description'}
+                                           autoCapitalize={'none'}
+                                           onChangeText={(description) => this.onChange({description})}
+                                           value={this.state.description}
+                                />
+                            </View>
+                            {this.isFieldInError('description') && <ValidationFailMessage>{this.getErrorsInField('description')[0]}</ValidationFailMessage>}
+
+                            <View style={styles.input_text_container}>
+                                <TextInput ref="harvestWeight"
+                                           style={styles.input_text}
+                                           placeholder={'Harvest Weight'}
+                                           keyboardType={"numeric"}
+                                           onChangeText={(harvestWeight) => this.onChange({harvestWeight})}
+                                           value={this.state.harvestWeight}
+                                />
+                                {this.isFieldInError('harvestWeight') && <ValidationFailMessage>{this.getErrorsInField('harvestWeight')[0]}</ValidationFailMessage>}
+
+                            </View>
+
+                            <View style={styles.input_text_container}>
+                                <Picker ref="status" selectedValue = {this.state.status} onValueChange = {(status) => this.onChange({status})}>
+                                    <Picker.Item label = "Seed" value = "seed" />
+                                    <Picker.Item label = "Grow" value = "grow" />
+                                    <Picker.Item label = "Flowering" value = "flowering" />
+                                    <Picker.Item label = "Completed" value = "completed" />
+                                </Picker>
+                                {this.isFieldInError('status') && <ValidationFailMessage>{this.getErrorsInField('status')[0]}</ValidationFailMessage>}
+                            </View>
+
+                            <View style={styles.input_text_container}>
+                                <Picker ref="field_id" selectedValue = {this.state.field_id} onValueChange = {this.handleChangeField}>
+                                    {fields.map( (element, index) => <Picker.Item key={element.id} label = {element.name} value = {element.id} />)}
+                                </Picker>
+                                {this.isFieldInError('field_id') && <ValidationFailMessage>{this.getErrorsInField('field_id')[0]}</ValidationFailMessage>}
+                                <Text style={styles.debug_display}>{ "fieldid:" + this.state.field_id}</Text>
+                            </View>
+
+                            <View style = {[STYLE.columnContainer, {width: '100%'}]}>
+                                <Text style={[STYLE.center]}>From</Text>
+                                <DatePickerComponent ref="sowingDate" initial_value ={this.state.sowingDate}  result = {this.resultStartDatePicker}/>
+
+                                <Text style={[STYLE.center]}>to</Text>
+                                <DatePickerComponent ref="harvestDate" initial_value ={this.state.harvestDate}  result = {this.resultEndDatePicker}/>
+                            </View>
+                            {this.isFieldInError('sowingDate') && <ValidationFailMessage>{this.getErrorsInField('sowingDate')[0]}</ValidationFailMessage>}
+                            {this.isFieldInError('harvestDate') && <ValidationFailMessage>{this.getErrorsInField('harvestDate')[0]}</ValidationFailMessage>}
+                            <TextInput ref="dates cannot overlap"
+                                       style={{display: 'none'}}
+                                       placeholder={'DateOverlapValidation'}
+                                       keyboardType={"numeric"}
+                                       onChangeText={(dateOverlap) => this.onChange({"dates cannot overlap": dateOverlap})}
+                                       value={this.state['dates cannot overlap']}
+                            />
+                            {this.isFieldInError('dates cannot overlap') && <ValidationFailMessage>{this.getErrorsInField('dates cannot overlap')[0]}</ValidationFailMessage>}
+
+                            <Text style={styles.debug_display}>{ JSON.stringify({sow: new Date(this.state.sowingDate), har: new Date(this.state.harvestDate), overlap: this.state['dates cannot overlap'], })}</Text>
+                        </View>
+
+                        <View style={[styles.button_container]}>
+                            <TouchableOpacity style={ [ STYLE.submit, (!this.state.pristine && this.isFormValid() ? STYLE.submitValid : STYLE.submitInvalid), styles.confirm_button]}
+                                              onPress={this.confirm}>
+                                <Text style={styles.confirm_button_text}>Confirm</Text>
+                                {this.state.loading && (
+                                    <ActivityIndicator
+                                        size="small"
+                                        color="#fff"
+                                        style={styles.login_button_ai}
+                                    />
+                                )}
+                            </TouchableOpacity>
+                        </View>
                     </View>
-                </View>
                 </ScrollView>
             </View>
         );

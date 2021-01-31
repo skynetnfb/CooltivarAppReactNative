@@ -1,6 +1,5 @@
 export const FIELD_SCHEMA ='Field';
 
-
 export default class Field {
     static counter: number = 0;
     id: string;
@@ -37,9 +36,9 @@ export default class Field {
         field.image = this.image;
         return field; }
 
-     clone(fieldJson: Field): void {
+    clone(fieldJson: Field): void {
         this.updateObjectInfo.call(fieldJson, this);
-     }
+    }
 
     static getLoadingPlaceholder(): Field {
         const l = 'Loading...';
