@@ -8,15 +8,17 @@ import {
     View
 } from 'react-native';
 import Cultivation from '../model/Cultivation';
-import {STYLE} from '../styles/styles';
+import {COLOR, STYLE} from '../styles/styles';
 import Icon from 'react-native-vector-icons/Ionicons';
 import {connect} from 'react-redux';
 import {CultivationSelector} from '../redux/selector/cultivation';
 import ModalComponent from './abstract/ModalComponent';
 import {DELETE_CULTIVATION_ACTION_REQ, UPDATE_CULTIVATION_ACTION_REQ} from '../redux/action/dispatchers/cultivation';
 import {deleteCultivAction} from '../model/Repository';
-import {METEO_FORECAST_REQUEST} from '../redux/action/dispatchers/meteoAction';
+import {METEO_FORECAST_REQUEST, METEO_TODAY_REQUEST} from '../redux/action/dispatchers/meteoAction';
 import {FieldSelector} from '../redux/selector/field';
+import {WEATHER_ICON} from '../utils/WeatherIcons';
+import {FIND_FIELD_ACTION_REQ} from '../redux/action/dispatchers/field';
 
 
 class  CultivationDetailComponent extends React.Component{
@@ -63,10 +65,14 @@ class  CultivationDetailComponent extends React.Component{
         }.bind(this);
     }
     componentDidMount(){
-
         const field = this.props.field;
         const coordinate = field && field.coordinate[0]; // || {longitude:-122.49343838542698, latitude:37.7889790728136}; // san francisco
-        // this.props.forecast_action(coordinate, field.id); todo: decommenta quando hai il terreno ben linkato
+        console.log('__meteo cd forecast start route', field, coordinate);
+        if (!coordinate) return;
+        const hours = 1000 * 60 * 60;
+        if (field.forecast && (field.forecastTime >= new Date().getTime() - 1 * hours)) return;
+        console.log('__meteo cd forecast start route passed', this.props.forecast_action);
+        this.props.forecast_action(coordinate, field.id, 2);// todo: decommenta quando hai il terreno ben linkato
     }
 
     componentWillUnmount(): void {
@@ -76,25 +82,27 @@ class  CultivationDetailComponent extends React.Component{
     }
 
     render() {
+        const field = this.props.field;
         return (
-            <View style={STYLE.container}>
+            <View style={[STYLE.container]}>
 
-                <ScrollView style = {styles.scrollView} showsVerticalScrollIndicator ={false}>
-                    <TouchableOpacity onPress={this.openCamera}>
+                <ScrollView style = {[styles.scrollView]} showsVerticalScrollIndicator ={false}
+                            contentContainerStyle={{flexGrow: 1, display:'flex', justifyContent: 'space-between'}}>
+                    <TouchableOpacity onPress={this.openCamera} style={[STYLE.fill]}>
                         <Image
-                            style={styles.preview_image}
+                            style={[STYLE.fill, styles.preview_image]}
                             source={this.props.cultivation.preview&&{uri: this.props.cultivation.preview}||require('../../imgs/no_cultivation_preview.png')}
                         />
                     </TouchableOpacity>
-                    <View style={styles.weather_container}>
-                        <Image style={styles.icon_image}
-                               source={require('../../imgs/open_weather_02n_2x.png')}
+                    <View style={[styles.weather_container, STYLE.columnContainer]}>
+                        <Image style={[STYLE.centerRow, STYLE.weather_icon]}
+                               source={ WEATHER_ICON.get(field && field.weather) }
                         />
-                        <Image style={styles.icon_image}
-                               source={require('../../imgs/open_weather_09d_2x.png')}
+                        <Image style={[STYLE.centerRow, STYLE.weather_icon]}
+                               source={WEATHER_ICON.get(field && field.forecast && field.forecast[0])}
                         />
-                        <Image style={styles.icon_image}
-                               source={require('../../imgs/open_weather_13d_2x.png')}
+                        <Image style={[STYLE.centerRow, STYLE.weather_icon]}
+                               source={WEATHER_ICON.get(field && field.forecast && field.forecast[1])}
                         />
                     </View>
                     <View style={[styles.description]}>
@@ -166,14 +174,11 @@ const styles = StyleSheet.create({
     },
 
     weather_container: {
-        flex:1,
         backgroundColor: '#fff',
         padding: 4,
         borderRadius: 8,
-        flexDirection:'row',
         borderWidth: StyleSheet.hairlineWidth,
         borderColor: '#aaa',
-        alignSelf: 'stretch',
         margin: 4,
     },
     description: {
@@ -198,9 +203,6 @@ const styles = StyleSheet.create({
     preview_image: {
         width: '100%',
         height:160,
-    },
-    icon_image: {
-        height:60,
     },
     card_text_container: {
         width: '100%',
@@ -262,6 +264,7 @@ const mapDispatchToProps = (dispatch) => {
     return {
         delete_cultivation: DELETE_CULTIVATION_ACTION_REQ(dispatch),
         forecast_action: METEO_FORECAST_REQUEST(dispatch),
+        find_field_action: FIND_FIELD_ACTION_REQ(dispatch),
 
     };
 };

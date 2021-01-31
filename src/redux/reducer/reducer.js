@@ -221,7 +221,7 @@ const reducer = (state = initialState, action) => {
             field = newState.fields[index];
             field.forecast = action.icons;
             field.forecastTime = new Date().getTime();
-            console.log("reducer set forecast:", index, field);
+            console.log("reducer set forecast:", index, action, field);
             break;
         case E_OPENWEATHER_GET_TODAY: // id: fieldid, icon: meteoicon
             index = FieldSelector.queryIndex(newState)((f) => f.id === action.id);

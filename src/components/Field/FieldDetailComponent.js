@@ -47,7 +47,7 @@ class FieldDetailComponent extends FieldMap{
         // one time only e solo se non ha già caricato i dati meteo e non sono troppo vecchi.
         const field: Field = this.getField();
         const hours = 1000 * 60 * 60;
-        if (field.weather && (field.weather.timestamp >= new Date().getTime() - 1 * hours)) return;
+        if (field.weather && (field.weatherTime >= new Date().getTime() - 1 * hours)) return;
         const coord = this.getCenter(field.coordinate);
         console.log('__fd select meteo:', coord, field.id);
         this.props.get_meteo_today_action(coord, field.id);
@@ -108,7 +108,7 @@ class FieldDetailComponent extends FieldMap{
                 <View style={[STYLE.rowContainer, STYLE.card, STYLE.fill, styles.card]}>
                     <View style={[STYLE.columnContainer]}>
                         <Text style={[STYLE.centerColumn, STYLE.fill, styles.city]}>{"City: " + field.city}</Text>
-                        <Image style={[STYLE.centerColumn, styles.meteo_image]}
+                        <Image style={[STYLE.centerColumn, STYLE.weather_icon]}
                                source={ WEATHER_ICON.get(field.weather) }
                         />
 
@@ -172,12 +172,6 @@ const styles = StyleSheet.create({
     city: {
         fontSize: 20,
         color: MAIN_COLOR,
-    },
-    meteo_image: {
-        backgroundColor: COLOR.MUTED,
-        borderRadius: 30,
-        height: 60,
-        width: 60,
     },
     body: {
         // backgroundColor: 'red',

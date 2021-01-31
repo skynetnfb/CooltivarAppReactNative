@@ -170,10 +170,7 @@ class CultivationFormPage extends ValidationComponent2 {
         return (
             <View style={{flex: 1}}>
                 <ScrollView style={[STYLE.fill, STYLE.rowContainer, {display: 'flex'}]} showsVerticalScrollIndicator ={false}
-                            contentContainerStyle={{
-                                flexGrow: 1,
-                                justifyContent: 'space-between'
-                            }}>
+                            contentContainerStyle={{flexGrow: 1, justifyContent: 'space-between'}} >
                  <View style={[STYLE.fill, {minHeight: '100%'}]}>
                     <View style={[styles.form_container, STYLE.rowContainer, STYLE.fill]}>
                         <View style={styles.input_text_container}>

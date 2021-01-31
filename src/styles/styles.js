@@ -49,6 +49,12 @@ const STYLE = StyleSheet.create({
         borderWidth: 2,
         borderColor: 'red',
     },
+    weather_icon: {
+        backgroundColor: COLOR.LIGHT_MUTED,
+        borderRadius: 30,
+        height: 60,
+        width: 60,
+    },
     submit: {
         /*
         borderColor: 'blue',

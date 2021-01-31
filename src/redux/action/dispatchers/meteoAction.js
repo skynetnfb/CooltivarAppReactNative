@@ -7,14 +7,20 @@ import {E_OPENWEATHER_GET_FORECAST, E_OPENWEATHER_GET_TODAY, METEO_ENUM} from '.
 
 function forecastSuccessCallback(response: AxiosResponse<ART>, dispatch, fieldid: string): void {
     console.log('meteo success forecast response', response);
-    dispatch({type: E_OPENWEATHER_GET_FORECAST, id: fieldid});
+    const fullForecast = response.data.list;
+    // sono a distanza di 3 ore, ne prendi uno ogni 8 = uno ogni giorno.
+    let filterForecast = fullForecast.filter((elem, index)=> index % 8 === 0);
+    console.log('meteo success forecast filter 1', JSON.parse(JSON.stringify(filterForecast)));
+    filterForecast = filterForecast.map((e) => e.weather[0].icon);
+    console.log('meteo success forecast filter 2', filterForecast);
+    dispatch({type: E_OPENWEATHER_GET_FORECAST, id: fieldid, icons: filterForecast});
     // setta i dati dentro field, e le coltivazioni se lo prendono da field
 }
 
 function todaySuccessCallback(response: AxiosResponse<ART>, dispatch, fieldid: string): void {
     console.log('meteo success today response', response);
     const city = response.data.list[0].name;
-    const meteo = response.data.list[0].weather[0].icon
+    const meteo = response.data.list[0].weather[0].icon;
     console.log('meteo success today response', response.data.list[0], city, meteo);
     dispatch({type: E_OPENWEATHER_GET_TODAY, id: fieldid, icon: meteo});
     // setta i dati dentro field, e le coltivazioni se lo prendono da field
@@ -29,8 +35,10 @@ function forecastFailureCallback(error: any): void {
     console.log('meteo failure forecast response', error);
 }
 
-export const METEO_FORECAST_REQUEST = (dispatch) => (coord, days: number, fieldid: string): void => {
-    API_CALLS.forecast<AxiosResponseType>(coord, days,
+export const METEO_FORECAST_REQUEST = (dispatch) => (coord, fieldid: string, days: number = 3): void => {
+    console.log("__meteo METEO_FORECAST_REQUEST", coord, fieldid, days);
+    METEO_TODAY_REQUEST(dispatch)(coord, fieldid);
+    API_CALLS.forecast(coord, days,
         (response: AxiosResponse<AxiosResponseType>) => forecastSuccessCallback(response, dispatch, fieldid),
         forecastFailureCallback);
 };

@@ -34,6 +34,7 @@ function citySuccessCallback(response: AxiosResponse<ART>, callback: (city: stri
 // ------------------------------------------------------------------ public declarations
 
 export function weatherForecast(coord, days: number, successCallback: (response: AxiosResponse<AxiosResponseType>) => void, failureCallback: (error: any) => void): void {
+    console.log("__meteo api FORECAST_REQUEST", coord, days);
     doRequest(URL_WeatherForecast(coord, days), successCallback, failureCallback);
 }
 

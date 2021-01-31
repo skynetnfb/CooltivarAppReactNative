@@ -204,7 +204,7 @@ class FieldMap extends ValidationComponent2{
         edgePadding.bottom = edgePadding.top = 30;
         edgePadding.left = edgePadding.right = 30;
         const options = {edgePadding: edgePadding, animated: true};
-        map.fitToCoordinates(coordinates, options);
+        map && map.fitToCoordinates(coordinates, options);
         /*
         // arguments: camera: Camera, { duration: Number } (significa opzionale? o wrappato?)
         // animateToRegion	region: Region, duration: Number con questo potrei riciclare InitialRegion
