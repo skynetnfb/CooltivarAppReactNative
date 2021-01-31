@@ -4,22 +4,16 @@ class  TitleComponent extends React.Component {
 
     constructor(props) {
         super(props);
-        //costruttore chiamato prima che venga renderizzato il component
     }
 
     componentDidMount() {
-        //viene chiamato quando si deve renderizzare
     }
 
     componentWillUnmount(): void {
-        //viene chiamata prima di essere distrutto il component
-        // se si deve fare qualcosa con qualche evento legato a questo component deve essere fatto qui
-        //suppongo anche per inviare dei risultati ad alatri componenti
     }
 
     render() {
         const {title = "title"} = this.props;
-        //viene chiamata per renderizzare il component
         return (
             <View style={styles.title_container}>
                 <Text style={styles.title}>{title}</Text>

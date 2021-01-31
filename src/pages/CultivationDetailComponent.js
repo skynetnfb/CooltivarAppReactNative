@@ -11,10 +11,10 @@ import Cultivation from '../model/Cultivation';
 import {COLOR, STYLE} from '../styles/styles';
 import Icon from 'react-native-vector-icons/Ionicons';
 import {connect} from 'react-redux';
-import {CultivationSelector} from '../redux/selector/cultivation';
+import {CultivationSelector} from '../redux/selector/CultivationSelector';
 import {forecast, getForecastToday} from '../api/api';
-import ModalComponent from './abstract/ModalComponent';
-import {DELETE_CULTIVATION_ACTION_REQ, UPDATE_CULTIVATION_ACTION_REQ} from '../redux/action/dispatchers/cultivation';
+import ModalComponent from '../components/abstract/ModalComponent';
+import {DELETE_CULTIVATION_ACTION_REQ, UPDATE_CULTIVATION_ACTION_REQ} from '../redux/action/dispatchers/CultivationAction';
 import {deleteCultivAction} from '../model/Repository';
 
 

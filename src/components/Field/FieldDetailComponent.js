@@ -5,15 +5,15 @@ import {STYLE, MAIN_COLOR, MAP_LABEL_STYLE} from '../../styles/styles';
 import MapComponent from '../common/MapComponent';
 import EditButton from '../common/EditButton';
 import MapView from 'react-native-maps';
-import {CultivationSelector} from '../../redux/selector/cultivation';
-import {FIND_CULTIVATION_ACTION_REQ, INSERT_CULTIVATION_ACTION_REQ} from '../../redux/action/dispatchers/cultivation';
+import {CultivationSelector} from '../../redux/selector/CultivationSelector';
+import {FIND_CULTIVATION_ACTION_REQ, INSERT_CULTIVATION_ACTION_REQ} from '../../redux/action/dispatchers/CultivationAction';
 import {connect} from 'react-redux';
 import {
     FIND_FIELD_ACTION_REQ,
     INSERT_FIELD_ACTION_REQ,
     UPDATE_FIELD_ACTION_REQ,
-} from '../../redux/action/dispatchers/field';
-import {FieldSelector} from '../../redux/selector/field';
+} from '../../redux/action/dispatchers/FieldAction';
+import {FieldSelector} from '../../redux/selector/FieldSelector';
 import Field from '../../model/Field';
 import FieldMap from './FieldMap';
 

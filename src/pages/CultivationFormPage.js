@@ -16,14 +16,14 @@ import {
     createCultivation, updateCultivation,
 } from '../model/Repository';
 import {STYLE} from '../styles/styles';
-import {CultivationSelector} from '../redux/selector/cultivation';
+import {CultivationSelector} from '../redux/selector/CultivationSelector';
 import {
     INSERT_CULTIVATION_ACTION_REQ,
     UPDATE_CULTIVATION_ACTION_REQ,
-} from '../redux/action/dispatchers/cultivation';
+} from '../redux/action/dispatchers/CultivationAction';
 import {connect} from 'react-redux';
 import Field from '../model/Field';
-import {FieldSelector} from '../redux/selector/field';
+import {FieldSelector} from '../redux/selector/FieldSelector';
 
 
 class CultivationFormPage extends Component {

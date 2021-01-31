@@ -7,8 +7,6 @@ import {
     TextInput,
     ActivityIndicator,
     TouchableOpacity,
-    Alert,
-    BackHandler,
 } from 'react-native';
 import FirebaseAuth from '../utils/FirebaseAuth';
 import Icon from 'react-native-vector-icons/Ionicons';
@@ -16,31 +14,33 @@ import firebase from 'firebase';
 import {COLOR} from '../styles/styles';
 
 
-class LoginComponent extends Component {
+
+class RegisterComponent extends Component {
     constructor(props) {
         super(props);
         this.state = {
             email: '',
             password: '',
             status: '',
-            user: false,
+            user: null,
             loading: false,
         };
 
-        this.loginSuccess = function() {
+
+        this.registerSuccess = function() {
             this.setState({
-                status: 'Login completed',
+                status: 'Registration Complete',
                 loading: false,
                 user:true,
             });
-            this.props.navigation.replace('home', {user:true});
+            this.props.navigation.navigate('home',{user:true});
         }.bind(this);
 
-        this.loginError = function(error) {
+        this.registerError = function(error) {
+            console.log('ERROR REGISTER MESSAGE: ',error.message);
             this.setState({
                 status: error.message,
                 loading: false,
-                user:false,
             });
         }.bind(this);
 
@@ -56,56 +56,42 @@ class LoginComponent extends Component {
             });
         }.bind(this);
 
-        this.register = function(text) {
-                this.props.navigation.replace('register',{user:false});
-        }.bind(this);
-
-        this.doLogin = function() {
+        this.doRegister = function() {
             this.setState({loading: true});
-            let email=null;
-            //email=this.state.email;
-            email='b@b.it';
-            //email='a@a.it';
-            let password=null;
-            password=this.state.password;
-            password='123456';
-            FirebaseAuth.signIn(email,password )
+            FirebaseAuth.signUp(this.state.email, this.state.password)
                 .then(() => {
-                    console.log('----------------------Success:');
-                    this.loginSuccess();
+                    this.registerSuccess();
                 })
                 .catch(error => {
-                    console.log('----------------------Fail:');
-                    this.loginError(error);
+                    this.registerError(error);
                 });
-                BackHandler.removeEventListener("hardwareBackPress", this.backAction);
-                this.setState({loading: true});
-
         }.bind(this);
 
-    }
 
-    backAction = () => {
-        Alert.alert("Hold on!", "Are you sure you want to Quit Application?", [
-            {
-                text: "Cancel",
-                onPress: () => null,
-                style: "cancel"
-            },
-            { text: "YES", onPress: () => BackHandler.exitApp() }
-        ]);
-        return true;
-    };
+    this.login = function(text) {
+        //console.log('----------------------INSIDE REGISTER PROPS',this.props);
+        this.props.navigation.replace('login');
+    }.bind(this);
 
-    componentDidMount() {
-        BackHandler.addEventListener("hardwareBackPress", this.backAction);
-    }
 
-    componentWillUnmount() {
-        BackHandler.removeEventListener("hardwareBackPress", this.backAction);
     }
 
     render() {
+
+        const firebaseConfig = {
+            apiKey: 'AIzaSyC_F98EhQTmgzbbalgnYqQFpCgOXcgcnxs',
+            authDomain: 'reactcooltivarapp.firebaseapp.com',
+            databaseURL: '',
+            projectId: 'reactcooltivarapp',
+            storageBucket: 'reactcooltivarapp.appspot.com',
+            messagingSenderId: '461253967081',
+            appId: '1:461253967081:web:6c21b324129a2319960478',
+            measurementId: '',
+        };
+        if (!firebase.apps.length) {
+            firebase.initializeApp(firebaseConfig);
+        }
+
         return (
             <SafeAreaView style={styles.main_container}>
                 <View style={styles.app_name_container}>
@@ -114,7 +100,7 @@ class LoginComponent extends Component {
                           size={60}
                           color={COLOR.MAIN}
                     />
-                    <Text style={styles.app_name}>Cooltivar App</Text>
+                    <Text style={styles.app_name}>Register to Cooltivar </Text>
                 </View>
                 <View style={styles.login_box}>
                     <View style={styles.login_email_container}>
@@ -137,9 +123,9 @@ class LoginComponent extends Component {
                         />
                     </View>
                 </View>
-                <View style = {[styles.login_button_container]}>
-                    <TouchableOpacity style={styles.login_button} onPress={this.doLogin}>
-                        <Text style={styles.login_button_text}>Login</Text>
+                <View style={styles.login_button_container}>
+                    <TouchableOpacity style={styles.login_button} onPress={this.doRegister}>
+                        <Text style={styles.login_button_text}>Register</Text>
                         {this.state.loading && (
                             <ActivityIndicator
                                 size="small"
@@ -148,8 +134,8 @@ class LoginComponent extends Component {
                             />
                         )}
                     </TouchableOpacity>
-                    <TouchableOpacity style={styles.login_button} onPress={this.register}>
-                        <Text style={styles.login_button_text}>Register</Text>
+                    <TouchableOpacity style={styles.login_button} onPress={this.login}>
+                        <Text style={styles.login_button_text}>Back</Text>
                         {this.state.loading && (
                             <ActivityIndicator
                                 size="small"
@@ -241,8 +227,8 @@ const styles = StyleSheet.create({
     },
     alert_message: {
         fontSize: 15,
-        color: '#ff1744',
+        color: COLOR.DARK_ORANGE,
     },
 });
 
-export default LoginComponent;
+export default RegisterComponent;

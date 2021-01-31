@@ -3,7 +3,7 @@ import {
     E_UPDATE_FIELD_REQ, E_UPDATE_FIELD_SUCCESS, E_UPDATE_FIELD_FAIL,
     E_DELETE_FIELD_REQ, E_DELETE_FIELD_SUCCESS, E_DELETE_FIELD_FAIL,
     E_FIND_FIELD_REQ, E_FIND_FIELD_SUCCESS, E_FIND_FIELD_FAIL,
-} from '../enum/field';
+} from '../enum/FieldEnum';
 
 // per prendere il "trigger": INSERT_FIELD_ACTION(dispatch);
 // per eseguirla direttamente: INSERT_FIELD_ACTION(dispatch)();

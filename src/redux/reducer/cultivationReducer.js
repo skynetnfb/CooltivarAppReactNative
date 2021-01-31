@@ -1,9 +1,9 @@
 import {AppState, initialState} from '../store/store';
-import { FieldEnum } from '../action/enum/field';
+import { FieldEnum } from '../action/enum/FieldEnum';
 import {CultivActionDB, CultivationDB, FieldDB} from '../../model/Repository';
-import {FieldSelector} from '../selector/field';
-import {CultivationEnum} from '../action/enum/cultivation';
-import {CultivationSelector} from '../selector/cultivation';
+import {FieldSelector} from '../selector/FieldSelector';
+import {CultivationEnum} from '../action/enum/CultivationEnum';
+import {CultivationSelector} from '../selector/CultivationSelector';
 
 
 const cultivationReducer = (state: AppState = initialState, action): AppState => {
