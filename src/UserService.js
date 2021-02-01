@@ -23,6 +23,7 @@ class UserService extends Component {
 
         this.state={
             logged:null,
+            realm :null,
         };
         if (!firebase.apps.length) {
             firebase.initializeApp(firebaseConfig);
@@ -42,25 +43,29 @@ class UserService extends Component {
     };
 
     componentDidMount() {
-        console.log('####!!!!****-----------------------------CURRENT USER USERSERVICE',firebase.auth().currentUser);
-        firebase.auth().onAuthStateChanged(user => {
+      firebase.auth().onAuthStateChanged(user => {
             if (user) {
                 let userDbPath;
                 if(firebase.auth().currentUser!=null){
                     userDbPath = firebase.auth().currentUser.email;
                 }
-                initRealm(userDbPath);
-                console.log('####-----------------------------DENTRO IF UTENTE LOGGATO',user);
-                //this.props.user(user);
+                let realm = initRealm(userDbPath);
                 this.props.userLoginAction(user);
-                this.setState({logged:true});
-                //this.props.route.navigation.navigate('home', {user:true});
-            } else {
-                console.log('####-----------------------------DENTRO ELSE UTENTE SLOGGATO',user);
-                this.setState({logged:false});
+                this.setState({logged:true, realm:realm});
+            } else {this.setState({logged:false});
                 this.props.userLogoutAction();
             }
         });
+    }
+
+
+    componentWillUnmount()
+    {
+        const realm = this.state.realm;
+        // Close the realm if there is one open.
+        if (realm !== null && !realm.isClosed) {
+            realm.close();
+        }
     }
 
     render() {

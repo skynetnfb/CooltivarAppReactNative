@@ -42,11 +42,17 @@ function debugStatusSize(state) {
 const reducer = (state = initialState, action) => {
     if (!action) return state;
     const newState: AppState = JSON.parse(JSON.stringify(state)); // lo stato deve essere immutabile, quindi lo clono.
-    if (action.type && action.type.indexOf("@@redux/INIT") === 0) {
+    if (action.type && action.type.indexOf("@@redux") === 0) {
         // redux passa stringhe tipo "@@redux/INITx.n.j.n.w.l" per inizializzare (con codici random?)
         action.type0 = action.type;
         action.type = "@@redux/INIT";
     }
+    /*
+    if (action.type && action.type.indexOf("persist/") === 0) {
+        // redux passa stringhe tipo "@@redux/INITx.n.j.n.w.l" per inizializzare (con codici random?)
+        action.type0 = action.type;
+        action.type = "persist";
+    }*/
 
     let field: Field = null;
     let cultivation: Cultivation = null;
@@ -239,6 +245,10 @@ const reducer = (state = initialState, action) => {
             newState.logged = false;
             newState.user = null;
             break;
+        case "persist":
+            newState.loading = false;
+            //return state;
+
 
     }
     console.log("REDUCER RETURNING Status : ", debugStatusSize(newState));

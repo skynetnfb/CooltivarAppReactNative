@@ -1,15 +1,21 @@
 import React from 'react';
-import {createStore} from 'redux';
+import {createStore,applyMiddleware,compose} from 'redux';
 import Field from '../../model/Field';
 import reducer from '../reducer/reducer';
 import Cultivation from '../../model/Cultivation';
 import CultivAction from '../../model/CultivAction';
+import thunk from 'redux-thunk';
+import {persistReducer, persistStore} from 'redux-persist';
+import AsyncStorage from '@react-native-community/async-storage';
+import autoMergeLevel2 from "redux-persist/lib/stateReconciler/autoMergeLevel2";
 
 export class AppState {
     fields: Field[];
     cultivations: Cultivation[];
     cultivActions: CultivAction[];
     user: any;
+    loading:true;
+    logged:false;
 }
 
 const initialState: AppState = {
@@ -26,10 +32,48 @@ const initialState: AppState = {
     cultivActions:[],
     user:null,
     logged:false,
+    loading:true,
 };
 
-//TODO
-//initialState.cultivations[0].id = '1611331189935';
-const store = createStore(reducer);
 
-export {store, initialState};
+
+export {initialState};
+//new Refactor
+const persistConfig = {
+    key: 'root',
+    storage: AsyncStorage,
+    stateReconciler: autoMergeLevel2
+};
+
+export let store=null;
+
+/*export default reducers => {
+    const middleware = [thunk];
+    const enhancers = [applyMiddleware(...middleware)];
+    const composeEnhancers = compose;
+    const _persistReducer = persistReducer(persistConfig, reducers);
+    const store = createStore(_persistReducer, composeEnhancers(...enhancers));
+    const persistor = persistStore(store);
+    return {_store, persistor};
+};*/
+
+export default (reducers) => {
+    console.log("Funzione configure reducers  store chiamata")
+    const middleware = [thunk];
+    const enhancers = [applyMiddleware(...middleware)];
+    const composeEnhancers = compose;
+    const _persistReducer = persistReducer(persistConfig, reducers);
+    store = createStore(_persistReducer,composeEnhancers(...enhancers));
+    const persistor = persistStore(store);
+    return {store, persistor};
+};
+/*
+const middleware = [thunk];
+const enhancers = [applyMiddleware(...middleware)];
+const composeEnhancers = compose;
+const _persistReducer = persistReducer(persistConfig, reducer);
+_store = createStore(_persistReducer,composeEnhancers(...enhancers));
+export const persistor = persistStore(_store);
+*/
+//export const store = _store;
+//export const store = createStore(reducer);
