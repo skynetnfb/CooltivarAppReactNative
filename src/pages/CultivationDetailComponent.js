@@ -169,7 +169,7 @@ const styles = StyleSheet.create({
     },
 
     weather_container: {
-        backgroundColor: '#fff',
+        backgroundColor: COLOR.LIGHT_MAIN,
         padding: 4,
         borderRadius: 8,
         borderWidth: StyleSheet.hairlineWidth,

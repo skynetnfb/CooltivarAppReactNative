@@ -50,18 +50,17 @@ const STYLE = StyleSheet.create({
         borderColor: 'red',
     },
     weather_icon: {
-
-        borderWidth: 0.1,
-        borderColor: '#000',
+        borderWidth: 0.5,
+        borderColor: COLOR.LIGHT_MAIN,
         shadowColor: "#000",
         shadowOffset: {
             width: 5,
             height: 5
         },
-        shadowOpacity: 0.25,
+        shadowOpacity: 0.5,
         shadowRadius: 3.84,
-        elevation: 5,
-        backgroundColor: COLOR.LIGHT_MUTED,
+        elevation: 2,
+        backgroundColor: "#FFF",
         borderRadius: 30,
         height: 60,
         width: 60,
