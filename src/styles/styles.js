@@ -59,7 +59,6 @@ const STYLE = StyleSheet.create({
         },
         shadowOpacity: 0.5,
         shadowRadius: 3.84,
-        elevation: 2,
         backgroundColor: "#FFF",
         borderRadius: 30,
         height: 60,

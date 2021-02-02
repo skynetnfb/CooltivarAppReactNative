@@ -3,23 +3,24 @@
  */
 import 'react-native-gesture-handler';
 import React,{Component} from 'react';
-import {AppRegistry} from 'react-native';
+import {AppRegistry, Text} from 'react-native';
 import App from './src/App';
 //import App from './App';
 import {name as appName} from './app.json';
 import Provider from 'react-redux/lib/components/Provider';
 import {PersistGate} from 'redux-persist/integration/react';
 import {LoadingPage} from './src/pages/LoadingPage';
-import createStore from './src/redux/store';
+import {store, persistor} from './src/redux/store/store';
 
-const {store, persistor} = createStore();
 
 class Root extends Component {
     render() {
-        console.log("----------------STORE", store);
+        console.log("----------------STORE", store, persistor);
         return (
-            <Provider store={store}>
+            <Provider store={store} loading={<Text>Loading...</Text>}>
+                <PersistGate persistor={persistor} loading={<Text>Loading...</Text>}>
                     <App />
+                </PersistGate>
             </Provider>
         );
     }

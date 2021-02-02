@@ -1,6 +1,8 @@
-import {AxiosResponse} from 'axios';
-import {API_CALLS, AxiosResponseType, weatherToday2} from '../../../api/api';
+import axios, {AxiosResponse} from 'axios';
+import {API_CALLS, AxiosResponseType, URL_WeatherToday, weatherToday2} from '../../../api/api';
 import {E_OPENWEATHER_GET_FORECAST, E_OPENWEATHER_GET_TODAY, METEO_ENUM} from '../enum/MeteoActionEnum';
+import {E_FIND_FIELD_REQ} from '../enum/FieldEnum';
+import {makeFindAction} from './FieldAction';
 
 
 function forecastSuccessCallback(response: AxiosResponse<ART>, dispatch, fieldid: string): void {
@@ -41,6 +43,7 @@ export const METEO_FORECAST_REQUEST = (dispatch) => (coord, fieldid: string, day
         forecastFailureCallback);
 };
 
+// NB: anche questa versione è "thunk-like" senza usare thunk middleware, l'azione viene lanciata solo in caso di successo, ask prof se sono equivalenti in qualità
 export const METEO_TODAY_REQUEST = (dispatch) => (coord, fieldid: string): void => {
     console.log('meteo today req', API_CALLS.today);
     const promise = //weatherToday2( {coord: coord, successCallback: todaySuccessCallback, failureCallback: todayFailureCallback});
@@ -49,4 +52,39 @@ export const METEO_TODAY_REQUEST = (dispatch) => (coord, fieldid: string): void 
         (response: AxiosResponse<AxiosResponseType>) => todaySuccessCallback(response, dispatch, fieldid),
         todayFailureCallback);
     console.log('meteo today req end', promise);
+};
+
+
+export const THUNKED_WEATHER_TODAY = (coordinate, fieldid) =>
+    (dispatch, getState) => {
+        axios.get(  URL_WeatherToday(coordinate) )
+            .then( (response: any): string => "" + response.data.list[0].weather[0].icon)
+            .then( (icon: string) => dispatch({type: E_OPENWEATHER_GET_TODAY, id: fieldid, icon: icon}))
+            .catch( (err) => {
+                console.warn("failed to get weather", err);
+            });
+    };
+
+export const THUNKED_WEATHER_TODAY_MAPPEDTOSTATE = (dispatch) => (coordinate, fieldid) => {
+    dispatch(
+        (dispatch, getState) => {
+            axios.get(  URL_WeatherToday(coordinate) )
+                .then( (response: any): string => "" + response.data.list[0].weather[0].icon)
+                .then( (icon: string) => dispatch({type: E_OPENWEATHER_GET_TODAY, id: fieldid, icon: icon}))
+                .catch( (err) => {
+                    console.warn("failed to get weather", err);
+                });
+        });
+};
+
+export const THUNKED_WEATHER_FORECAST_MAPPEDTOSTATE = (dispatch) => (coordinate, fieldid) => {
+    dispatch(
+        (dispatch, getState) => {
+            axios.get(  URL_WeatherToday(coordinate) )
+                .then( (response: any): string => "" + response.data.list[0].weather[0].icon)
+                .then( (icon: string) => dispatch({type: E_OPENWEATHER_GET_TODAY, id: fieldid, icon: icon}))
+                .catch( (err) => {
+                    console.warn("failed to get weather", err);
+                });
+        });
 };

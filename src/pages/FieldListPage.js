@@ -10,7 +10,7 @@ import {
 import AbstractCardComponent from '../components/abstract/AbstractCard';
 import {
     FIND_FIELD_ACTION_REQ,
-    INSERT_FIELD_ACTION_REQ,
+    INSERT_FIELD_ACTION_REQ, THUNKED_FIND_FIELD,
 } from '../redux/action/dispatchers/FieldAction';
 import {connect} from 'react-redux';
 import {COLOR, STYLE} from '../styles/styles';
@@ -18,10 +18,14 @@ import Field from '../model/Field';
 import {FieldSelector} from '../redux/selector/FieldSelector';
 import Icon from 'react-native-vector-icons/Ionicons';
 
+import {store} from '../redux/store/store';
 
 class  FieldListPage extends React.Component{
     componentDidMount(): void {
-        this.props.find_fields();
+        // this.props.find_fields(); // così carico i terreni con normal actions, ma con dispatch "nascosto"
+        // store.dispatch(this.props.thunk_find()); // così carico i terreni con thunk
+        // senza nulla carico i terreni comunque per via del persist-store
+        // i thunk però servono principalmente per lanciare azioni dopo il risultato di una operazione asincrona se ha successo, dovrei usarlo in weather.
     }
 
     count = 0;
@@ -121,6 +125,7 @@ const mapDispatchToProps = (dispatch) => {
     return {
         find_fields: FIND_FIELD_ACTION_REQ(dispatch),
         insert_field: INSERT_FIELD_ACTION_REQ(dispatch),
+        thunk_find: THUNKED_FIND_FIELD,
         // find_cultivations: FIND_CULTIVATION_ACTION_REQ
         // (field) => dispatch({type: "INSERT_FIELD", field: field}),
     };

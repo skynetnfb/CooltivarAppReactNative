@@ -14,10 +14,11 @@ import {
 import {FieldSelector} from '../../redux/selector/FieldSelector';
 import Field from '../../model/Field';
 import FieldMap from './FieldMap';
-import {METEO_TODAY_REQUEST} from '../../redux/action/dispatchers/meteoAction';
+import {METEO_TODAY_REQUEST, THUNKED_WEATHER_TODAY} from '../../redux/action/dispatchers/meteoAction';
 import {WEATHER_ICON} from '../../utils/WeatherIcons';
 import Icon from 'react-native-vector-icons/Ionicons';
 import ModalComponent from '../abstract/ModalComponent';
+import {store} from '../../redux/store/store';
 
 class FieldDetailComponent extends FieldMap{
     constructor(props) {
@@ -47,7 +48,9 @@ class FieldDetailComponent extends FieldMap{
         if (field.weather && (field.weatherTime >= new Date().getTime() - 1 * hours)) return;
         const coord = this.getCenter(field.coordinate);
         console.log('__fd select meteo:', coord, field.id);
-        this.props.get_meteo_today_action(coord, field.id);
+        // this.props.get_meteo_today_action(coord, field.id);
+        console.log('mthunk fd dispatching( ', this.props.get_meteo_today_THUNKED(coord, field.id));
+        store.dispatch(this.props.get_meteo_today_THUNKED(coord, field.id));
     }
 
     shouldComponentUpdate(): boolean {
@@ -210,6 +213,7 @@ const mapDispatchToProps = (dispatch) => {
     return {
         find_field_action: FIND_FIELD_ACTION_REQ(dispatch),
         get_meteo_today_action: METEO_TODAY_REQUEST(dispatch),
+        get_meteo_today_THUNKED: THUNKED_WEATHER_TODAY,
         delete_field_action: DELETE_FIELD_ACTION_REQ(dispatch),
     };
 };

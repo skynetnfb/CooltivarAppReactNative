@@ -1,62 +1,43 @@
 import React from 'react';
-import {createStore,applyMiddleware,compose} from 'redux';
+import {createStore, applyMiddleware, compose} from 'redux';
 import Field from '../../model/Field';
 import reducer from '../reducer/reducer';
 import Cultivation from '../../model/Cultivation';
 import CultivAction from '../../model/CultivAction';
 import thunk from 'redux-thunk';
 import {persistReducer, persistStore} from 'redux-persist';
-import AsyncStorage from '@react-native-community/async-storage';
-import autoMergeLevel2 from "redux-persist/lib/stateReconciler/autoMergeLevel2";
+import storage from 'redux-persist/lib/storage'
+// import {AsyncStorage} from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage'
+// import AsyncStorage from '@react-native-community/async-storage';
 
-export class AppState {
-    fields: Field[];
-    cultivations: Cultivation[];
-    cultivActions: CultivAction[];
-    user: any;
-    loading:true;
-    logged:false;
-}
 
-const initialState: AppState = {
-    /*fields: [
-        new Field('field_1', 'Agrigento', 'primo agr test', '[]'),
-        new Field('field_2', 'Frosinone', 'fros desc test', '[]'),
-        new Field('field_3', 'Termini', 'term desc test', '[]'),
-        new Field('field_4', 'Terni', 'tern desc test', '[]'),
-    ],*/
-    fields: [],
-    cultivations: [
-        //new Cultivation('MOCK', 'cultivar1', 'description of cultivation1', '1', new Date(), new Date(), 500, 'Grow', null),
-    ],
-    cultivActions:[],
-    user:null,
-    logged:false,
-    loading:true,
+import createWebStorage from "redux-persist/lib/storage/createWebStorage";
+
+const createNoopStorage = () => {
+    return {
+        getItem(_key) {
+            return Promise.resolve(null);
+        },
+        setItem(_key, value) {
+            return Promise.resolve(value);
+        },
+        removeItem(_key) {
+            return Promise.resolve();
+        },
+    };
 };
 
+let storageUsed = typeof window === "undefined" ? createNoopStorage() : createWebStorage();
 
-
-export {initialState};
 //new Refactor
 const persistConfig = {
     key: 'root',
     storage: AsyncStorage,
-    stateReconciler: autoMergeLevel2
+    // stateReconciler: autoMergeLevel2
 };
 
-export let store=null;
-
-/*export default reducers => {
-    const middleware = [thunk];
-    const enhancers = [applyMiddleware(...middleware)];
-    const composeEnhancers = compose;
-    const _persistReducer = persistReducer(persistConfig, reducers);
-    const store = createStore(_persistReducer, composeEnhancers(...enhancers));
-    const persistor = persistStore(store);
-    return {_store, persistor};
-};*/
-
+/*
 export default (reducers) => {
     console.log("Funzione configure reducers  store chiamata")
     const middleware = [thunk];
@@ -66,14 +47,19 @@ export default (reducers) => {
     store = createStore(_persistReducer,composeEnhancers(...enhancers));
     const persistor = persistStore(store);
     return {store, persistor};
-};
-/*
-const middleware = [thunk];
-const enhancers = [applyMiddleware(...middleware)];
-const composeEnhancers = compose;
-const _persistReducer = persistReducer(persistConfig, reducer);
-_store = createStore(_persistReducer,composeEnhancers(...enhancers));
-export const persistor = persistStore(_store);
-*/
-//export const store = _store;
-//export const store = createStore(reducer);
+};*/
+///////////////
+
+
+const persistentReducer = persistReducer(persistConfig, reducer) // create a persisted reducer
+
+const store = createStore(
+    persistentReducer,
+    // compose(...
+    applyMiddleware(...[thunk]) // add any middlewares here
+    // )
+)
+
+const persistor = persistStore(store);
+
+export {store, persistor};

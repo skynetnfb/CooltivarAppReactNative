@@ -1,4 +1,3 @@
-import {initialState} from '../store/store';
 import { FieldEnum } from '../action/enum/FieldEnum';
 import {
     createCultivAction,
@@ -21,6 +20,34 @@ import CultivAction from '../../model/CultivAction';
 import {E_OPENWEATHER_GET_FORECAST, E_OPENWEATHER_GET_TODAY, METEO_ENUM} from '../action/enum/MeteoActionEnum';
 import {CultivActionSelector} from '../selector/CultivActionSelector';
 
+
+class AppState {
+    fields: Field[];
+    cultivations: Cultivation[];
+    cultivActions: CultivAction[];
+    user: any;
+    loading:true;
+    logged:false;
+}
+
+const initialState: AppState = {
+    /*fields: [
+        new Field('field_1', 'Agrigento', 'primo agr test', '[]'),
+        new Field('field_2', 'Frosinone', 'fros desc test', '[]'),
+        new Field('field_3', 'Termini', 'term desc test', '[]'),
+        new Field('field_4', 'Terni', 'tern desc test', '[]'),
+    ],*/
+    fields: [],
+    cultivations: [
+        //new Cultivation('MOCK', 'cultivar1', 'description of cultivation1', '1', new Date(), new Date(), 500, 'Grow', null),
+    ],
+    cultivActions:[],
+    user:null,
+    logged:false,
+    loading:true,
+};
+
+
 function debugStatusSize(state) {
     let ret = {};
     ret = state;
@@ -41,30 +68,32 @@ function debugStatusSize(state) {
 
 const reducer = (state = initialState, action) => {
     if (!action) return state;
+    let actionStr = action.type;
     const newState: AppState = JSON.parse(JSON.stringify(state)); // lo stato deve essere immutabile, quindi lo clono.
-    if (action.type && action.type.indexOf("@@redux") === 0) {
+    if (actionStr && actionStr.indexOf("@@redux/") === 0) {
         // redux passa stringhe tipo "@@redux/INITx.n.j.n.w.l" per inizializzare (con codici random?)
-        action.type0 = action.type;
-        action.type = "@@redux/INIT";
+        actionStr = "@@redux/";
     }
-    /*
+
     if (action.type && action.type.indexOf("persist/") === 0) {
-        // redux passa stringhe tipo "@@redux/INITx.n.j.n.w.l" per inizializzare (con codici random?)
-        action.type0 = action.type;
-        action.type = "persist";
-    }*/
+        // "persist/..."
+        actionStr = "persist/";
+    }
 
     let field: Field = null;
     let cultivation: Cultivation = null;
     let cultivAction: CultivAction = null;
     let id: string;
-    console.log("REDUCER EXECUTING ACTION: " + (action.type), action, " Status : ", debugStatusSize(state));
+    console.log("REDUCER EXECUTING ACTION: " + actionStr, action, " Status : ", debugStatusSize(state));
     let response, index;
-    switch (action.type) {
+    switch (actionStr) {
         default:
-            console.error("invalid reducer action:", action.type, action);
+            console.error("invalid reducer action:", actionStr, action);
             break;
-        case "@@redux/INIT": return state;
+        case "persist/":
+            //newState.loading = false;
+            return state;
+        case "@@redux/": return state;
         // field
         case FieldEnum.FIND_REQ:
             console.log('!!!---------------------------------------------FieldEnum.FIND_REQ');
@@ -245,9 +274,6 @@ const reducer = (state = initialState, action) => {
             newState.logged = false;
             newState.user = null;
             break;
-        case "persist":
-            newState.loading = false;
-            //return state;
 
 
     }

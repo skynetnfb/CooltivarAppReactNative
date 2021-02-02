@@ -17,11 +17,9 @@ class App extends React.Component{
     render() {
         return (
             <>
-                <Provider store={store}>
-                    <SafeAreaView style={{flex: 1}}>
-                        <UserService/>
-                    </SafeAreaView>
-                </Provider>
+                <SafeAreaView style={{flex: 1}}>
+                    <UserService/>
+                </SafeAreaView>
             </>
         );
     }

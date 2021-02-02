@@ -9,9 +9,9 @@ export class AxiosResponseType{
 const corsPrefix = '';
 const API_KEY = "7368b1dcdbc2b20401886a17908ac573";
 
-const URL_WeatherToday = (coord) => corsPrefix + "https://api.openweathermap.org/data/2.5/find?" +
+export const URL_WeatherToday = (coord) => corsPrefix + "https://api.openweathermap.org/data/2.5/find?" +
     "lat=" + coord.latitude + "&lon=" + coord.longitude + "&units=metric&cnt=1&appid=" + API_KEY;
-const URL_WeatherForecast = (coord, days: number) => corsPrefix + "https://api.openweathermap.org/data/2.5/forecast?"+
+export const URL_WeatherForecast = (coord, days: number) => corsPrefix + "https://api.openweathermap.org/data/2.5/forecast?"+
     "lat=" + coord.latitude + "&lon=" + coord.longitude + "&units=metric&cnt=" + (days*(24/3)) + "&appid=" + API_KEY;
 
 // art = AxiosResponseType (input type)
