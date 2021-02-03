@@ -10,6 +10,7 @@ target 'CooltivarAppReactNative' do
 
   pod 'RNFS', :path => '../node_modules/react-native-fs'
 
+
   target 'CooltivarAppReactNativeTests' do
     inherit! :complete
     # Pods for testing

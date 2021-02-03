@@ -5,13 +5,13 @@ import reducer from '../reducer/reducer';
 import Cultivation from '../../model/Cultivation';
 import CultivAction from '../../model/CultivAction';
 import thunk from 'redux-thunk';
-import {persistReducer, persistStore} from 'redux-persist';
+
 import storage from 'redux-persist/lib/storage'
 // import {AsyncStorage} from 'react-native';
-import AsyncStorage from '@react-native-async-storage/async-storage'
-// import AsyncStorage from '@react-native-community/async-storage';
-
-
+//import AsyncStorage from '@react-native-async-storage/async-storage'
+ import AsyncStorage from '@react-native-community/async-storage';
+import {persistReducer, persistStore} from 'redux-persist';
+/*
 import createWebStorage from "redux-persist/lib/storage/createWebStorage";
 
 const createNoopStorage = () => {
@@ -29,7 +29,7 @@ const createNoopStorage = () => {
 };
 
 let storageUsed = typeof window === "undefined" ? createNoopStorage() : createWebStorage();
-
+*/
 //new Refactor
 const persistConfig = {
     key: 'root',
