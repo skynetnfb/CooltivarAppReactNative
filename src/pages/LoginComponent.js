@@ -13,7 +13,7 @@ import {
 import FirebaseAuth from '../utils/FirebaseAuth';
 import Icon from 'react-native-vector-icons/Ionicons';
 import {COLOR, STYLE} from '../styles';
-import ValidationFailMessage from '../components/common/ValidationFailMessage';
+import ValidationFailMessage from '../components/abstract/ValidationFailMessage';
 
 
 class LoginComponent extends Component {

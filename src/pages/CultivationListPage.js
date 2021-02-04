@@ -5,16 +5,13 @@ import {
     TouchableOpacity,
     View,
 } from 'react-native';
-import AbstractCardComponent from "../components/abstract/AbstractCard";
+import {connect} from 'react-redux';
 import Icon from 'react-native-vector-icons/Ionicons';
 import {STYLE} from '../styles';
-import {connect} from 'react-redux';
-import {FIND_CULTIVATION_ACTION_REQ, INSERT_CULTIVATION_ACTION_REQ} from '../redux/action/action_dispatchers';
-import {CultivationSelector} from '../redux/selector';
+import {FIND_CULTIVATION_ACTION_REQ, INSERT_CULTIVATION_ACTION_REQ, USER_LOGGED_OUT_REQ} from '../redux/action/action_dispatchers';
+import {CultivationSelector, FieldSelector} from '../redux/selector';
 import ModalComponent from '../components/abstract/ModalComponent';
-import {USER_LOGGED_OUT_REQ} from '../redux/action/dispatchers/UserAction';
-import {FieldSelector} from '../redux/selector/FieldSelector';
-import {USER_LOGGED_OUT_REQ} from '../redux/action/action_dispatchers';
+import AbstractCardComponent from "../components/abstract/AbstractCard";
 import PushNotification from 'react-native-push-notification';
 import messaging from '@react-native-firebase/messaging';
 //import PushNotificationsHandler from 'react-native-push-notification';

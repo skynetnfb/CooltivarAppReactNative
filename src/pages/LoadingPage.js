@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {View, ActivityIndicator, Image,Text} from 'react-native';
-import {COLOR} from '../styles/styles';
+import {COLOR} from '../styles';
 
 
 class LoadingPageComponent extends Component {
