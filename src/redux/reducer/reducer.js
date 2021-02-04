@@ -138,6 +138,8 @@ const reducer = (state = initialState, action) => {
             id = field.id;
             index = FieldSelector.queryIndex(newState)((f) => f.id === id);
             FieldDB.update(field);
+            let oldField: Field = newState.fields[index];
+            field.copyTransientData(oldField);
             newState.fields[index] = field;
             break;
         case FieldEnum.DELETE_REQ:

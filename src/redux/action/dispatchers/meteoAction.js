@@ -1,5 +1,5 @@
 import axios, {AxiosResponse} from 'axios';
-import {API_CALLS, AxiosResponseType, URL_WeatherToday, weatherToday2} from '../../../api/api';
+import {API_CALLS, AxiosResponseType, URL_WeatherForecast, URL_WeatherToday, weatherToday2} from '../../../api/api';
 import {E_OPENWEATHER_GET_FORECAST, E_OPENWEATHER_GET_TODAY, METEO_ENUM} from '../enum/MeteoActionEnum';
 import {E_FIND_FIELD_REQ} from '../enum/FieldEnum';
 import {makeFindAction} from './FieldAction';
@@ -77,12 +77,19 @@ export const THUNKED_WEATHER_TODAY_MAPPEDTOSTATE = (dispatch) => (coordinate, fi
         });
 };
 
-export const THUNKED_WEATHER_FORECAST_MAPPEDTOSTATE = (dispatch) => (coordinate, fieldid) => {
+export const THUNKED_WEATHER_FORECAST_MAPPEDTOSTATE = (dispatch) => (coordinate, fieldid, days: number = 3) => {
     dispatch(
         (dispatch, getState) => {
-            axios.get(  URL_WeatherToday(coordinate) )
-                .then( (response: any): string => "" + response.data.list[0].weather[0].icon)
-                .then( (icon: string) => dispatch({type: E_OPENWEATHER_GET_TODAY, id: fieldid, icon: icon}))
+            console.log('__meteo cd forecast dispatched',getState);
+            axios.get(  URL_WeatherForecast(coordinate, days) )
+                .then( (response: any): string[] => {
+                    const fullForecast = response.data.list;
+                    // sono a distanza di 3 ore, ne prendi uno ogni 8 = uno ogni giorno.
+                    let filterForecast = fullForecast.filter((elem, index)=> index % 8 === 0);
+                    // console.log('meteo success forecast filter 1', JSON.parse(JSON.stringify(filterForecast)));
+                    filterForecast = filterForecast.map((e) => e.weather[0].icon);
+                    return filterForecast; })
+                .then( (icons: string[]) => dispatch({type: E_OPENWEATHER_GET_FORECAST, id: fieldid, icons: icons}))
                 .catch( (err) => {
                     console.warn("failed to get weather", err);
                 });

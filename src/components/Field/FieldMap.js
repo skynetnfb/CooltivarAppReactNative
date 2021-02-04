@@ -26,6 +26,7 @@ import Field from '../../model/Field';
 import MapView, {Polygon, Marker} from 'react-native-maps';
 import {BoundaryHelper} from '../../utils/CoordUtils';
 import RNFetchBlob from 'react-native-fetch-blob';
+import {check, PERMISSIONS} from 'react-native-permissions';
 
 class FieldMap extends ValidationComponent2{
     markers = [];
@@ -63,7 +64,7 @@ class FieldMap extends ValidationComponent2{
             if (granted === PermissionsAndroid.RESULTS.GRANTED) {
                 console.log("__fm permission granted");
                 this.setState({permissionGranted: true});
-                if (callFollow) setTimeout( () => this.followUser(true), 1000);
+                if (callFollow) setTimeout( () => this.followUser(), 1000);
                 // this.animateCamera2();
             } else {
                 console.log("__fm permission refused");
@@ -72,6 +73,10 @@ class FieldMap extends ValidationComponent2{
             console.warn("__fm permission error", err);
         }
     }.bind(this);
+
+    componentDidMount(): void {
+        // this.followUser(); parte disattivato
+    }
 
     getField = function(): Field { return this.props.field; }.bind(this);
 
@@ -149,27 +154,29 @@ class FieldMap extends ValidationComponent2{
 
     toggleGPS = function () {
         console.log('__fm gps toggle');
-        if (this.state.geolocalization) this.unfollowUser(); else this.followUser();
+        if (!this.state.geolocalization) {
+            if (this.state.permissionGranted) { this.followUser(); }
+            else this.requestLocationPermission(true);
+        } else this.unfollowUser();
     }.bind(this);
 
-    followUser = function(force: boolean = false) {
-        console.log('__fm gps follow, force?', force);
-        if (!force && this.state.geolocalization) return;
-        console.log('__fm gps follow2, force?', force);
+    didFirstGeoFollow = false;
+    followUser = function() {
+        console.log('__fm gps follow, force?');
+        //if (!this.state.geolocalization) return;
         const options: GeolocationOptions = {};
         options.timeout = 5*1000;
         options.enableHighAccuracy = true;
         // Geolocation.requestAuthorization();
-        if (!force) this.requestLocationPermission();
-        else {
-            this.setState({ geolocalization: false, gotFirstLocationUpdate: false });
-            setTimeout( this.followUser, 1000);
-            return;
-        }
         const geoWatcherIdArr = [...this.state.geolocationWatcherID];
         let geolocationWatcherID = Geolocation.watchPosition(this.onPositionReceiveSuccess, this.onPositionReceiveFailure, options);
         geoWatcherIdArr.push(geolocationWatcherID);
         this.setState({geolocalization: true, geolocationWatcherID: geoWatcherIdArr, gotFirstLocationUpdate: false});
+        if (!this.didFirstGeoFollow && !this.state.didFirstGeoFollow && this.state.permissionGranted) {
+            this.didFirstGeoFollow = true;
+            this.setState({didFirstGeoFollow: true});
+            this.waitForGPS();
+        }
     }.bind(this);
 
     unfollowUser = function() {
@@ -256,14 +263,13 @@ class FieldMap extends ValidationComponent2{
         console.log('__fm onMapAndLayoutReady 0');
         if (this.state.onMapAndLayoutReadyCalled) return;
         this.setState({onMapAndLayoutReadyCalled: true});
-        this.requestLocationPermission(false);
-
+        //  this.requestLocationPermission(false); // todo: disabilita questo e l'altro con KEY=ASFG
         console.log('__fm onMapAndLayoutReady 1');
-        LogBox.ignoreLogs(['Warning: ' + 'Called stopObserving']);// ignora tutti i warning che iniziano con "Called stopObserving"...
-        this.waitForGPS(); // debug
+        // LogBox.ignoreLogs(['Warning: ' + 'Called stopObserving']);// ignora tutti i warning che iniziano con "Called stopObserving"...
+        // this.waitForGPS(); // debug  todo: disabilita questo e l'altro con KEY=ASFG
         console.log('__fm onMapAndLayoutReady end');
         // setTimeout( () => {this.animateCamera2(); }, 4000);
-        // this.animateCamera2();
+        this.animateCamera2();
     }.bind(this);
 
     toUnaryString = function(num: number){
@@ -311,7 +317,7 @@ class FieldMap extends ValidationComponent2{
         console.log('__fm render1()');
         const field = this.getField();
         const mutedFields = this.getMutedFields();
-        console.log('__fm render() getc');
+        console.log('__fm render() get mutedfields', mutedFields);
         const coordinate = this.getCoordinate();
         console.log('__fm detail debug show center:', !this.props.allowEditPolygon && !!coordinate && coordinate.length > 2 )
         console.log('## field:', field, "## coordinate:", coordinate, ' tpyeof coordinate: ', typeof (coordinate));
@@ -353,12 +359,19 @@ class FieldMap extends ValidationComponent2{
                     </View>
                 </MapView.Callout></Marker> : null}
                 {/* ------------------ muted fields ------------ */}
-                {/* mutedFields.map(mf => <Polygon coordinates={mf.coordinate} />) /*}
-                {/*mutedFields.map(mf => <Marker
+                {mutedFields.map(mf => <Polygon
+                    key={"Polygon_muted" + mf.id}
+                    coordinates={mf.coordinate}
+                    strokeWidth={2}
+                    strokeColor={COLOR.MAP_POLYGON_STROKE_MUTED}
+                    fillColor={COLOR.MAP_POLYGON_FILL_MUTED}
+                    tappable={true} />) }
+                {mutedFields.map(mf => <Marker
+                    key={"marker_muted" + mf.id}
                     title={mf.name}
-                    description={mf.description}
+                    description={"City:" + mf.city + "\n" +mf.description}
                     pinColor={COLOR.MARKER_FIELD_MUTED}
-                    coordinate={ BoundaryHelper.getCenter(mf) } />)*/}
+                    coordinate={ this.getCenter(mf.coordinate) } />)}
             </>
         );
         console.log('__fm render map drawings');

@@ -15,8 +15,8 @@ const COLOR = {
 }
 COLOR.MAP_POLYGON_STROKE_MAIN = COLOR.DARK_ORANGE;
 COLOR.MAP_POLYGON_FILL_MAIN = COLOR.DARK_ORANGE + '77';
-COLOR.MAP_POLYGON_STROKE_MUTED = COLOR.DARK_MUTED;
-COLOR.MAP_POLYGON_FILL_MUTED = COLOR.MUTED;
+COLOR.MAP_POLYGON_STROKE_MUTED = "#ffd50077";
+COLOR.MAP_POLYGON_FILL_MUTED =  "#ffd50022"; //COLOR.MUTED + '77';
 /**  NB: i marker possono avere solo colori con saturazione e luminosità 100%, alcuni rgb validi sono:
 red (default)
 tomato
@@ -34,7 +34,7 @@ indigo
 **/
 COLOR.MARKER_USER = 'red';
 COLOR.MARKER_FIELD = 'linen';
-COLOR.MARKER_FIELD_MUTED = 'wheat';
+COLOR.MARKER_FIELD_MUTED = '#ffd500';
 
 const STYLE = StyleSheet.create({
     container: {

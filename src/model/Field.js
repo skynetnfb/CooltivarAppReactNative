@@ -40,6 +40,12 @@ export default class Field {
         this.updateObjectInfo.call(fieldJson, this);
     }
 
+    copyTransientData(from: Field) {
+        this.weather = from.weather;
+        this.weatherTime = from.weatherTime;
+        this.forecast = from.forecast;
+        this.forecastTime = from.forecastTime;
+    }
     static getLoadingPlaceholder(): Field {
         const l = 'Loading...';
         const f = new Field(l, l, l, null, null);
