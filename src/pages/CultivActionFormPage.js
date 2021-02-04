@@ -105,6 +105,8 @@ class CultivActionFormPage extends Component {
                     _cultivAction.type+" : "+_cultivAction.status+" : "+this.state.description,
                     new Date(this.state.startDate)
                 );
+
+
            }
 
             this.props.navigation.goBack();

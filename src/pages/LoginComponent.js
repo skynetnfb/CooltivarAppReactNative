@@ -63,12 +63,12 @@ class LoginComponent extends Component {
         this.doLogin = function() {
             this.setState({loading: true});
             let email=null;
-            //email=this.state.email;
-            email='b@b.it';
+            email=this.state.email;
+            //email='b@b.it';
             //email='a@a.it';
             let password=null;
             password=this.state.password;
-            password='123456';
+            //password='123456';
             FirebaseAuth.signIn(email,password )
                 .then(() => {
                     console.log('----------------------Success:');

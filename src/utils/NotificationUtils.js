@@ -97,7 +97,8 @@ export const createScheduledNotification = (title,description,date)=>{
         channelId: "channel-cooltivar",
         title: title,
         message: description, // (required)
-        date: new Date(date+5*1000) // in 60 secs
+        date: new Date(date) // in 60 secs
+        //date: new Date(), // in 60 secs
     });
 };
 /*
