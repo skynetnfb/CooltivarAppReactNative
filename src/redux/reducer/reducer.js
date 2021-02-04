@@ -69,7 +69,7 @@ function debugStatusSize(state) {
 const reducer = (state = initialState, action) => {
     if (!action) return state;
     let actionStr = action.type;
-    const newState: AppState = JSON.parse(JSON.stringify(state)); // lo stato deve essere immutabile, quindi lo clono.
+    let newState: AppState = JSON.parse(JSON.stringify(state)); // lo stato deve essere immutabile, quindi lo clono.
     if (actionStr && actionStr.indexOf("@@redux/") === 0) {
         // redux passa stringhe tipo "@@redux/INITx.n.j.n.w.l" per inizializzare (con codici random?)
         actionStr = "@@redux/";
@@ -273,6 +273,7 @@ const reducer = (state = initialState, action) => {
             break;
         case UserEnum.USER_LOGGED_OUT:
             console.log('###!!!---------------------------------------------REDUCER UserEnum.USER_LOGGED_OUT');
+            newState = JSON.clone(JSON.stringify(initialState));
             newState.logged = false;
             newState.user = null;
             break;
