@@ -1,6 +1,6 @@
 import React, {Component}  from 'react';
 import {View, Text, StyleSheet} from 'react-native';
-import {COLOR, STYLE} from '../../styles/styles';
+import {COLOR, STYLE} from '../../styles';
 import Icon from 'react-native-vector-icons/Ionicons';
 
 class ValidationFailMessage extends Component {

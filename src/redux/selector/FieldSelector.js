@@ -1,10 +1,12 @@
-// private
-import {AppState} from '../store/store';
+// privateì
+import {AppState} from "../reducer"
 
+let a: AppState;
+// private
 function fixCoordinates(field: AppState) {
     if (!Array.isArray(field.coordinate)) field.coordinate = JSON.parse( field.coordinate );
 }
-
+// private
 function getFieldsCopy(state: AppState) {
     return state.fields ? JSON.parse(JSON.stringify(state.fields)) : [];
 }

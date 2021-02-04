@@ -12,9 +12,9 @@ import {
 import { RNCamera } from 'react-native-camera';
 import Cultivation from '../model/Cultivation';
 import RNFetchBlob from 'react-native-fetch-blob'
-import {COLOR, STYLE} from '../styles/styles';
-import {CultivationSelector} from '../redux/selector/CultivationSelector';
-import {UPDATE_CULTIVATION_ACTION_REQ} from '../redux/action/dispatchers/CultivationAction';
+import {COLOR, STYLE} from '../styles';
+import {CultivationSelector} from '../redux/selector';
+import {UPDATE_CULTIVATION_ACTION_REQ} from '../redux/action/action_dispatchers';
 import {connect} from 'react-redux';
 // create a path you want to write to
 // :warning: on iOS, you cannot write into `RNFS.MainBundlePath`,

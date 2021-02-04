@@ -1,7 +1,7 @@
 import React from 'react';
 import {createStore, applyMiddleware, compose} from 'redux';
 import Field from '../../model/Field';
-import reducer from '../reducer/reducer';
+import {reducer} from '../reducer';
 import Cultivation from '../../model/Cultivation';
 import CultivAction from '../../model/CultivAction';
 import thunk from 'redux-thunk';
@@ -53,13 +53,12 @@ export default (reducers) => {
 
 const persistentReducer = persistReducer(persistConfig, reducer) // create a persisted reducer
 
-const store = createStore(
+export const store = createStore(
     persistentReducer,
     // compose(...
     applyMiddleware(...[thunk]) // add any middlewares here
     // )
-)
+);
 
-const persistor = persistStore(store);
+export const persistor = persistStore(store);
 
-export {store, persistor};

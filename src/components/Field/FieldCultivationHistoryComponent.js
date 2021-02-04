@@ -1,10 +1,10 @@
 import React, {Component} from 'react';
 import {FlatList, TouchableOpacity, View, Text} from 'react-native';
-import {STYLE} from '../../styles/styles';
+import {STYLE} from '../../styles';
 import AbstractCardComponent from '../abstract/AbstractCard';
 import Icon from 'react-native-vector-icons/Ionicons';
 import {connect} from 'react-redux';
-import {CultivationSelector} from '../../redux/selector/CultivationSelector';
+import {CultivationSelector} from '../../redux/selector';
 
 class FieldCultivationHistoryComponent extends Component{
     render() {

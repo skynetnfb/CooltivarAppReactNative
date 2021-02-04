@@ -1,7 +1,7 @@
 import React from 'react';
 import CultivationCardComponent from '../../pages/CultivationCardComponent';
 import {Image, StatusBar, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
-import {STYLE} from '../../styles/styles';
+import {STYLE} from '../../styles';
 
 class AbstractCardComponent extends CultivationCardComponent {
     constructor(props){

@@ -5,17 +5,17 @@ import {
     TouchableHighlight
 } from 'react-native';
 import {Text, TextInput} from 'react-native';
-import {STYLE, COLOR} from '../../styles/styles';
+import {STYLE, COLOR} from '../../styles';
 import ValidationFailMessage from '../common/ValidationFailMessage';
 import {
     INSERT_FIELD_ACTION_REQ,
     UPDATE_FIELD_ACTION_REQ,
-} from '../../redux/action/dispatchers/FieldAction';
+} from '../../redux/action/action_dispatchers';
 import Icon from 'react-native-vector-icons/Ionicons';
-import {FieldSelector} from '../../redux/selector/FieldSelector';
+import {FieldSelector} from '../../redux/selector';
 import Field from '../../model/Field';
 import MapView, {Polygon, Marker} from 'react-native-maps';
-import {BoundaryHelper} from '../../utils/CoordUtils';
+import {BoundaryHelper} from '../../utils';
 import FieldMap from './FieldMap';
 import {API_CALLS} from '../../api/api';
 import {check, PERMISSIONS, request, RESULTS, openSettings} from "react-native-permissions";

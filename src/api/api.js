@@ -1,5 +1,5 @@
 import axios, {AxiosResponse} from 'axios';
-import {E_OPENWEATHER_GET_FORECAST, E_OPENWEATHER_GET_TODAY} from '../redux/action/enum/MeteoActionEnum';
+import {E_OPENWEATHER_GET_FORECAST, E_OPENWEATHER_GET_TODAY} from '../redux/action/action_enum/MeteoActionEnum';
 
 
 // ------------------------------------------------------------------ private declarations

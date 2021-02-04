@@ -8,20 +8,20 @@ import {
     View
 } from 'react-native';
 import Cultivation from '../model/Cultivation';
-import {COLOR, STYLE} from '../styles/styles';
+import {COLOR, STYLE} from '../styles';
 import Icon from 'react-native-vector-icons/Ionicons';
 import {connect} from 'react-redux';
-import {CultivationSelector} from '../redux/selector/CultivationSelector';
+import {CultivationSelector} from '../redux/selector';
 import ModalComponent from '../components/abstract/ModalComponent';
-import {DELETE_CULTIVATION_ACTION_REQ} from '../redux/action/dispatchers/CultivationAction';
+import {DELETE_CULTIVATION_ACTION_REQ} from '../redux/action/action_dispatchers';
 import {
     METEO_FORECAST_REQUEST,
     THUNKED_WEATHER_FORECAST_MAPPEDTOSTATE,
     THUNKED_WEATHER_TODAY_MAPPEDTOSTATE,
-} from '../redux/action/dispatchers/meteoAction';
-import {FieldSelector} from '../redux/selector/FieldSelector';
-import {WEATHER_ICON} from '../utils/WeatherIcons';
-import {FIND_FIELD_ACTION_REQ} from '../redux/action/dispatchers/FieldAction';
+} from '../redux/action/action_dispatchers';
+import {FieldSelector} from '../redux/selector';
+import {WEATHER_ICON} from '../utils';
+import {FIND_FIELD_ACTION_REQ} from '../redux/action/action_dispatchers';
 
 
 class  CultivationDetailComponent extends React.Component{

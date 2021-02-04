@@ -12,15 +12,15 @@ import {
 } from 'react-native';
 import CultivAction from '../model/CultivAction';
 import {DatePickerComponent} from '../components/abstract/DatePickerComponent';
-import {STYLE} from '../styles/styles';
-import {CultivationSelector} from '../redux/selector/CultivationSelector';
+import {STYLE} from '../styles';
+import {CultivationSelector} from '../redux/selector';
 import {connect} from 'react-redux';
 import {
     INSERT_OPERATION_ACTION_REQ,
     UPDATE_OPERATION_ACTION_REQ,
-} from '../redux/action/dispatchers/OperationAction';
-import {CultivActionSelector} from '../redux/selector/CultivActionSelector';
-import {createScheduledNotification,createNotificationChannel,configureNotification} from '../utils/NotificationUtils';
+} from '../redux/action/action_dispatchers';
+import {CultivActionSelector} from '../redux/selector';
+import {createScheduledNotification,createNotificationChannel,configureNotification} from '../utils';
 
 
 configureNotification();

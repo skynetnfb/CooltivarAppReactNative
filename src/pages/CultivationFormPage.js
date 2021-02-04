@@ -11,14 +11,14 @@ import {
 } from 'react-native';
 import Cultivation from '../model/Cultivation';
 import {DatePickerComponent} from '../components/abstract/DatePickerComponent';
-import {STYLE} from '../styles/styles';
-import {CultivationSelector} from '../redux/selector/CultivationSelector';
+import {STYLE} from '../styles';
+import {CultivationSelector} from '../redux/selector';
 import {
     INSERT_CULTIVATION_ACTION_REQ,
     UPDATE_CULTIVATION_ACTION_REQ,
-} from '../redux/action/dispatchers/CultivationAction';
+} from '../redux/action/action_dispatchers';
 import {connect} from 'react-redux';
-import {FieldSelector} from '../redux/selector/FieldSelector';
+import {FieldSelector} from '../redux/selector';
 import ValidationComponent2 from '../components/Field/ValidationComponent2';
 import ValidationFailMessage from '../components/common/ValidationFailMessage';
 

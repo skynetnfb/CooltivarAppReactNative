@@ -11,7 +11,7 @@ import {
 import FirebaseAuth from '../utils/FirebaseAuth';
 import Icon from 'react-native-vector-icons/Ionicons';
 import firebase from 'firebase';
-import {COLOR, STYLE} from '../styles/styles';
+import {COLOR, STYLE} from '../styles';
 import ValidationFailMessage from '../components/common/ValidationFailMessage';
 
 

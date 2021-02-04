@@ -6,7 +6,7 @@ import {
     TouchableOpacity,
     View
 } from 'react-native';
-import {COLOR, STYLE} from '../styles/styles';
+import {COLOR, STYLE} from '../styles';
 
 class CultivActionCardComponent extends React.Component{
     constructor(props){

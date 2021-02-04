@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import  firebase from 'firebase';
 import {initRealm} from './model/Repository';
-import{USER_LOGGED_REQ,USER_LOGGED_OUT_REQ} from './redux/action/dispatchers/UserAction';
+import {USER_LOGGED_REQ, USER_LOGGED_OUT_REQ} from './redux/action/action_dispatchers';
 import RootNavigator from './navigator/RootNavigator';
 import {Alert, BackHandler} from 'react-native';
 

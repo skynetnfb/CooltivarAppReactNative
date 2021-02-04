@@ -7,12 +7,12 @@ import {
 
 import CultivActionCardComponent from "./CultivActionCardComponent";
 import Icon from 'react-native-vector-icons/Ionicons';
-import {STYLE} from '../styles/styles';
+import {STYLE} from '../styles';
 import {connect} from 'react-redux';
-import {CultivActionSelector} from '../redux/selector/CultivActionSelector';
+import {CultivActionSelector} from '../redux/selector';
 import {
     FIND_OPERATION_BY_CULTIVATION_ACTION_REQ,
-} from '../redux/action/dispatchers/OperationAction';
+} from '../redux/action/action_dispatchers';
 
 class  CultivActionsIrrigationsComponent extends Component{
     constructor(props) {

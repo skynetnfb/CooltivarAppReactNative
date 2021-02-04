@@ -7,7 +7,7 @@ import {
     TouchableHighlight, TouchableOpacity,
     View,
 } from 'react-native';
-import {STYLE} from '../../styles/styles';
+import {STYLE} from '../../styles';
 
 const ModalComponent = (props) => {
     const [modalVisible, setModalVisible] = useState(false);

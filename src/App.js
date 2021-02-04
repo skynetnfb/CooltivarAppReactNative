@@ -1,8 +1,6 @@
 import 'react-native-gesture-handler';
 import React from 'react';
 import {SafeAreaView} from "react-native-safe-area-context";
-import {Provider} from 'react-redux';
-import {store} from './redux/store/store';
 import UserService from './UserService';
 import {LogBox} from 'react-native';
 

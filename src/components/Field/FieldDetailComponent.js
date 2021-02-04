@@ -1,24 +1,26 @@
 import React from 'react';
 import {StyleSheet, View, Image, Button, TouchableOpacity} from 'react-native';
 import {Text} from 'react-native';
-import {STYLE, COLOR} from '../../styles/styles';
-import {CultivationSelector} from '../../redux/selector/CultivationSelector';
-import {FIND_CULTIVATION_ACTION_REQ, INSERT_CULTIVATION_ACTION_REQ} from '../../redux/action/dispatchers/CultivationAction';
+import {STYLE, COLOR} from '../../styles';
+import {CultivationSelector} from '../../redux/selector';
 import {connect} from 'react-redux';
 import {
     DELETE_FIELD_ACTION_REQ,
     FIND_FIELD_ACTION_REQ,
+    METEO_TODAY_REQUEST,
+    THUNKED_WEATHER_TODAY,
     INSERT_FIELD_ACTION_REQ,
     UPDATE_FIELD_ACTION_REQ,
-} from '../../redux/action/dispatchers/FieldAction';
-import {FieldSelector} from '../../redux/selector/FieldSelector';
+    FIND_CULTIVATION_ACTION_REQ,
+    INSERT_CULTIVATION_ACTION_REQ
+} from '../../redux/action/action_dispatchers';
+import {FieldSelector} from '../../redux/selector';
 import Field from '../../model/Field';
 import FieldMap from './FieldMap';
-import {METEO_TODAY_REQUEST, THUNKED_WEATHER_TODAY} from '../../redux/action/dispatchers/meteoAction';
-import {WEATHER_ICON} from '../../utils/WeatherIcons';
+import {WEATHER_ICON} from '../../utils';
 import Icon from 'react-native-vector-icons/Ionicons';
 import ModalComponent from '../abstract/ModalComponent';
-import {store} from '../../redux/store/store';
+import {store} from '../../redux/store';
 
 class FieldDetailComponent extends FieldMap{
     constructor(props) {

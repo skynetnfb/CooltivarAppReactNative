@@ -2,15 +2,14 @@
  * @format
  */
 import 'react-native-gesture-handler';
-import React,{Component} from 'react';
+import React, {Component} from 'react';
 import {AppRegistry, Text} from 'react-native';
 import App from './src/App';
-//import App from './App';
 import {name as appName} from './app.json';
 import Provider from 'react-redux/lib/components/Provider';
 import {PersistGate} from 'redux-persist/integration/react';
 import {LoadingPage} from './src/pages/LoadingPage';
-import {store, persistor} from './src/redux/store/store';
+import {store, persistor} from './src/redux/store';
 //import messaging from '@react-native-firebase/messaging';
 import PushNotification from 'react-native-push-notification';
 

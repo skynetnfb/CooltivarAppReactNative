@@ -2,7 +2,7 @@ import React  from 'react';
 import {View, Text, TextInput, TouchableHighlight, StyleSheet} from 'react-native';
 import ValidationComponent2 from './ValidationComponent2';
 import ValidationFailMessage from '../common/ValidationFailMessage';
-import {STYLE} from '../../styles/styles';
+import {STYLE} from '../../styles';
 
 class FieldForm extends ValidationComponent2 {
     constructor(props) {

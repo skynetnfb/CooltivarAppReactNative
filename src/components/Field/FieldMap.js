@@ -7,7 +7,7 @@ import {
     TouchableOpacity
 } from 'react-native';
 import {Text,} from 'react-native';
-import {STYLE, MAP_LABEL_STYLE, COLOR} from '../../styles/styles';
+import {STYLE, MAP_LABEL_STYLE, COLOR} from '../../styles';
 import ValidationComponent2 from './ValidationComponent2';
 import Geolocation, {
     GeolocationError,
@@ -19,12 +19,12 @@ import {
     FIND_FIELD_ACTION_REQ,
     INSERT_FIELD_ACTION_REQ,
     UPDATE_FIELD_ACTION_REQ,
-} from '../../redux/action/dispatchers/FieldAction';
+} from '../../redux/action/action_dispatchers';
 import Icon from 'react-native-vector-icons/Ionicons';
-import {FieldSelector} from '../../redux/selector/FieldSelector';
+import {FieldSelector} from '../../redux/selector';
 import Field from '../../model/Field';
 import MapView, {Polygon, Marker} from 'react-native-maps';
-import {BoundaryHelper} from '../../utils/CoordUtils';
+import {BoundaryHelper} from '../../utils';
 import RNFetchBlob from 'react-native-fetch-blob';
 import {check, PERMISSIONS} from 'react-native-permissions';
 

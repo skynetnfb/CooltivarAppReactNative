@@ -1,8 +1,6 @@
 import axios, {AxiosResponse} from 'axios';
-import {API_CALLS, AxiosResponseType, URL_WeatherForecast, URL_WeatherToday, weatherToday2} from '../../../api/api';
-import {E_OPENWEATHER_GET_FORECAST, E_OPENWEATHER_GET_TODAY, METEO_ENUM} from '../enum/MeteoActionEnum';
-import {E_FIND_FIELD_REQ} from '../enum/FieldEnum';
-import {makeFindAction} from './FieldAction';
+import {API_CALLS, AxiosResponseType, URL_WeatherForecast, URL_WeatherToday} from '../../../api/api';
+import {E_OPENWEATHER_GET_FORECAST, E_OPENWEATHER_GET_TODAY, METEO_ENUM} from '../action_enum';
 
 
 function forecastSuccessCallback(response: AxiosResponse<ART>, dispatch, fieldid: string): void {

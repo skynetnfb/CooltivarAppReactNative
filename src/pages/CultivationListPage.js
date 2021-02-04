@@ -7,12 +7,12 @@ import {
 } from 'react-native';
 import AbstractCardComponent from "../components/abstract/AbstractCard";
 import Icon from 'react-native-vector-icons/Ionicons';
-import {STYLE} from '../styles/styles';
+import {STYLE} from '../styles';
 import {connect} from 'react-redux';
-import {FIND_CULTIVATION_ACTION_REQ, INSERT_CULTIVATION_ACTION_REQ} from '../redux/action/dispatchers/CultivationAction';
-import {CultivationSelector} from '../redux/selector/CultivationSelector';
+import {FIND_CULTIVATION_ACTION_REQ, INSERT_CULTIVATION_ACTION_REQ} from '../redux/action/action_dispatchers';
+import {CultivationSelector} from '../redux/selector';
 import ModalComponent from '../components/abstract/ModalComponent';
-import {USER_LOGGED_OUT_REQ} from '../redux/action/dispatchers/UserAction';
+import {USER_LOGGED_OUT_REQ} from '../redux/action/action_dispatchers';
 import PushNotification from 'react-native-push-notification';
 import messaging from '@react-native-firebase/messaging';
 //import PushNotificationsHandler from 'react-native-push-notification';

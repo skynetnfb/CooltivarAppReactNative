@@ -11,14 +11,14 @@ import AbstractCardComponent from '../components/abstract/AbstractCard';
 import {
     FIND_FIELD_ACTION_REQ,
     INSERT_FIELD_ACTION_REQ, THUNKED_FIND_FIELD,
-} from '../redux/action/dispatchers/FieldAction';
+} from '../redux/action/action_dispatchers';
 import {connect} from 'react-redux';
-import {COLOR, STYLE} from '../styles/styles';
+import {COLOR, STYLE} from '../styles';
 import Field from '../model/Field';
-import {FieldSelector} from '../redux/selector/FieldSelector';
+import {FieldSelector} from '../redux/selector';
 import Icon from 'react-native-vector-icons/Ionicons';
 
-import {store} from '../redux/store/store';
+import {store} from '../redux/store';
 
 class  FieldListPage extends React.Component{
     componentDidMount(): void {
