@@ -38,10 +38,8 @@ class CultivActionFormPage extends Component {
             startDate:new Date(),
             endDate: new Date(),
             cultivation_id:-1,
-            cultivAction: null,
         };
         if(this.props.route.params.cultivAction!==undefined){
-            this.state.cultivAction= this.props.route.params.cultivAction;
             this.state.description = this.props.route.params.cultivAction.description;
             this.state.status = this.props.route.params.cultivAction.status;
             this.state.type = this.props.route.params.cultivAction.type;
@@ -59,21 +57,19 @@ class CultivActionFormPage extends Component {
             this.setState({
                 status: text,
             });
-            console.log('***---------------------------------------------------Change Status',this.state.status);
         }.bind(this);
 
         this.handleChangeType = function(text) {
             this.setState({
                 type: text,
             });
-            console.log('***---------------------------------------------------Change TYPE',this.state.type);
         }.bind(this);
 
         this.confirm = function() {
             this.setState({loading: true});
-            if(this.state.cultivAction==null){
+            if(this.props.route.params.cultivAction==null){
                 let cultivation_id = this.props.route.params.cultivation_id;
-                this.state.cultivAction = new CultivAction(
+                let _cultivAction = new CultivAction(
                     this.state.description,
                     new Date(this.state.startDate),
                     new Date(this.state.endDate),
@@ -81,13 +77,14 @@ class CultivActionFormPage extends Component {
                     this.state.type,
                     cultivation_id
                 );
-                this.props.insert_cultivAction(this.state.cultivAction);
+                this.props.insert_cultivAction(_cultivAction);
 
                 createScheduledNotification(
                    "Cooltivar App Notification",
                    "Action Required: "+this.state.type+" - "+this.state.status+" - "+this.state.description,
                    new Date(this.state.startDate)
                );
+
             }else {
                 let _cultivAction = new CultivAction();
                 let cultivActionRealm = this.props.route.params.cultivAction;
@@ -98,7 +95,7 @@ class CultivActionFormPage extends Component {
                 _cultivAction.status=this.state.status;
                 _cultivAction.type=this.state.type;
                 _cultivAction.cultivation_id=cultivActionRealm.cultivation_id;
-                this.props.update_cultivAction(this.state.cultivAction);
+                this.props.update_cultivAction(_cultivAction);
 
                 createScheduledNotification(
                     "Cooltivar App Notification",
@@ -183,7 +180,7 @@ class CultivActionFormPage extends Component {
                         </TouchableOpacity>
                     </View>
                     <View style={styles.alert_box}>
-                        <Text style={styles.alert_message}>{this.state.validation}</Text>
+                        <Text style={styles.alert_message}></Text>
                     </View>
                 </ScrollView>
             </SafeAreaView>

@@ -20,7 +20,7 @@ import {
 import {connect} from 'react-redux';
 import {FieldSelector} from '../redux/selector/FieldSelector';
 import ValidationComponent2 from '../components/Field/ValidationComponent2';
-import ValidationFailMessage from '../components/common/ValidationFailMessage';
+import ValidationFailMessage from '../components/abstract/ValidationFailMessage';
 
 
 class CultivationFormPage extends ValidationComponent2 {

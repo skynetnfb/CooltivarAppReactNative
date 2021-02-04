@@ -66,7 +66,7 @@ class CultivActionCardComponent extends React.Component{
                         <View style={[STYLE.rowContainer,STYLE.columnContainer,STYLE.centerColumn,styles.card_title_container]}>
                             <Icon style={[styles.card_image]}
                                   name={type}
-                                  size={60}
+                                  size={40}
                                   color={iconColor}
                             />
                             <Text numberOfLines={1} style={[styles.card_title]}>
@@ -120,7 +120,7 @@ const styles = StyleSheet.create({
         flexDirection:'row',
         borderWidth: StyleSheet.hairlineWidth,
         borderColor: '#aaa',
-        height: 160,
+        height: 120,
         width: '100%', // maybe useless
     },
     card_image: {
@@ -166,20 +166,6 @@ const styles = StyleSheet.create({
         flexDirection:'row',
         justifyContent: 'space-around',
         marginBottom: 4,
-    },
-    loading_icon: {
-        flex: 1,
-        justifyContent: 'center',
-    },
-    empty_collection_text_container: {
-        flex: 1,
-        justifyContent: 'center',
-    },
-    empty_collection_text: {
-        textAlign: 'center',
-        color: 'grey',
-        fontSize: 15,
-        fontWeight: 'bold',
-    },
+    }
 });
 export  default CultivActionCardComponent;

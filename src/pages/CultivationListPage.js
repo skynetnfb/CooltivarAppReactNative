@@ -13,11 +13,7 @@ import {FIND_CULTIVATION_ACTION_REQ, INSERT_CULTIVATION_ACTION_REQ} from '../red
 import {CultivationSelector} from '../redux/selector/CultivationSelector';
 import ModalComponent from '../components/abstract/ModalComponent';
 import {USER_LOGGED_OUT_REQ} from '../redux/action/dispatchers/UserAction';
-import PushNotification from 'react-native-push-notification';
-import messaging from '@react-native-firebase/messaging';
 import {FieldSelector} from '../redux/selector/FieldSelector';
-//import PushNotificationsHandler from 'react-native-push-notification';
-//const PushNotification = require('react-native-push-notification');
 
 
 class  CultivationListPage extends React.Component{

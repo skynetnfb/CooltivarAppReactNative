@@ -6,7 +6,7 @@ import {
 } from 'react-native';
 import {Text, TextInput} from 'react-native';
 import {STYLE, COLOR} from '../../styles/styles';
-import ValidationFailMessage from '../common/ValidationFailMessage';
+import ValidationFailMessage from '../abstract/ValidationFailMessage';
 import {
     INSERT_FIELD_ACTION_REQ,
     UPDATE_FIELD_ACTION_REQ,

@@ -220,7 +220,7 @@ const reducer = (state = initialState, action) => {
             cultivAction = action.cultivAction;
             //console.log('!!!---------------------REDUCER CULTIV_ACTION UPDATE---------------------------!!! CULTIVATION',_cultiv_Action);
             updateCultivAction(cultivAction);
-            index = newState.cultivations.findIndex((e)=> (e.id === cultivAction.id));
+            index = newState.cultivActions.findIndex((e)=> (e.id === cultivAction.id));
             newState.cultivActions[index] = cultivAction;
             //console.log('!!!---------------------REDUCER CULTIV_ACTION UPDATE FINISH---------------------------!!! ');
             break;
