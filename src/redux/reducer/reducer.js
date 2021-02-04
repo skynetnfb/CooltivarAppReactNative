@@ -31,12 +31,7 @@ class AppState {
 }
 
 const initialState: AppState = {
-    /*fields: [
-        new Field('field_1', 'Agrigento', 'primo agr test', '[]'),
-        new Field('field_2', 'Frosinone', 'fros desc test', '[]'),
-        new Field('field_3', 'Termini', 'term desc test', '[]'),
-        new Field('field_4', 'Terni', 'tern desc test', '[]'),
-    ],*/
+
     fields: [],
     cultivations: [
         //new Cultivation('MOCK', 'cultivar1', 'description of cultivation1', '1', new Date(), new Date(), 500, 'Grow', null),
@@ -47,24 +42,6 @@ const initialState: AppState = {
     loading:true,
 };
 
-
-function debugStatusSize(state) {
-    let ret = {};
-    ret = state;
-    /*
-    if (!state) return {'??' : 'not an object?'};
-    for (let key in state) {
-        const val = state[key];
-        let previewVal;
-        switch( typeof(val) ){
-            case 'object':
-                previewVal = Array.isArray(val) ? val.length : val;
-                break;
-        }
-        ret[key] = typeof(val) === 'object' ? (Array.isArray(val) ? val.length : typeof 'object') : val;
-    }*/
-    return ret;
-}
 
 const reducer = (state = initialState, action) => {
     if (!action) return state;
@@ -84,7 +61,7 @@ const reducer = (state = initialState, action) => {
     let cultivation: Cultivation = null;
     let cultivAction: CultivAction = null;
     let id: string;
-    console.log("REDUCER EXECUTING ACTION: " + actionStr, action, " Status : ", debugStatusSize(state));
+    console.log("REDUCER EXECUTING ACTION: " + actionStr, action, " Status : ", state);
     let response, index;
     switch (actionStr) {
         default:
@@ -280,7 +257,7 @@ const reducer = (state = initialState, action) => {
 
 
     }
-    console.log("REDUCER RETURNING Status : ", debugStatusSize(newState));
+    console.log("REDUCER RETURNING Status : ", newState);
     return newState;
 };
 
