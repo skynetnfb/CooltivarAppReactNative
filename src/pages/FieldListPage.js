@@ -23,7 +23,7 @@ import {store} from '../redux/store/store';
 class  FieldListPage extends React.Component{
     componentDidMount(): void {
         // this.props.find_fields(); // così carico i terreni con normal actions, ma con dispatch "nascosto"
-        // store.dispatch(this.props.thunk_find()); // così carico i terreni con thunk
+        store.dispatch(this.props.thunk_find()); // così carico i terreni con thunk
         // senza nulla carico i terreni comunque per via del persist-store
         // i thunk però servono principalmente per lanciare azioni dopo il risultato di una operazione asincrona se ha successo, dovrei usarlo in weather.
     }
@@ -32,7 +32,6 @@ class  FieldListPage extends React.Component{
     addMockFields = function() {
         console.log("adding mock field...");
         this.props.insert_field( new Field('field_' + this.count++, 'Agrigento', 'primo agr test'));
-        // for (let field of this.props.fields) { this.props.insert_field(field); }
     }.bind(this);
 
     render() {

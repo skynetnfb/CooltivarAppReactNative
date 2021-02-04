@@ -18,7 +18,8 @@ import MapView, {Polygon, Marker} from 'react-native-maps';
 import {BoundaryHelper} from '../../utils/CoordUtils';
 import FieldMap from './FieldMap';
 import {API_CALLS} from '../../api/api';
-import RNFetchBlob from 'react-native-fetch-blob';
+import {check, PERMISSIONS, request, RESULTS, openSettings} from "react-native-permissions";
+
 
 class FieldFormComponent extends FieldMap{
 
@@ -104,10 +105,6 @@ class FieldFormComponent extends FieldMap{
     onCityReceiveFail = function(error: any): void{
         console.warn("__fc got city FAILURE", error);
     }.bind(this);
-
-    componentDidMount(): void {
-        console.log('__fc componentDidMount');
-    }
 
     render() {
         console.log('__ fc render()');

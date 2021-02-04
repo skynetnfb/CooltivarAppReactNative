@@ -14,7 +14,11 @@ import {connect} from 'react-redux';
 import {CultivationSelector} from '../redux/selector/CultivationSelector';
 import ModalComponent from '../components/abstract/ModalComponent';
 import {DELETE_CULTIVATION_ACTION_REQ} from '../redux/action/dispatchers/CultivationAction';
-import {METEO_FORECAST_REQUEST} from '../redux/action/dispatchers/meteoAction';
+import {
+    METEO_FORECAST_REQUEST,
+    THUNKED_WEATHER_FORECAST_MAPPEDTOSTATE,
+    THUNKED_WEATHER_TODAY_MAPPEDTOSTATE,
+} from '../redux/action/dispatchers/meteoAction';
 import {FieldSelector} from '../redux/selector/FieldSelector';
 import {WEATHER_ICON} from '../utils/WeatherIcons';
 import {FIND_FIELD_ACTION_REQ} from '../redux/action/dispatchers/FieldAction';
@@ -69,8 +73,9 @@ class  CultivationDetailComponent extends React.Component{
         if (!coordinate) return;
         const hours = 1000 * 60 * 60;
         if (field.forecast && (field.forecastTime >= new Date().getTime() - 1 * hours)) return;
-        console.log('__meteo cd forecast start route passed', this.props.forecast_action);
-        this.props.forecast_action(coordinate, field.id, 2);
+        console.log('__meteo cd forecast start route passed', this.props.forecast_action_thunked);
+        // this.props.forecast_action(coordinate, field.id, 2);
+        this.props.forecast_action_thunked(coordinate, field.id, 2);
     }
 
     componentWillUnmount(): void {
@@ -259,8 +264,8 @@ const mapDispatchToProps = (dispatch) => {
     return {
         delete_cultivation: DELETE_CULTIVATION_ACTION_REQ(dispatch),
         forecast_action: METEO_FORECAST_REQUEST(dispatch),
+        forecast_action_thunked: THUNKED_WEATHER_FORECAST_MAPPEDTOSTATE(dispatch),
         find_field_action: FIND_FIELD_ACTION_REQ(dispatch),
-
     };
 };
 
