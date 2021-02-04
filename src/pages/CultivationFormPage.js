@@ -237,10 +237,10 @@ class CultivationFormPage extends ValidationComponent2 {
 
                             <View style = {[STYLE.columnContainer, {width: '100%'}]}>
                                 <Text style={[STYLE.center]}>From</Text>
-                                <DatePickerComponent ref="sowingDate" initial_value ={this.state.sowingDate}  result = {this.resultStartDatePicker}/>
+                                <DatePickerComponent initial_value ={this.state.sowingDate}  result = {this.resultStartDatePicker}/>
 
                                 <Text style={[STYLE.center]}>to</Text>
-                                <DatePickerComponent ref="harvestDate" initial_value ={this.state.harvestDate}  result = {this.resultEndDatePicker}/>
+                                <DatePickerComponent initial_value ={this.state.harvestDate}  result = {this.resultEndDatePicker}/>
                             </View>
                             {this.isFieldInError('sowingDate') && <ValidationFailMessage>{this.getErrorsInField('sowingDate')[0]}</ValidationFailMessage>}
                             {this.isFieldInError('harvestDate') && <ValidationFailMessage>{this.getErrorsInField('harvestDate')[0]}</ValidationFailMessage>}

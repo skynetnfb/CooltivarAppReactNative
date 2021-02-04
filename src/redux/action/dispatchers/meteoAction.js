@@ -81,6 +81,7 @@ export const THUNKED_WEATHER_FORECAST_MAPPEDTOSTATE = (dispatch) => (coordinate,
     dispatch(
         (dispatch, getState) => {
             console.log('__meteo cd forecast dispatched',getState);
+
             axios.get(  URL_WeatherForecast(coordinate, days) )
                 .then( (response: any): string[] => {
                     const fullForecast = response.data.list;
@@ -93,5 +94,12 @@ export const THUNKED_WEATHER_FORECAST_MAPPEDTOSTATE = (dispatch) => (coordinate,
                 .catch( (err) => {
                     console.warn("failed to get weather", err);
                 });
+            axios.get(  URL_WeatherToday(coordinate) )
+                .then( (response: any): string => "" + response.data.list[0].weather[0].icon)
+                .then( (icon: string) => dispatch({type: E_OPENWEATHER_GET_TODAY, id: fieldid, icon: icon}))
+                .catch( (err) => {
+                    console.warn("failed to get weather", err);
+                });
         });
+
 };
