@@ -78,7 +78,6 @@ class RegisterComponent extends Component {
     }
 
     render() {
-
         const firebaseConfig = {
             apiKey: 'AIzaSyC_F98EhQTmgzbbalgnYqQFpCgOXcgcnxs',
             authDomain: 'reactcooltivarapp.firebaseapp.com',
