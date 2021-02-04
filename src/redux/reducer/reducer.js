@@ -273,7 +273,7 @@ const reducer = (state = initialState, action) => {
             break;
         case UserEnum.USER_LOGGED_OUT:
             console.log('###!!!---------------------------------------------REDUCER UserEnum.USER_LOGGED_OUT');
-            newState = JSON.clone(JSON.stringify(initialState));
+            newState = JSON.parse(JSON.stringify(initialState));
             newState.logged = false;
             newState.user = null;
             break;
