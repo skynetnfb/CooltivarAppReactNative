@@ -1,51 +1,32 @@
 import React, {Component} from 'react';
-import {View, ActivityIndicator} from 'react-native';
+import {View, ActivityIndicator, Image,Text} from 'react-native';
+import {COLOR} from '../styles/styles';
 
-export const LoadingPage = function() {
-    return (
-        <View style={styles.pageContainer}>
-            <ActivityIndicator
-                size={'large'}
-                color={'rgb(120, 79,246)'}
-            />
-        </View>
-    );
-};
 
 class LoadingPageComponent extends Component {
     constructor(props) {
         super(props);
     }
-/*
+
     componentDidMount() {
-        const {loading, inLoading} = this.props;
-        setTimeout(function() {
-            inLoading();
-        }, 1000);
     }
-*/
+
     render() {
-        return <LoadingPage />;
+        return (
+            <View style={styles.pageContainer}>
+                <Image
+                    style={styles.logo}
+                    source={require('../../imgs/logo.png')}
+                />
+                <Text style={styles.text_logo}>CooltivarApp</Text>
+            <ActivityIndicator
+                size={'large'}
+                color={COLOR.MAIN}
+            />
+        </View>
+        );
     }
-
 }
-/*
-function mapStateToProps(state) {
-    const {loading} = state.app;
-    return {
-        loading,
-    };
-}
-
-function mapDispatchToProps(dispatch) {
-    return {
-        inLoading: function() {
-            dispatch({
-                type: IN_LOADING,
-            });
-        }
-    };
-}*/
 
 export default LoadingPageComponent;
 
@@ -55,4 +36,12 @@ const styles = {
         justifyContent: 'center',
         alignItems: 'center',
     },
+    text_logo:{
+       fontSize:48,
+        color:COLOR.MAIN
+    },
+    logo:{
+        height:90,
+        width:90,
+    }
 };

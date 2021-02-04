@@ -58,7 +58,7 @@ class  CultivActionsIrrigationsComponent extends Component{
                 />
                 <TouchableOpacity
                     style={[STYLE.footer]}
-                    onPress={()=>this.props.navigation.navigate('action form')}>
+                    onPress={()=>this.props.navigation.navigate('action form',{cultivation_id:routeParams2.id})}>
                     <Icon
                         name="md-add-circle-sharp"
                         size={40}

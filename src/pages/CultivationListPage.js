@@ -12,6 +12,8 @@ import {connect} from 'react-redux';
 import {FIND_CULTIVATION_ACTION_REQ, INSERT_CULTIVATION_ACTION_REQ} from '../redux/action/action_dispatchers';
 import {CultivationSelector} from '../redux/selector';
 import ModalComponent from '../components/abstract/ModalComponent';
+import {USER_LOGGED_OUT_REQ} from '../redux/action/dispatchers/UserAction';
+import {FieldSelector} from '../redux/selector/FieldSelector';
 import {USER_LOGGED_OUT_REQ} from '../redux/action/action_dispatchers';
 import PushNotification from 'react-native-push-notification';
 import messaging from '@react-native-firebase/messaging';
@@ -29,6 +31,13 @@ class  CultivationListPage extends React.Component{
                 this.props.navigation.navigate('login')
             }
         }.bind(this);
+        this.setupAddButton = ()=> {
+            if(this.props.fieldsCount>0){
+                this.props.navigation.navigate('cultivation_form',{id:null})
+            }else{
+                this.props.navigation.navigate('field_form',{id:null})
+            }
+        }
     }
     componentDidMount(): void {
         this.props.find_cultivations();
@@ -76,7 +85,7 @@ class  CultivationListPage extends React.Component{
                         </ModalComponent>
                     </TouchableOpacity>
                     <TouchableOpacity
-                        onPress={()=>this.props.navigation.navigate('cultivation_form',{id:null})}>
+                        onPress={this.setupAddButton}>
                         <Icon
                             name="md-add-circle-sharp"
                             size={40}
@@ -100,6 +109,7 @@ const styles = StyleSheet.create({
 const mapStateToProps = (state) => {
     let stateret;
     stateret = {
+        fieldsCount:FieldSelector.findAll(state)().length,
         cultivations: CultivationSelector.findAll(state)(),
         selectors: CultivationSelector,
     };

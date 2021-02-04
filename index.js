@@ -115,12 +115,24 @@ PushNotification.getChannels(function (channel_ids) {
 
 
 class Root extends Component {
+    state = {
+        gateLifted: false
+    };
+
+    onBeforeLift = () => {
+        // Take an action before the gate lifts
+        setTimeout(() => {
+            this.setState({ gateLifted: true})
+        }, 3000);
+    };
+
     render() {
         console.log("----------------STORE", store, persistor);
         return (
-            <Provider store={store} loading={<Text>Loading...</Text>}>
-                <PersistGate persistor={persistor} loading={<Text>Loading...</Text>}>
-                    <App />
+            <Provider store={store}>
+                <PersistGate persistor={persistor} loading={<LoadingPage/>} onBeforeLift={this.onBeforeLift}>
+                    { this.state.gateLifted ? <App /> : <LoadingPage/>}
+
                 </PersistGate>
             </Provider>
         );

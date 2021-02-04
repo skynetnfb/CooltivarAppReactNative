@@ -26,20 +26,12 @@ export class AppState {
 }
 
 export const initialState: AppState = {
-    /*fields: [
-        new Field('field_1', 'Agrigento', 'primo agr test', '[]'),
-        new Field('field_2', 'Frosinone', 'fros desc test', '[]'),
-        new Field('field_3', 'Termini', 'term desc test', '[]'),
-        new Field('field_4', 'Terni', 'tern desc test', '[]'),
-    ],*/
     fields: [],
-    cultivations: [
-        //new Cultivation('MOCK', 'cultivar1', 'description of cultivation1', '1', new Date(), new Date(), 500, 'Grow', null),
-    ],
-    cultivActions:[],
-    user:null,
-    logged:false,
-    loading:true,
+    cultivations: [],
+    cultivActions: [],
+    user: null,
+    logged: false,
+    loading: true,
 };
 
 
@@ -221,7 +213,7 @@ export const reducer = (state = initialState, action) => {
             cultivAction = action.cultivAction;
             //console.log('!!!---------------------REDUCER CULTIV_ACTION UPDATE---------------------------!!! CULTIVATION',_cultiv_Action);
             updateCultivAction(cultivAction);
-            index = newState.cultivations.findIndex((e)=> (e.id === cultivAction.id));
+            index = newState.cultivActions.findIndex((e)=> (e.id === cultivAction.id));
             newState.cultivActions[index] = cultivAction;
             //console.log('!!!---------------------REDUCER CULTIV_ACTION UPDATE FINISH---------------------------!!! ');
             break;
