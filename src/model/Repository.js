@@ -4,18 +4,16 @@ import Field from './Field';
 
 let Realm = require('realm');
 let realm = null;
+
 export const initRealm =function(userDbPath){
     realm = new Realm({ path: userDbPath+'db.realm', schema: [Cultivation.schema,CultivAction.schema,Field.schema] });
     return realm;
 };
 
-
-
 export const createCultivation = (cultivation: Cultivation) => {
     if (!cultivation) {
         throw 'Empty cultivation cant be saved'
     }
-
     while (checkIfCultivationExists(cultivation.id))
     {
         cultivation = new CultivAction(cultivation.name,cultivation.cultivar,cultivation.field_id,cultivation.sowingDate,cultivation.harvestDate,cultivation.harvestDate,cultivation.status,cultivation.preview)
@@ -71,7 +69,6 @@ export const deleteCultivation = (cultivation: Cultivation) => {
     if (!cultivation) {
         throw 'Invalid input!';
     }
-
     let findCultivation = getCultivationById(cultivation.id);
     if (!findCultivation) {
         return false;
@@ -94,14 +91,12 @@ const checkIfCultivationExists = (id: number) => {
 //------------------------------------------Cultivation END------------------------------------------------------------//
 
 
-
-
-//------------------------------------------CultivAction START----------------------------------------------------------//
+//------------------------------------------Cultiv_Action START----------------------------------------------------------//
 export const createCultivAction = (cultivAction: CultivAction) => {
     if (!cultivAction) {
         throw 'Empty cultivAction cant be saved'
     }
-    // check if hero already existed?
+    // check already existed?
     while (checkIfCultivActionExists(cultivAction.id))
     {
         cultivAction = new CultivAction(cultivAction.description, cultivAction.startDate,cultivAction.endDate,cultivAction.status,cultivAction.type,cultivAction.cultivation_id)
@@ -115,7 +110,6 @@ export const createCultivAction = (cultivAction: CultivAction) => {
         throw 'Error Creating cultivAction: ${e.message}';
     } finally {}
 };
-
 
 // result: realm objects
 export const getAllCultivActions = () => {
@@ -235,7 +229,6 @@ export const updateField = (field: Field) => {
     if (!field) {
         throw 'Empty Field cant be saved'
     }
-    //TODO result
     let findField = getFieldById(field.id);
     if (!findField) {
         throw 'No Field Found';

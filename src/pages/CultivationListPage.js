@@ -12,10 +12,6 @@ import {FIND_CULTIVATION_ACTION_REQ, INSERT_CULTIVATION_ACTION_REQ, USER_LOGGED_
 import {CultivationSelector, FieldSelector} from '../redux/selector';
 import ModalComponent from '../components/abstract/ModalComponent';
 import AbstractCardComponent from "../components/abstract/AbstractCard";
-import PushNotification from 'react-native-push-notification';
-import messaging from '@react-native-firebase/messaging';
-//import PushNotificationsHandler from 'react-native-push-notification';
-//const PushNotification = require('react-native-push-notification');
 
 
 class  CultivationListPage extends React.Component{
@@ -121,6 +117,5 @@ const mapDispatchToProps = (dispatch) => {
     };
 };
 
-//TODO item.preview && {uri: item.preview}
 export default connect(mapStateToProps, mapDispatchToProps)(CultivationListPage);
 

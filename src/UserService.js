@@ -58,7 +58,6 @@ class UserService extends Component {
         });
     }
 
-
     componentWillUnmount()
     {
         const realm = this.state.realm;

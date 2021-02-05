@@ -23,7 +23,6 @@ class  CultivActionsThreatRemedyComponent extends Component{
         }.bind(this);
 
         this.getThreatRemedy = function() {
-            console.log('---------------------------------getThreatRemedy()');
             let threatsRemedies = [];
             for(let action of this.props.cultivActions){
                 console.log('---------------------------------action type:',action);
@@ -83,7 +82,6 @@ const mapStateToProps = (state,props) => {
 const mapDispatchToProps = (dispatch) => {
     return {
         find_cultivActions: FIND_OPERATION_BY_CULTIVATION_ACTION_REQ(dispatch),
-        //find_cultivActions: FIND_OPERATION_ACTION_REQ(dispatch),
     };
 };
 

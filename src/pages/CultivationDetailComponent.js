@@ -174,12 +174,10 @@ class  CultivationDetailComponent extends React.Component{
 
 const styles = StyleSheet.create({
 
-    //TODO flat list
     flat_list: {
         height: '100%',
         width: '100%', // maybe useless
     },
-
     weather_container: {
         backgroundColor: COLOR.LIGHT_MAIN,
         padding: 4,

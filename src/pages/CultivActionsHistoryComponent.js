@@ -1,7 +1,8 @@
 import React, {Component} from 'react';
 import {
     View,
-    TouchableOpacity, FlatList,
+    TouchableOpacity,
+    FlatList,
 } from 'react-native';
 
 import CultivActionCardComponent from "./CultivActionCardComponent";
@@ -20,11 +21,9 @@ class  CultivActionsHistoryComponent extends Component{
         };
 
         this.goToActionForm = function() {
-            //this.props.navigation.navigate('action form');
         }.bind(this);
     }
     componentDidMount(): void {
-        //this.setState({cultivActions:getAllCultivActions()});
         this.props.find_cultivActions(this.props.route.params.route.params.id);
     }
 

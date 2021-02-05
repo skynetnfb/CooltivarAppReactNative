@@ -35,32 +35,20 @@ class  CultivationCardComponent extends React.Component{
                 description: "descrizione coltivaione mock2",
             }];
 
-        //costruttore chiamato prima che venga renderizzato il component
         this.goToDetail = function(item) {
             this.props.navigation.navigate('cultivation');
         }.bind(this);
     }
     componentDidMount(){
-        //viene chiamato quando si deve renderizzare
     }
     componentWillUnmount(): void {
-        //viene chiamata prima di essere distrutto il component
-        // se si deve fare qualcosa con qualche evento legato a questo component deve essere fatto qui
-        //suppongo anche per inviare dei risultati ad alatri componenti
     }
 
     render() {
-
-        //console.log("------------"+this.data);
-        //console.log("------------"+this.data[1].id);
-        //console.log("------------this.props.cultivations: "+this.props.cultivations);
-        //console.log("------------this.props.children:"+this.props.children.toString());
-        //una cosa stranissima in debug se non stampo this.props.children:"+this.props.children.toString() le cultivations arrivano in stampa vuote...ASSURDO!!!
         return (
             <SafeAreaView style={styles.container}>
                 <StatusBar barStyle="light-content" backgroundColor="#009387" />
                 <TouchableOpacity style={styles.login_button} onPress={() => {
-                    //TODO non so per quale motivo non riesco a settare il parametro neanche a mano
                     this.props.navigation.navigate('cultivation',{ item: item });
                 }}>
                     <View style={styles.card}>
@@ -91,7 +79,7 @@ const styles = StyleSheet.create({
         backgroundColor: '#fff',
         height: '100%',
     },
-    //TODO flat list
+
     flat_list: {
         height: '100%',
         width: '100%', // maybe useless

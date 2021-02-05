@@ -121,7 +121,6 @@ class CultivationFormPage extends ValidationComponent2 {
         this.checkDatesOverlap = function(sowingDate: Date, harvestDate: Date): boolean {
             sowingDate = sowingDate || this.state.sowingDate;
             harvestDate = harvestDate || this.state.harvestDate;
-            // se una data è non inizializzata considero non overlap = true per non sovrapporlo al messaggio "required"
             const ret = harvestDate && sowingDate && new Date(sowingDate).getTime() > new Date(harvestDate).getTime();
             console.log('-------------- check dates Overlap:', sowingDate, harvestDate, ret);
             return ret;

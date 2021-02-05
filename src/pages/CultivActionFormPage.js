@@ -22,7 +22,6 @@ import {CultivActionSelector} from '../redux/selector';
 import {createScheduledNotification,createNotificationChannel,configureNotification} from '../utils';
 import {Picker} from '@react-native-community/picker';
 
-
 configureNotification();
 createNotificationChannel();
 
@@ -80,10 +79,10 @@ class CultivActionFormPage extends Component {
                 this.props.insert_cultivAction(_cultivAction);
 
                 createScheduledNotification(
-                   "Cooltivar App Notification",
-                   "Action Required: "+this.state.type+" - "+this.state.status+" - "+this.state.description,
-                   new Date(this.state.startDate)
-               );
+                    "Cooltivar App Notification",
+                    "Action Required: "+this.state.type+" - "+this.state.status+" - "+this.state.description,
+                    new Date(this.state.startDate)
+                );
 
             }else {
                 let _cultivAction = new CultivAction();
@@ -104,7 +103,7 @@ class CultivActionFormPage extends Component {
                 );
 
 
-           }
+            }
 
             this.props.navigation.goBack();
         }.bind(this);
@@ -164,7 +163,6 @@ class CultivActionFormPage extends Component {
                             <Text style={[STYLE.center]}>to</Text>
                             <DatePickerComponent initial_value ={this.state.endDate||new Date()}  result = {this.resultEndDatePicker}/>
                         </View>
-
                     </View>
 
                     <View style={styles.button_container}>
@@ -179,9 +177,11 @@ class CultivActionFormPage extends Component {
                             )}
                         </TouchableOpacity>
                     </View>
+
                     <View style={styles.alert_box}>
                         <Text style={styles.alert_message}></Text>
                     </View>
+
                 </ScrollView>
             </SafeAreaView>
         );

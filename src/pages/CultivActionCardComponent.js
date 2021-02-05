@@ -11,6 +11,7 @@ import {COLOR, STYLE} from '../styles';
 class CultivActionCardComponent extends React.Component{
     constructor(props){
         super(props);
+
         this.goToActionForm = function() {
         }.bind(this);
         this.getIcon= function (){
@@ -52,9 +53,6 @@ class CultivActionCardComponent extends React.Component{
     componentDidMount(){
     }
     componentWillUnmount(): void {
-        //viene chiamata prima di essere distrutto il component
-        // se si deve fare qualcosa con qualche evento legato a questo component deve essere fatto qui
-        //suppongo anche per inviare dei risultati ad alatri componenti
     }
     render() {
         let type = this.getIcon();
