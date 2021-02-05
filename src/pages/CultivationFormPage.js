@@ -7,7 +7,6 @@ import {
     ActivityIndicator,
     TouchableOpacity,
     ScrollView,
-    Picker,
 } from 'react-native';
 import Cultivation from '../model/Cultivation';
 import {DatePickerComponent} from '../components/abstract/DatePickerComponent';
@@ -21,6 +20,7 @@ import {connect} from 'react-redux';
 import {FieldSelector} from '../redux/selector';
 import ValidationComponent2 from '../components/Field/ValidationComponent2';
 import ValidationFailMessage from '../components/abstract/ValidationFailMessage';
+import {Picker} from '@react-native-community/picker';
 
 
 class CultivationFormPage extends ValidationComponent2 {
