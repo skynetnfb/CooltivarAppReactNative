@@ -33,7 +33,7 @@ class LoginComponent extends Component {
                 loading: false,
                 user:true,
             });
-            this.props.navigation.replace('home', {user:true});
+            this.props.navigation.replace('Cultivations', {user:true});
         }.bind(this);
 
         this.loginError = function(error) {

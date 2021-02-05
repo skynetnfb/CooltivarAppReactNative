@@ -34,7 +34,7 @@ class RegisterComponent extends Component {
                 loading: false,
                 user:true,
             });
-            this.props.navigation.navigate('home',{user:true});
+            this.props.navigation.navigate('Cultivations',{user:true});
         }.bind(this);
 
         this.registerError = function(error) {

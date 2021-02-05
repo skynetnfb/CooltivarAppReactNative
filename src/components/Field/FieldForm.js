@@ -1,4 +1,4 @@
-import React  from 'react';
+/*import React  from 'react';
 import {View, Text, TextInput, TouchableHighlight, StyleSheet} from 'react-native';
 import ValidationComponent2 from './ValidationComponent2';
 import ValidationFailMessage from '../abstract/ValidationFailMessage';
@@ -49,8 +49,8 @@ class FieldForm extends ValidationComponent2 {
             <TextInput ref="confirmPassword" onChangeText={(confirmPassword) => this.onChange({confirmPassword})} value={this.state.confirmPassword} secureTextEntry={true} />
             {this.isFieldInError('confirmPassword') && this.getErrorsInField('confirmPassword').map(errorMessage => <ValidationFailMessage>{errorMessage}</ValidationFailMessage>) }
 
-            <TouchableHighlight onPress={this.submit.bind(this)} style={ [ STYLE.submit, (this.isFormValid() ? STYLE.submitValid : STYLE.submitInvalid) ]}>
-                <Text>Submit</Text>
+            <TouchableHighlight onPress={this.submit.bind(this)} style={ [ STYLE.submit, (this.isFormValid() ? STYLE.submitValid : STYLE.submitInvalid), styles.confirm_button ]}>
+                <Text style={[styles.confirm_button_text]}>Submit</Text>
             </TouchableHighlight>
             <Text style={{display: 'none'}}>
                 {this.getErrorMessages()}
@@ -68,16 +68,19 @@ class FieldForm extends ValidationComponent2 {
 }
 
 const styles = StyleSheet.create({
-    submit: {
-        borderColor: 'blue',
-        borderWidth: 4,
+    confirm_button: {
+        paddingVertical: 12,
+        paddingHorizontal: 20,
+        borderRadius: 5,
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'center',
     },
-    submitValid: {
-        backgroundColor: '#00ff00',
+    confirm_button_text: {
+        fontSize: 20,
+        color: '#fff',
     },
-    submitInvalid: {
-        backgroundColor: '#ff0000',
-    }
 });
 
 export default FieldForm;
+*/

@@ -402,8 +402,8 @@ class FieldMap extends ValidationComponent2{
                          onDoublePress = { this.onDoublePress }
                          onMarkerPress = { this.onMarkerPress }
                          initialRegion={{
-                             latitude: 37.78825,
-                             longitude: -122.4324,
+                             latitude: 41.973498,
+                             longitude: 12.652708,
                              latitudeDelta: 0.0922,
                              longitudeDelta: 0.0421,
                          }}

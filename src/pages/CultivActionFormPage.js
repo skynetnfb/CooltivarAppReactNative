@@ -8,7 +8,6 @@ import {
     ActivityIndicator,
     TouchableOpacity,
     ScrollView,
-    Picker,
 } from 'react-native';
 import CultivAction from '../model/CultivAction';
 import {DatePickerComponent} from '../components/abstract/DatePickerComponent';
@@ -21,6 +20,7 @@ import {
 } from '../redux/action/action_dispatchers';
 import {CultivActionSelector} from '../redux/selector';
 import {createScheduledNotification,createNotificationChannel,configureNotification} from '../utils';
+import {Picker} from '@react-native-community/picker';
 
 
 configureNotification();

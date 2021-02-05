@@ -138,7 +138,6 @@ class RootNavigator extends Component {
             <NavigationContainer>
                 <RootStackNavigator.Navigator name="home" screenOptions={{headerShown: false}}>
                     <RootStackNavigator.Screen name = {'Cultivations'} component = { createHomeTabNavigation }/>
-                    <RootStackNavigator.Screen name = {'home'} component = { createHomeTabNavigation }/>
                     <RootStackNavigator.Screen name = {'cultivation list'} component = { CultivationListPage }/>
                     <RootStackNavigator.Screen name = {'field list'} component = { FieldListPage }/>
                     <RootStackNavigator.Screen name = {'cultivation'} component = { createCultivationTabNavigation }/>

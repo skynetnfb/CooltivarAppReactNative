@@ -1,11 +1,12 @@
 import React from 'react';
 import {
+    BackHandler,
     Image,
     ScrollView,
     StyleSheet,
     Text,
     TouchableOpacity,
-    View
+    View,
 } from 'react-native';
 import Cultivation from '../model/Cultivation';
 import {COLOR, STYLE} from '../styles';
@@ -59,14 +60,15 @@ class  CultivationDetailComponent extends React.Component{
         this.resultModal = function (modalResult){
             if(modalResult){
                 this.props.delete_cultivation(this.props.cultivation);
-                //this.props.navigation.navigate('home',{user:true})
                 this.props.navigation.pop();
             }
 
 
         }.bind(this);
     }
+
     componentDidMount(){
+        //BackHandler.addEventListener("hardwareBackPress", this.backAction);
         const field = this.props.field;
         const coordinate = field && field.coordinate[0]; // || {longitude:-122.49343838542698, latitude:37.7889790728136}; // san francisco
         console.log('__meteo cd forecast start route', field, coordinate);
@@ -77,9 +79,14 @@ class  CultivationDetailComponent extends React.Component{
         // this.props.forecast_action(coordinate, field.id, 2);
         this.props.forecast_action_thunked(coordinate, field.id, 2);
     }
-
-    componentWillUnmount(): void {
+/*
+    componentWillUnmount() {
+        BackHandler.removeEventListener("hardwareBackPress", this.backAction);
     }
+
+    backAction = () => {
+        this.props.navigation.goBack('cultivation');
+    }*/
 
     render() {
         const field = this.props.field;

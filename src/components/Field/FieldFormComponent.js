@@ -143,8 +143,8 @@ class FieldFormComponent extends FieldMap{
                                    value={this.state.description} placeholder={"Description"} />
                         {this.isFieldInError('description') && <ValidationFailMessage>{this.getErrorsInField('description')[0]}</ValidationFailMessage>}
                     </View>
-                    <TouchableHighlight onPress={this.submit} style={ [ STYLE.submit, ( !this.state.pristine && this.isFormValid() ? STYLE.submitValid : STYLE.submitInvalid), styles.submit, styles.border ]}>
-                        <Text style={[STYLE.centerColumn, STYLE.centerRow]}>{"Submit"}</Text>
+                    <TouchableHighlight onPress={this.submit} style={ [ STYLE.submit, ( !this.state.pristine && this.isFormValid() ? STYLE.submitValid : STYLE.submitInvalid), styles.submit]}>
+                        <Text style={[STYLE.centerColumn, STYLE.centerRow, styles.confirm_button_text]}>{"Submit"}</Text>
                     </TouchableHighlight>
                 </View>
             </View>);
@@ -156,11 +156,6 @@ const styles = StyleSheet.create({
         height: '100%',
         flexGrow: 1,
         marginBottom: 0,
-    },
-    submit: {
-        height: 120,
-        marginBottom: 0,
-        paddingBottom: 80,
     },
     card: {
         flexBasis: 0,
@@ -198,6 +193,26 @@ const styles = StyleSheet.create({
     edit_button:{
         height: 60,
         width: 60,
+    },
+    submit: {/*
+        height: 120,
+        marginBottom: 0,
+        paddingBottom: 80,
+    },
+    confirm_button: {*/
+        height: 130,
+        marginBottom: 0,
+        paddingBottom: 100,
+        // paddingHorizontal: 100,
+        paddingVertical: 12,
+        borderRadius: 5,
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'center',
+    },
+    confirm_button_text: {
+        fontSize: 20,
+        color: '#fff',
     },
 });
 

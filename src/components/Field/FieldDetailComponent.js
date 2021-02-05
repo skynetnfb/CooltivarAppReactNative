@@ -1,5 +1,5 @@
 import React from 'react';
-import {StyleSheet, View, Image, Button, TouchableOpacity} from 'react-native';
+import {StyleSheet, View, Image, Button, TouchableOpacity, BackHandler} from 'react-native';
 import {Text} from 'react-native';
 import {STYLE, COLOR} from '../../styles';
 import {CultivationSelector} from '../../redux/selector';
@@ -44,6 +44,7 @@ class FieldDetailComponent extends FieldMap{
     }.bind(this);
 
     componentDidMount(): void {
+        //BackHandler.addEventListener("hardwareBackPress", this.backAction);
         // one time only e solo se non ha già caricato i dati meteo e non sono troppo vecchi.
         const field: Field = this.getField();
         const hours = 1000 * 60 * 60;
@@ -54,6 +55,14 @@ class FieldDetailComponent extends FieldMap{
         console.log('mthunk fd dispatching( ', this.props.get_meteo_today_THUNKED(coord, field.id));
         store.dispatch(this.props.get_meteo_today_THUNKED(coord, field.id));
     }
+/*
+    componentWillUnmount() {
+        BackHandler.removeEventListener("hardwareBackPress", this.backAction);
+    }
+
+    backAction = () => {
+        this.props.navigation.navigate('Cultivations');
+    }*/
 
     shouldComponentUpdate(): boolean {
         // shouldComponentUpdate() è chiamato prima di render
